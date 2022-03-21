@@ -16,17 +16,17 @@ Router.prototype.push = function push(location) {
 export const constantRoutes = [
   {
     path: '/',
-    redirect: '/index',
+    redirect: '/payment',
   },
   {
-    path: '/index',
-    name: 'index',
-    component: () => import("../view/index/index.vue"),
+    path: '/payment',
+    name: 'payment pag',
+    component: () => import("../view/payment"),
   },
 ]
 
 const createRouter = () => new Router({
-  mode: 'history',
+  mode: 'hash',
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })

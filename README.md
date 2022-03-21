@@ -1,4 +1,4 @@
-# History-interface
+# Digital currency receipt
 
 ## Project setup
 ```

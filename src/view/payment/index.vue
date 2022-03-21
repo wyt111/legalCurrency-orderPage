@@ -57,7 +57,7 @@
 <script>
 import i18n from "../../tool/i18n";
 export default {
-  name: "index",
+  name: "payment pag",
   data() {
     return {
       orderStatus: "loading", //success error loading
