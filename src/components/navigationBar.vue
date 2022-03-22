@@ -1,10 +1,10 @@
 <template>
   <div class="navigation">
     <p class="navigation-icon"><img src="@/assets/leftIcon.svg" /></p>
-    <p class="routerName">{{ $route.name }}</p>
-    <div class="searchLanguage" @click="changeLanguage">
+    <p class="routerName">{{ routerName }}</p>
+    <div class="searchLanguage" @click="openLanguage" v-if="languageState">
       <p class="text">EN</p>
-      <p class="icon"><img src="@/assets/rightIcon.png"></p>
+      <p class="icon"><img src="@/assets/downIcon.png"></p>
     </div>
   </div>
 </template>
@@ -12,9 +12,31 @@
 <script>
 export default {
   name: "navigationBar",
+  data(){
+    return{
+      languageState: true,
+      routerName: "",
+    }
+  },
+  watch: {
+    '$route': {
+      deep: true,
+      immediate: true,
+      handler(to){
+        this.languageState = to.path === "/language" ? false : true;
+        this.routerName = to.name;
+      }
+    }
+  },
   methods: {
-    changeLanguage(){
-
+    openLanguage(){
+      if(this.$parent.languageView === false){
+        this.$parent.languageView = true;
+        this.routerName = "Change Language";
+        return
+      }
+      this.$parent.languageView = false;
+      this.routerName = this.$route.name;
     }
   }
 }
@@ -38,7 +60,7 @@ export default {
     color: #000000;
     line-height: 0.21rem;
     margin-left: 0.2rem;
-    margin-top: -0.03rem;
+    margin-top: -0.01rem;
   }
   .searchLanguage{
     margin-left: auto;
@@ -48,7 +70,7 @@ export default {
       width: 0.24rem;
       height: 0.24rem;
       border: 1.9px solid #999999;
-      line-height: 0.23rem;
+      line-height: 0.21rem;
       text-align: center;
       border-radius: 5px;
       color: #999999;
