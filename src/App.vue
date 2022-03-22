@@ -1,11 +1,15 @@
 <template>
-  <router-view ref="routerRef"/>
+  <div id="App">
+    <Header/>
+    <router-view class="content" ref="routerRef"/>
+  </div>
 </template>
 
 <script>
-
+import Header from '@/components/navigationBar';
 export default {
   name: 'App',
+  components: { Header }
 }
 </script>
 
@@ -19,11 +23,11 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
-#app,html,body{
+#app,#App,html,body{
   width: 100%;
   height: 100%;
 }
-#app{
+#App{
   display: flex;
   flex-direction: column;
   .content{

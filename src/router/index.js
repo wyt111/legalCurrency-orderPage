@@ -16,12 +16,17 @@ Router.prototype.push = function push(location) {
 export const constantRoutes = [
   {
     path: '/',
-    redirect: '/payment',
+    redirect: '/paymentMethod',
+  },
+  {
+    path: '/paymentMethod',
+    name: 'payment method pag',
+    component: () => import("../view/paymentMethod/index"),
   },
   {
     path: '/payment',
     name: 'payment pag',
-    component: () => import("../view/payment"),
+    component: () => import("../view/payment/index"),
   },
 ]
 
