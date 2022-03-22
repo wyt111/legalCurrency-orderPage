@@ -28,6 +28,11 @@ export const constantRoutes = [
     name: 'payment pag',
     component: () => import("../view/payment/index"),
   },
+  {
+    path: '/paymentDetails',
+    name: 'Payment details',
+    component: () => import("../view/paymentDetails/index"),
+  },
 ]
 
 const createRouter = () => new Router({

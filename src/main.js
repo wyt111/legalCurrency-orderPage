@@ -13,6 +13,11 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
+import 'vant/lib/index.css';
+import { Switch,Popup } from 'vant';
+Vue.use(Switch);
+Vue.use(Popup);
+
 // import Vconsole from 'vconsole'
 // const vConsole = new Vconsole()
 // export default vConsole
