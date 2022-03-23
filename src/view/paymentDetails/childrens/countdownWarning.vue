@@ -2,7 +2,7 @@
   <div id="countdownWarning">
     <div class="warningView">
       <div class="title">Complete Payment By:</div>
-      <div class="countDown-amount">10:00</div>
+      <div class="countDown-amount">{{ timeNum }}</div>
       <div class="warning-content">
         <div class="title">
           <div><img src="@/assets/timeIcon.png"></div>
@@ -18,6 +18,16 @@
 <script>
 export default {
   name: "countdownWarning",
+  props: ["timeNum"],
+  watch: {
+    'timeNum': {
+      deep: true,
+      immediate: true,
+      handler() {
+
+      }
+    }
+  },
   methods: {
     closeWarming(){
       this.$parent.springFrame_state = false;

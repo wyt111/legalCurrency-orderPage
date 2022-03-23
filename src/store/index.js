@@ -5,10 +5,8 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     language: "EN",
-    sysOrderNum: 'API150618141549724057',
-    merchantCode: '',
-    payMent: 'c_TRON_USDT',
-    imageAddress: 'https://alchemywalletdownload.oss-cn-hongkong.aliyuncs.com/achpay/payimage/c1.png',
+    sysOrderNum: 'API148660202748314009',
+    paymentType: {},
   },
   getters: {},
   mutations: {}

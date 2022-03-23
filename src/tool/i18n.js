@@ -4,7 +4,7 @@ import store from '../store/index'
 
 Vue.use(VueI18n)
 const i18n = new VueI18n({
-    locale: store.state.language,
+    locale: 'EN',
     messages: {
         'DE': require('./language/DE'),
         'EN': require('./language/EN'),
@@ -14,6 +14,7 @@ const i18n = new VueI18n({
         'ID': require('./language/ID'),
         'PT-BR': require('./language/PT-BR'),
         'TR': require('./language/TR'),
+        'CN': require('./language/CN'),
     }
 })
 export default i18n;

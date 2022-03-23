@@ -1,6 +1,6 @@
 <template>
   <div id="loadingStatus">
-
+    <img src="@/assets/loading.gif">
   </div>
 </template>
 
@@ -14,7 +14,9 @@ export default {
     }
     this.$axios.post(baseUrl + this.$api.post_info, params).then(res=>{
       if(res && res.data){
-        this.$store.state.merchantCode = res.data.merchantCode;
+        this.$store.state.paymentType.merchantCode = res.data.merchantCode;
+        this.$store.state.cancelTo = res.data.cancelTo;
+        res.data.payMent === "w1" ? this.$router.replace("/payment") : this.$router.replace("/paymentSelect");
       }
     })
   }
@@ -22,5 +24,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+#loadingStatus{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img{
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
 </style>
