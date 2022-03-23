@@ -16,7 +16,12 @@ Router.prototype.push = function push(location) {
 export const constantRoutes = [
   {
     path: '/',
-    redirect: '/paymentMethod',
+    redirect: '/loadingStatus',
+  },
+  {
+    path: '/loadingStatus',
+    name: 'Loading Status',
+    component: () => import("../view/loadingStatus/index"),
   },
   {
     path: '/paymentMethod',

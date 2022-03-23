@@ -16,6 +16,7 @@
 <script>
 import Header from '@/components/navigationBar';
 import language from '@/components/language';
+
 export default {
   name: 'App',
   components: { Header, language },
@@ -27,11 +28,14 @@ export default {
   mounted(){
     //Vuex store data
     if (sessionStorage.getItem("store")) {
+      // this.$store.replaceState( Object.assign({},JSON.parse(sessionStorage.getItem("store")),this.$store.state))
       this.$store.replaceState( Object.assign({},this.$store.state,JSON.parse(sessionStorage.getItem("store"))))
     }
     window.addEventListener("beforeunload",()=>{
       sessionStorage.setItem("store", JSON.stringify(this.$store.state))
     })
+    //sotre order id
+    this.$route.query.id ? this.$store.state.sysOrderNum = this.$route.query.id : '';
   }
 }
 </script>

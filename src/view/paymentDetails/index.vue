@@ -8,7 +8,11 @@
       </div>
     </div>
     <div class="payAmount">38.028484 USDT</div>
-    <div class="QRCodeView"><div class="qrcode" ref="qrCodeUrl"></div></div>
+    <div class="QRCodeView">
+      <div class="qrcode" ref="qrCodeUrl">
+        <div class="qrcodeLogo"><img :src="this.$store.state.imageAddress"></div>
+      </div>
+    </div>
     <div class="QRCodeOptions" v-if="showAmountState">
       <p>With Amount:</p>
       <p><van-switch v-model="checked" @change="showAmount"/></p>
@@ -81,7 +85,7 @@ export default {
   components: { springFrame },
   data(){
     return{
-      timeValue: 60,
+      timeValue: 0,
       colors: [
         {color: '#4479D9'},
       ],
@@ -100,28 +104,56 @@ export default {
       ],
 
       springFrame_state: false,
+
+      infoObject: {},
     }
   },
   mounted() {
-    //When the remaining time of the order is less than 10min, the time timer on the page changes to red
-    this.colors = [{color: '#FF0000'}];
-    document.getElementsByClassName('el-progress__text')[0].style.color = '#FF0000';
-
-    this.countDown = setInterval(()=>{
-      this.turnMinute();
-    },1000)
-
-    document.getElementsByClassName('el-progress__text')[0].innerText = '23:23';
-    new QRCode(this.$refs.qrCodeUrl, {
-      text: '王奕潼',
-      width: 200,
-      height: 200,
-      colorDark: '#000000',
-      colorLight: '#ffffff',
-      correctLevel: QRCode.CorrectLevel.H
-    })
+    document.getElementsByClassName('el-progress__text')[0].innerText = '00:00';
+    this.generateQRcode();
+    this.refreshPayState();
   },
+
   methods: {
+    generateQRcode(){
+      new QRCode(this.$refs.qrCodeUrl, {
+        text: '请购买',
+        width: 200,
+        height: 200,
+        colorDark: '#000000',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      })
+    },
+    refreshPayState(){
+      this.pay();
+      this.countDown = setInterval(()=>{
+        this.pay();
+      },3000)
+    },
+    pay(){
+      let params = {
+        sysOrderNum: this.$store.state.sysOrderNum,
+        payMent: this.$store.state.payType,
+        email: '',
+      }
+      this.$axios.post(localStorage.getItem("baseUrl") + this.$api.post_qrPay, params).then(res => {
+        if(res && res.data){
+          this.infoObject = res.data;
+          this.infoObject.remainingPaymentTime -= 1;
+          this.turnMinute(this.infoObject.remainingPaymentTime)
+          document.getElementsByClassName('el-progress__text')[0] ?
+              document.getElementsByClassName('el-progress__text')[0].innerText = this.timeText : '';
+          //When the remaining time of the order is less than 10min, the time timer on the page changes to red
+          if(this.infoObject.remainingPaymentTime <= 600){
+            this.colors = [{color: '#FF0000'}];
+            document.getElementsByClassName('el-progress__text')[0].style.color = '#FF0000';
+          }
+          //Timing end order end
+          this.infoObject.remainingPaymentTime === 0 ? clearInterval(this.countDown) : '';
+        }
+      })
+    },
     showAmount(){
       console.log(this.checked)
     },
@@ -154,10 +186,6 @@ export default {
       this.timeText = minute+":"+second;
       this.timeValue = (value / 3600) * 100;
       this.timeValue > 100 ? this.timeValue = 100 : '';
-
-      document.getElementsByClassName('el-progress__text')[0] ?
-          document.getElementsByClassName('el-progress__text')[0].innerText = this.timeText : '';
-      this.infoObject.remainingPaymentTime === 0 ? clearInterval(this.countDown) : '';
     },
   }
 }
@@ -207,6 +235,19 @@ export default {
     justify-content: center;
     .qrcode{
       height: 100% !important;
+      position: relative;
+    }
+    .qrcodeLogo{
+      position: absolute;
+      top: 35%;
+      left: 38%;
+      background: #FFFFFF;
+      border-radius: 50%;
+      padding: 0.08rem;
+      img{
+        width: 0.3rem;
+        height: 0.3rem;
+      }
     }
   }
   .QRCodeOptions{

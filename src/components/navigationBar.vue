@@ -3,7 +3,7 @@
     <p class="navigation-icon"><img src="@/assets/leftIcon.svg" /></p>
     <p class="routerName">{{ routerName }}</p>
     <div class="searchLanguage" @click="openLanguage" v-if="languageState">
-      <p class="text">EN</p>
+      <p class="text">{{ this.$store.state.language }}</p>
       <p class="icon"><img src="@/assets/downIcon.png"></p>
     </div>
   </div>
