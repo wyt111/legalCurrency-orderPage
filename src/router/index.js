@@ -33,6 +33,16 @@ export const constantRoutes = [
     name: 'Payment details',
     component: () => import("../view/paymentDetails/index"),
   },
+  {
+    path: '/paymentSelect',
+    name: 'Select payment option',
+    component: () => import("../view/paymentSelect"),
+  },
+  {
+    path: '/overpayment',
+    name: 'overpayment',
+    component: () => import("../view/overpayment"),
+  }
 ]
 
 const createRouter = () => new Router({
