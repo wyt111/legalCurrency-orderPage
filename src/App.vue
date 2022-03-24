@@ -34,7 +34,6 @@ export default {
       handler(to) {
         //The result page does not display the title
         this.navigationBarState = to.path === '/overpayment' ? false : true;
-        console.log(this.navigationBarState)
       }
     }
   },

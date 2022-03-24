@@ -13,7 +13,6 @@ export default {
       "sysOrderNum": localStorage.getItem("sysOrderNum") //API148660202748314009 API149637939023643033
     }
     this.$axios.post(baseUrl + this.$api.post_info, params).then(res=>{
-      console.log(res);
       if(res && res.data){
         this.$store.state.merchantCode = res.data.merchantCode;
         this.$store.state.cancelTo = res.data.cancelTo;

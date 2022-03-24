@@ -25,16 +25,13 @@ export default {
       handler(to){
         this.languageState = to.path === "/language" ? false : true;
         //The payment currency is displayed in the payment header on the chain
-        if(to.path === ''){
-          this.routerName = to.name + this.$store.state.paymentType.currencyCode;
+        if(to.path === '/paymentDetails'){
+          this.routerName = to.name + ' ' + this.$store.state.paymentType.currencyCode;
           return;
         }
         this.routerName = to.name;
       }
     }
-  },
-  mounted(){
-    console.log(this.$store.state.language)
   },
   methods: {
     openLanguage(){
