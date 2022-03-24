@@ -8,8 +8,6 @@
 export default {
   name: "index",
   mounted(){
-    //sotre order id
-    this.$route.query.id ? localStorage.setItem("sysOrderNum",this.$route.query.id) : '';
     let baseUrl = localStorage.getItem('baseUrl');
     let params = {
       "sysOrderNum": localStorage.getItem("sysOrderNum") //API148660202748314009 API149637939023643033

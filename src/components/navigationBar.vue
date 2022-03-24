@@ -44,8 +44,12 @@ export default {
       this.routerName = this.$route.name;
     },
     goBack(){
-      if(this.$route.path === '/paymentDetails' || (this.$route.path === '/binancePayment' && this.$store.state.binancePayment === 'payList')){
+      if(this.$parent.languageView === false && this.$route.path === '/paymentDetails' || (this.$route.path === '/binancePayment' && this.$store.state.binancePayment === 'payList')){
         this.$router.go(-1);
+        return;
+      }
+      if(this.$parent.languageView === true){
+        this.$parent.languageView = false;
         return;
       }
       window.location.href = `${this.$store.state.cancelTo}`

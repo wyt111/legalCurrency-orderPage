@@ -66,7 +66,7 @@
         })
       },
       _returnCan(){
-        this.$router.push('/')
+        window.open(this.$store.state.returnTo);
       }
     },
     mounted(){

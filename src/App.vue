@@ -45,6 +45,10 @@ export default {
     window.addEventListener("beforeunload",()=>{
       sessionStorage.setItem("store", JSON.stringify(this.$store.state))
     })
+    //sotre order id
+    setTimeout(()=>{
+      this.$router.currentRoute.query.id ? localStorage.setItem("sysOrderNum",this.$router.currentRoute.query.id) : '';
+    },100)
     //language
     i18n.locale = this.$store.state.language;
   }

@@ -14,9 +14,10 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
 import 'vant/lib/index.css';
-import { Switch,Popup } from 'vant';
+import { Switch,Popup,Toast } from 'vant';
 Vue.use(Switch);
 Vue.use(Popup);
+Vue.use(Toast);
 
 import Vconsole from 'vconsole'
 const vConsole = new Vconsole()

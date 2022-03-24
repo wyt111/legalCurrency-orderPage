@@ -68,7 +68,7 @@ export default{
             }
           })
           return obj
-          
+
         })
       }else{
         return n
@@ -79,7 +79,7 @@ export default{
       this.$store.state.paymentType = payment
       if(payment.payType === 'w1'){
         this.$store.state.binancePayment = 'payList'
-        this.$router.push('/payment')
+        this.$router.push('/binancePayment')
       }else{
         this.$router.push('/paymentDetails')
       }
@@ -99,7 +99,7 @@ export default{
   created(){
     this.selectAxios()
   }
- 
+
 }
 
 </script>
@@ -144,7 +144,7 @@ export default{
         margin-right: .1rem;
       }
     }
-    
+
   }
   .select-content{
     width: 100%;
@@ -188,7 +188,7 @@ export default{
       }
     }
   }
-  
+
   .seartitle{
     width: 100%;
     text-align: center;

@@ -218,6 +218,7 @@ export default {
     copy(){
       let clipboard = new Clipboard('.payFormLine');
       clipboard.on('success', () => {
+        this.$toast('copy success');
         clipboard.destroy()
       })
       clipboard.on('error', () => {
