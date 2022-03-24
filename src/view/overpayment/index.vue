@@ -8,10 +8,17 @@
         <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
         <p>{{ $t('nav.overpayment_part') }}</p>
       </div>
-      <!-- 多付 -->
-      <div class="sessIcon1" v-else-if="overData.payStatus===2">
+      <!-- 多付1 -->
+      <div class="sessIcon1" v-else-if="(overData.payStatus===2 && overData.morePayType === 2)">
         <img src="../../assets/successIcon.png" alt="">
-        <p>{{ $t('nav.overpayment_over') }}</p>
+        <p>{{ $t('nav.overpayment_over') }}--小于1u</p>
+        <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
+        <p>{{ $t('nav.overpayment_part') }}</p>
+      </div>
+      <!-- 多付2 -->
+      <div class="sessIcon1" v-else-if="(overData.payStatus===2 && overData.morePayType === 1)">
+        <img src="../../assets/successIcon.png" alt="">
+        <p>{{ $t('nav.overpayment_over') }}--大于1u</p>
         <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
         <p>{{ $t('nav.overpayment_part') }}</p>
       </div>
@@ -23,12 +30,12 @@
         <p>{{ $t('nav.overpayment_succeed') }}</p>
       </div>
       <!-- 超时2 -->
-      <div class="sessIcon2" v-else-if="overData.payStatus===6">
+      <!-- <div class="sessIcon2" v-else-if="overData.payStatus===6">
         <p class="error1">{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
         <img src="../../assets/errorIcon.png" class="error3" alt="">
         <p class="error2">{{ overData.payDesc }}</p>
         <p style="textAlign:center;">Invoice is only valid for 30minutes. Return to merchant if you would like to resubmit a payment.</p>
-      </div>
+      </div> -->
       <!-- 超时1 -->
       <div class="sessIcon2" v-else-if="overData.payStatus===4">
         <img src="../../assets/errorIcon.png" alt="">

@@ -17,6 +17,7 @@
           </div>
           <img class="right" src="../../assets/rightArrows.png" alt="">
         </div>
+        <!-- <h3 v-show="isHide" class="dataStyle">暂无数据</h3> -->
       </div>
   </div>
 </template>
@@ -42,7 +43,7 @@ export default{
       setTimeout(() => {
         this.search = ''
         this.isShow = true
-      }, 200);
+      }, 100);
     },
     //点击搜索
     selectSearch(){
@@ -65,7 +66,13 @@ export default{
               return i
             }
           })
+          // if(obj.payList.length){
+          //   this.isHide = false
+          // }else{
+          //   this.isHide = true
+          // }
           return obj
+          
         })
       }else{
         return n
@@ -148,6 +155,11 @@ export default{
     width: 100%;
     padding: 0 .2rem 0 .2rem ;
     box-sizing: border-box;
+    position: relative;
+    .dataStyle{
+      text-align: center;
+      margin-top: 50%;
+    }
     h2{
       font-size: .16rem;
       color: #000;
