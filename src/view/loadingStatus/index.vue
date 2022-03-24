@@ -8,7 +8,9 @@
 export default {
   name: "index",
   mounted(){
-    let baseUrl = localStorage.getItem('baseUrl')
+    //sotre order id
+    this.$route.query.id ? localStorage.setItem("sysOrderNum",this.$route.query.id) : '';
+    let baseUrl = localStorage.getItem('baseUrl');
     let params = {
       "sysOrderNum": localStorage.getItem("sysOrderNum") //API148660202748314009 API149637939023643033
     }
@@ -16,6 +18,7 @@ export default {
       if(res && res.data){
         this.$store.state.merchantCode = res.data.merchantCode;
         this.$store.state.cancelTo = res.data.cancelTo;
+        this.$store.state.returnTo = res.data.returnTo;
         res.data.payMent === "w1" ? (this.$router.replace("/binancePayment"),this.$store.state.binancePayment = 'initialPag') : (this.$router.replace("/paymentSelect"),this.$store.state.binancePayment = '');
       }
     })

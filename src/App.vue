@@ -45,8 +45,6 @@ export default {
     window.addEventListener("beforeunload",()=>{
       sessionStorage.setItem("store", JSON.stringify(this.$store.state))
     })
-    //sotre order id
-    this.$route.query.id ? localStorage.setItem("sysOrderNum",this.$route.query.id) : '';
     //language
     i18n.locale = this.$store.state.language;
   }
