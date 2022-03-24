@@ -66,7 +66,7 @@
         })
       },
       _returnCan(){
-        this.$router.push('/')
+        window.location.href = this.$store.state.returnTo
       }
     },
     mounted(){
