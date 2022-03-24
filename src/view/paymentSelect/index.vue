@@ -8,7 +8,7 @@
       </div>
     </div>
         <div class="select-content" v-for="item in selectSearch()" :key="item.id">
-        <h2 v-if="item.id === 1&& search === ''">{{ $t("nav.selectPayment") }}</h2>
+        <h2 v-if="(item.id === 1&& search === '')" v-show="isHide">{{ $t("nav.selectPayment") }}</h2>
         <h2 v-else-if="search === ''">{{ $t("nav.selectPayment_wall") }}</h2>
           <div class="sele-con" v-for="i in item.payList " :key="i.coinSort" @click="payment(i)">
           <div class="left" >
@@ -33,19 +33,16 @@ export default{
     }
   },
   methods:{
-    //点击聚集焦点
     isHideFn(){
       this.isShow = false
       document.querySelector('.Input').focus();
     },
-    //点击失去焦点时
     isShowFn(){
       setTimeout(() => {
         this.search = ''
         this.isShow = true
       }, 100);
     },
-    //点击搜索
     selectSearch(){
       if(this.selectData){
          let n = [
@@ -53,11 +50,15 @@ export default{
             id:1,
             payList:this.selectData[0].payList.slice(11)
           },
-          {
-              title:'On-chain Crypto',
+          {id:2,
               payList:this.selectData[0].payList.slice(0,11)
           }
         ]
+        if(n[0].payList.length===0){
+          this.isHide = false
+        }else{
+          this.isHide = true
+        }
       if(this.search){
        return this.selectData.map(item=>{
          let obj = {}
@@ -66,11 +67,6 @@ export default{
               return i
             }
           })
-          // if(obj.payList.length){
-          //   this.isHide = false
-          // }else{
-          //   this.isHide = true
-          // }
           return obj
           
         })
@@ -79,7 +75,6 @@ export default{
       }
       }
     },
-    //点击单个支付
     payment(payment){
       this.$store.state.paymentType = payment
       if(payment.payType === 'w1'){

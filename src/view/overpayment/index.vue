@@ -1,42 +1,23 @@
 <template>
   <div class="over-container">
-    
-    <!--支付成功 -->
       <div class="sessIcon1" v-if="overData.payStatus===1">
         <img src="../../assets/successIcon.png" alt="">
         <p>{{ $t('nav.overpayment_Stitle') }}</p>
         <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
         <p>{{ $t('nav.overpayment_part') }}</p>
       </div>
-      <!-- 多付1 -->
-      <div class="sessIcon1" v-else-if="(overData.payStatus===2 && overData.morePayType === 2)">
+      <div class="sessIcon1" v-else-if="overData.payStatus===2 ">
         <img src="../../assets/successIcon.png" alt="">
-        <p>{{ $t('nav.overpayment_over') }}--小于1u</p>
+        <p>{{ $t('nav.overpayment_over') }}</p>
         <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
         <p>{{ $t('nav.overpayment_part') }}</p>
       </div>
-      <!-- 多付2 -->
-      <div class="sessIcon1" v-else-if="(overData.payStatus===2 && overData.morePayType === 1)">
-        <img src="../../assets/successIcon.png" alt="">
-        <p>{{ $t('nav.overpayment_over') }}--大于1u</p>
-        <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
-        <p>{{ $t('nav.overpayment_part') }}</p>
-      </div>
-      <!-- 少付 -->
       <div class="sessIcon2" v-else-if="overData.payStatus===3">
         <img src="../../assets/errorIcon1.png" alt="">
         <p>{{ $t('nav.overpayment_unpaid') }}</p>
         <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
         <p>{{ $t('nav.overpayment_succeed') }}</p>
       </div>
-      <!-- 超时2 -->
-      <!-- <div class="sessIcon2" v-else-if="overData.payStatus===6">
-        <p class="error1">{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
-        <img src="../../assets/errorIcon.png" class="error3" alt="">
-        <p class="error2">{{ overData.payDesc }}</p>
-        <p style="textAlign:center;">Invoice is only valid for 30minutes. Return to merchant if you would like to resubmit a payment.</p>
-      </div> -->
-      <!-- 超时1 -->
       <div class="sessIcon2" v-else-if="overData.payStatus===4">
         <img src="../../assets/errorIcon.png" alt="">
         <p>{{ $t('nav.overpayment_fapiao') }}</p>
@@ -44,7 +25,7 @@
         <p>{{ $t('nav.overpayment_chao') }}</p>
           <p>{{$t('nav.overpayment_chao1')}}</p>
       </div>
-      <div class="content" v-show="[1,2,3,].includes(overData.payStatus)">
+      <div class="content" v-show="[1,2,3,].includes(statePay)">
                 <div>
                   <p>{{ $t('nav.overpayment_mount') }}</p>
                   <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
@@ -58,7 +39,7 @@
                   <p>{{ overData.fiatToUsdtRate }}&nbsp;{{ overData.fiat }}/{{ overData.coin }}</p>
                 </div>
       </div>
-      <div class="sessButton"></div>
+      <div class="sessButton" :style="{marginTop:statePay !== 4?.6 + 'rem':1.6 + 'rem'}" @click="_returnCan"></div>
   </div>
 </template>
 <script>
@@ -66,12 +47,11 @@
     name:'overpayment',
     data(){
       return {
-        statePay:3,
+        statePay:4,
         overData:'',
       }
     },
     methods:{
-      //请求
       _overAxios(){
         let baseUrl = localStorage.getItem("baseUrl")
         let params = {
@@ -84,6 +64,9 @@
             this.overData = res.data
           }
         })
+      },
+      _returnCan(){
+        this.$router.push('/')
       }
     },
     mounted(){
@@ -95,7 +78,7 @@
 
 .over-container{
   width: 100%;
-  padding: .3rem .2rem 0 .2rem;
+  padding: .9rem .2rem 0 .2rem;
   box-sizing: border-box;
   position: relative;
   .sessIcon1{
@@ -199,13 +182,10 @@
        }
      }
      .sessButton{
-       width: 90%;
+       width: 100%;
        height: .44rem;
        background:url('../../assets/successButton.png') no-repeat;
        background-size: 100% 100%;
-       position: absolute;
-       left: 5%;
-       bottom:  .6rem;
      }
 }
 
