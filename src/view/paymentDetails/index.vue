@@ -63,7 +63,7 @@
     <!-- select nextwork -->
     <van-popup v-model="network_state" round position="bottom" :style="{ height: '25%' }">
       <div class="network-title">{{ $t('nav.paymentDetails_network') }}</div>
-      <div class="network-line" v-for="(item,index) in networkList" :key="index" @click="choiseItem(item,index)">
+      <div class="network-line" v-for="(item,index) in networkList" :key="index" @click="choiseNetwork(item,index)">
         <div class="name">{{ item.currencyFullName }}</div>
         <div class="icon" v-if="item.state"><img src="@/assets/checkIcon.png"></div>
       </div>
@@ -130,6 +130,7 @@ export default {
         correctLevel: QRCode.CorrectLevel.H
       })
     },
+    //network List
     queryNetwork(){
       this.$axios.post(localStorage.getItem("baseUrl") + this.$api.post_networkList, '').then(res => {
         if (res && res.data) {
@@ -143,16 +144,18 @@ export default {
         }
       })
     },
+    //
     refreshPayState(){
       this.pay();
       this.countDown = setInterval(()=>{
         this.pay();
       },1000)
     },
+    //Payment status interface
     pay(){
       let params = {
-        sysOrderNum: this.$store.state.sysOrderNum,
-        payMent: this.$store.state.paymentType.payType,
+        sysOrderNum: localStorage.getItem("sysOrderNum"),
+        payMent: this.$store.state.paymentType.merchantCode,
         email: '',
       }
       this.$axios.post(localStorage.getItem("baseUrl") + this.$api.post_qrPay, params).then(res => {
@@ -185,6 +188,7 @@ export default {
         }
       })
     },
+    //QR code with amount
     showAmount(){
       if(this.checked === true && this.infoObject.qrAddress.indexOf("?") !== -1){
         this.handleQrAddress = this.infoObject.qrAddress.substr(0, this.infoObject.qrAddress.indexOf("?"));
@@ -192,7 +196,7 @@ export default {
       }
       this.handleQrAddress = this.infoObject.qrAddress;
     },
-    choiseItem(item,index){
+    choiseNetwork(item,index){
       this.networkList.map(item => {
         return item.state = false;
       })
@@ -201,7 +205,7 @@ export default {
       this.networkCode = item.currencyCode;
       this.networkName = item.currencyFullName;
       clearInterval(this.countDown);
-      this.$store.state.paymentType.payType = item.currencyCode;
+      this.$store.state.paymentType.merchantCode = item.currencyCode;
       this.refreshPayState();
     },
     copy(){
@@ -213,6 +217,7 @@ export default {
         clipboard.destroy()
       })
     },
+    //Calculate minutes and seconds
     turnMinute(value){
       if(value >= 0){
         var second = value;

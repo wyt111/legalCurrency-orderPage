@@ -15,41 +15,37 @@
         </div>
         <div class="orderStatus_text">
           <span v-if="orderStatus === 'success'">{{ infoObject.payDesc }}</span>
-          <span v-else-if="orderStatus === 'error'">{{$t('nav.orderTimeoutText')}}</span>
-          <span v-else>{{$t('nav.advancePayment')}}</span>
+          <span v-else-if="orderStatus === 'error'">{{$t('nav.binancePayment_orderTimeoutText')}}</span>
+          <span v-else>{{$t('nav.binancePayment_advancePayment')}}</span>
         </div>
       </div>
-      <div class="loading_text" v-if="orderStatus === 'loading'">{{ $t('nav.completeReturn') }}</div>
+      <div class="loading_text" v-if="orderStatus === 'loading'">{{ $t('nav.binancePayment_completeReturn') }}</div>
       <div
         class="informationBar"
         :class="{ informationBar_success: orderStatus === 'loading' }"
         v-if="orderStatus === 'success' || orderStatus === 'loading'"
       >
         <div class="informationBar_line">
-          <div class="title">{{ $t('nav.transactionAmount') }}:</div>
+          <div class="title">{{ $t('nav.binancePayment_transactionAmount') }}:</div>
           <div class="number">{{ infoObject.fiatAmount }} {{ infoObject.fiat }}</div>
         </div>
         <div class="informationBar_line">
-          <div class="title">{{ $t('nav.exchangeRate') }}:</div>
+          <div class="title">{{ $t('nav.binancePayment_exchangeRate') }}:</div>
           <div class="number">{{ infoObject.fiatToUsdtRate }} {{ infoObject.fiat }}/{{ infoObject.coin }}</div>
         </div>
       </div>
       <div class="errorText" v-else>
-        {{ $t('nav.orderTimeout') }}
+        {{ $t('nav.binancePayment_orderTimeout') }}
       </div>
-<!--      <footer>-->
-<!--        <div class="goButton" @click="toLink">-->
-<!--          <div class="returnButton" v-if="orderStatus === 'success' || orderStatus === 'error'">-->
-<!--            {{ $t('nav.returnTo') }} {{ infoObject.mchName }}-->
-<!--            <img src="@/assets/rightIcon.png">-->
-<!--          </div>-->
-<!--          <img src="@/assets/biaIcon.png" v-else />-->
-<!--        </div>-->
-<!--        <div class="comeFrom">-->
-<!--          <div class="comeFrom_text">Powered By</div>-->
-<!--          <div class="comeFrom_logo"><img src="@/assets/achLogo.png" /></div>-->
-<!--        </div>-->
-<!--      </footer>-->
+      <footer>
+        <div class="goButton" @click="toLink">
+          <div class="returnButton" v-if="orderStatus === 'success' || orderStatus === 'error'">
+            {{ $t('nav.binancePayment_returnTo') }} {{ infoObject.mchName }}
+            <img src="@/assets/rightIcon.png">
+          </div>
+          <img src="@/assets/biaIcon.png" v-else />
+        </div>
+      </footer>
     </div>
   </div>
 </template>
@@ -67,7 +63,6 @@ export default {
       ],
       infoObject: {},
       countDown: null,
-      buttonState: false,
     };
   },
   mounted() {
@@ -81,56 +76,58 @@ export default {
     queryInfo(){
       let baseUrl = localStorage.getItem("baseUrl")
       let params = {
-        "sysOrderNum": this.$store.state.sysOrderNum //API148660202748314009 API149637939023643033
+        "sysOrderNum": localStorage.getItem("sysOrderNum") //API148660202748314009 API149637939023643033
       }
       this.$axios.post(baseUrl + this.$api.post_info, params).then(res=>{
         if(res.data){
-          this.buttonState = true;
           this.infoObject = res.data
+          //Hide the title bar when there are payment results - this.$parent.navigationBarState
           if(this.infoObject.payStatus === 0){
             this.orderStatus = 'loading';
           }else if(this.infoObject.payStatus === 1){
             // this.orderStatus = 'success';
             window.location.href = this.infoObject.returnTo;
+            this.$parent.navigationBarState = false;
           }else{
             this.orderStatus = 'error';
+            this.$parent.navigationBarState = false;
           }
 
           this.infoObject.remainingPaymentTime -= 1;
           this.turnMinute(this.infoObject.remainingPaymentTime)
           document.getElementsByClassName('el-progress__text')[0] ?
               document.getElementsByClassName('el-progress__text')[0].innerText = this.timeText : '';
-          this.infoObject.remainingPaymentTime === 0 ? clearInterval(this.countDown) : '';
+          this.infoObject.remainingPaymentTime <= 0 ? clearInterval(this.countDown) : '';
         }
       })
     },
     turnMinute(value){
-      var second = value;
-      var minute=0;
-      minute = parseInt(second/60);
-      second%=60;
-      if(minute>60) {
-        minute%=60;
+      if(value > 0){
+        var second = value;
+        var minute=0;
+        minute = parseInt(second/60);
+        second%=60;
+        if(minute>60) {
+          minute%=60;
+        }
+        second = second>9?second:"0"+second;
+        minute = minute>9?minute:"0"+minute;
+        this.timeText = minute+":"+second;
+        this.timeValue = (value / 3600)*100;
+        this.timeValue > 100 ? this.timeValue = 100 : '';
       }
-      second = second>9?second:"0"+second;
-      minute = minute>9?minute:"0"+minute;
-      this.timeText = minute+":"+second;
-      this.timeValue = (value / 3600)*100;
-      this.timeValue > 100 ? this.timeValue = 100 : '';
     },
     toLink(){
-      if(this.buttonState === true){
-        if(this.orderStatus === 'success'){
-          window.location.href = this.infoObject.returnTo;
-        }else if(this.orderStatus === 'error'){
-          window.location.href = this.infoObject.cancelTo;
-        }else{
-          window.location.href = this.infoObject.deeplink;
-        }
+      if(this.orderStatus === 'success'){
+        window.location.href = this.infoObject.returnTo;
+      }else if(this.orderStatus === 'error'){
+        window.location.href = this.infoObject.cancelTo;
+      }else{
+        window.location.href = this.infoObject.deeplink;
       }
     },
     back(){
-      this.buttonState === true ? window.location.href = `${this.infoObject.cancelTo}` : '';
+      window.location.href = `${this.infoObject.cancelTo}`;
     },
   },
 };
@@ -240,58 +237,37 @@ body,
   text-align: center;
   margin: 0.2rem 0.18rem 0 0.18rem;
 }
-//footer{
-//  margin-top: 0.4rem;
-//}
-//.goButton {
-//  margin: 0 0.2rem;
-//  display: flex;
-//  .returnButton{
-//    width: 100%;
-//    height: 0.44rem;
-//    background: #4479D9;
-//    border-radius: 4px;
-//    line-height: 0.44rem;
-//    text-align: center;
-//    font-size: 0.16rem;
-//    font-family: Jost-SemiBold, Jost;
-//    font-weight: 600;
-//    color: #FFFFFF;
-//    position: relative;
-//    img{
-//      position: absolute;
-//      top: 0.14rem;
-//      right: 0.19rem;
-//      width: 0.27rem;
-//      height: 0.16rem;
-//    }
-//  }
-//  img {
-//    width: 100%;
-//    height: 100%;
-//  }
-//}
-//.comeFrom {
-//  width: 100%;
-//  display: flex;
-//  justify-content: center;
-//  position: fixed;
-//  bottom: 0.2rem;
-//
-//  .comeFrom_text {
-//    font-size: 0.12rem;
-//    font-family: Jost-Regular, Jost;
-//    font-weight: 400;
-//    color: #000000;
-//  }
-//  .comeFrom_logo {
-//    display: flex;
-//    margin-left: 0.1rem;
-//    img {
-//      height: 0.16rem;
-//    }
-//  }
-//}
+footer{
+  margin-top: 0.4rem;
+}
+.goButton {
+  margin: 0 0.2rem;
+  display: flex;
+  .returnButton{
+    width: 100%;
+    height: 0.44rem;
+    background: #4479D9;
+    border-radius: 4px;
+    line-height: 0.44rem;
+    text-align: center;
+    font-size: 0.16rem;
+    font-family: Jost-SemiBold, Jost;
+    font-weight: 600;
+    color: #FFFFFF;
+    position: relative;
+    img{
+      position: absolute;
+      top: 0.14rem;
+      right: 0.19rem;
+      width: 0.27rem;
+      height: 0.16rem;
+    }
+  }
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
 
 .orderStatus_img ::v-deep .el-progress__text{
   font-size: 0.18rem;
