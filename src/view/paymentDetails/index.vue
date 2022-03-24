@@ -3,43 +3,38 @@
     <div class="countDown">
       <el-progress type="circle" :width="130" :stroke-width=10 :percentage="timeValue" :color="colors"></el-progress>
       <div class="seeDetails" @click="details_state = true">
-        <p>view</p>
-        <p>Details</p>
+        <p>{{ $t('nav.paymentDetails_viewDetails1') }}</p>
+        <p>{{ $t('nav.paymentDetails_viewDetails2') }}</p>
       </div>
     </div>
-    <div class="payAmount">38.028484 USDT</div>
+    <div class="payAmount">{{ infoObject.coinCount }} {{ infoObject.coin }}</div>
     <div class="QRCodeView">
-      <div class="qrcode" ref="qrCodeUrl">
-        <div class="qrcodeLogo"><img :src="this.$store.state.imageAddress"></div>
-      </div>
+      <div class="qrcode" ref="qrCodeUrl"><div class="qrcodeLogo" v-if="payMethodLogoState"><img :src=this.$store.state.paymentType.imageAddress></div></div>
     </div>
     <div class="QRCodeOptions" v-if="showAmountState">
-      <p>With Amount:</p>
+      <p>{{ $t('nav.paymentDetails_qrCodeAmount') }}</p>
       <p><van-switch v-model="checked" @change="showAmount"/></p>
     </div>
-    <div class="codeDescription">
-      Scan the QR code or copy and paste the  payment
-      details into your wallet.
-    </div>
+    <div class="codeDescription">{{ $t('nav.paymentDetails_qrCodeExplain') }}</div>
     <div class="payForm">
-      <div class="payFormLine" @click="network_state = true">
-        <div class="title">Network</div>
-        <div class="formItem">
-          <div class="text">TRC20</div>
+      <div class="payFormLine" v-if="networkView">
+        <div class="title">{{ $t('nav.paymentDetails_network') }}</div>
+        <div class="formItem" @click="network_state = true">
+          <div class="text">{{ networkName }}</div>
           <div class="icon"><img src="@/assets/rightIcon2.png"></div>
         </div>
       </div>
-      <div class="payFormLine" @click="copy" :data-clipboard-text="timeValue">
-        <div class="title">Amount Due</div>
+      <div class="payFormLine" @click="copy" :data-clipboard-text="infoObject.coinCount + infoObject.coin">
+        <div class="title">{{ $t('nav.paymentDetails_amountDue') }}</div>
         <div class="formItem">
-          <div class="text">38.028484 USDT</div>
+          <div class="text">{{ infoObject.coinCount }} {{ infoObject.coin }}</div>
           <div class="icon"><img src="@/assets/copyIcon.png"></div>
         </div>
       </div>
-      <div class="payFormLine" @click="copy" :data-clipboard-text="timeValue">
-        <div class="title">Address</div>
+      <div class="payFormLine" @click="copy" :data-clipboard-text="infoObject.qrAddress">
+        <div class="title">{{ $t('nav.paymentDetails_address') }}</div>
         <div class="formItem">
-          <div class="text">123456789098765432345678e</div>
+          <div class="text">{{ handleQrAddress }}</div>
           <div class="icon"><img src="@/assets/copyIcon.png"></div>
         </div>
       </div>
@@ -47,31 +42,34 @@
 
     <!-- view details -->
     <van-popup v-model="details_state" round position="bottom" :style="{ height: '25%' }">
-      <div class="mask-header">Please complete payment within 12:11</div>
-      <div class="mask-line">
-        <div class="title">Transaction Amount:</div>
-        <div class="value">100.00 SGD</div>
+      <div class="mask-header">
+        <span v-if="$store.state.language === 'EN'">{{ $t('nav.paymentDetails_detailsTitle') }} {{ timeText }}</span>
+        <span v-else-if="$store.state.language === 'CN'">请在{{ timeText }}内完成支付</span>
       </div>
       <div class="mask-line">
-        <div class="title">Exchange Rate:</div>
-        <div class="value">1.33 SGD/USDT</div>
+        <div class="title">{{ $t('nav.paymentDetails_transactionAmount') }}:</div>
+        <div class="value">{{ infoObject.fiatAmount }} {{ infoObject.fiat }}</div>
       </div>
       <div class="mask-line">
-        <div class="title">Amount Due:</div>
-        <div class="value">32.01 USDT</div>
+        <div class="title">{{ $t('nav.paymentDetails_exchangeRate') }}:</div>
+        <div class="value">{{ infoObject.fiatToUsdtRate }} {{ infoObject.fiat }}/{{ infoObject.coin }}</div>
+      </div>
+      <div class="mask-line">
+        <div class="title">{{ $t('nav.paymentDetails_amountDue') }}:</div>
+        <div class="value">{{ infoObject.coinCount }} {{ infoObject.coin }}</div>
       </div>
     </van-popup>
 
     <!-- select nextwork -->
     <van-popup v-model="network_state" round position="bottom" :style="{ height: '25%' }">
-      <div class="network-title">Network</div>
+      <div class="network-title">{{ $t('nav.paymentDetails_network') }}</div>
       <div class="network-line" v-for="(item,index) in networkList" :key="index" @click="choiseItem(item,index)">
-        <div class="name">{{ item.name }}</div>
+        <div class="name">{{ item.currencyFullName }}</div>
         <div class="icon" v-if="item.state"><img src="@/assets/checkIcon.png"></div>
       </div>
     </van-popup>
 
-    <springFrame class="springFrameView" v-show="springFrame_state"/>
+    <springFrame class="springFrameView" v-show="springFrame_state" :timeNum="timeText"/>
   </div>
 </template>
 
@@ -89,35 +87,42 @@ export default {
       colors: [
         {color: '#4479D9'},
       ],
-      timeText: '',
+      timeText: '00:00',
       countDown: null,
 
       showAmountState: false,
       checked: true,
+      handleQrAddress: '',
 
       details_state: false,
 
       network_state: false,
-      networkList: [
-        {name: 'TRC20',state: true},
-        {name: 'ERC20',state: false}
-      ],
+      networkName: '',
+      networkCode: '',
+      networkList: [],
+      networkView: false,
 
       springFrame_state: false,
 
       infoObject: {},
+      oldPayAddress: '',
+      payMethodLogoState: false,
     }
   },
   mounted() {
     document.getElementsByClassName('el-progress__text')[0].innerText = '00:00';
-    this.generateQRcode();
-    this.refreshPayState();
+    this.$store.state.paymentType && this.$store.state.paymentType.currencyCode === 'USDT' ? (this.networkView = true,this.queryNetwork()) : (this.networkView = false,this.refreshPayState());
+    if(this.$store.state.paymentType && (this.$store.state.paymentType.currencyCode === 'ETH' || this.$store.state.paymentType.currencyCode === 'BTC' || this.$store.state.paymentType.currencyCode === 'TRX')){
+      this.showAmountState = true;
+    }
   },
-
+  destroyed() {
+    clearInterval(this.countDown);
+  },
   methods: {
     generateQRcode(){
       new QRCode(this.$refs.qrCodeUrl, {
-        text: '请购买',
+        text: this.handleQrAddress,
         width: 200,
         height: 200,
         colorDark: '#000000',
@@ -125,21 +130,43 @@ export default {
         correctLevel: QRCode.CorrectLevel.H
       })
     },
+    queryNetwork(){
+      this.$axios.post(localStorage.getItem("baseUrl") + this.$api.post_networkList, '').then(res => {
+        if (res && res.data) {
+          //network default state
+          res.data.map(item => {return item.state = false});
+          res.data[0].state = true;
+          this.networkName = res.data[0].currencyFullName;
+          this.networkCode = res.data[0].currencyCode;
+          this.networkList = res.data;
+          this.refreshPayState();
+        }
+      })
+    },
     refreshPayState(){
       this.pay();
       this.countDown = setInterval(()=>{
         this.pay();
-      },3000)
+      },1000)
     },
     pay(){
       let params = {
         sysOrderNum: this.$store.state.sysOrderNum,
-        payMent: this.$store.state.payType,
+        payMent: this.$store.state.paymentType.payType,
         email: '',
       }
       this.$axios.post(localStorage.getItem("baseUrl") + this.$api.post_qrPay, params).then(res => {
         if(res && res.data){
           this.infoObject = res.data;
+          //QR code processing
+          if(this.oldPayAddress !== this.infoObject.qrAddress){
+            this.handleQrAddress = res.data.qrAddress;
+            this.$refs.qrCodeUrl.firstChild.innerHtml = "";
+            this.payMethodLogoState = true;
+            this.generateQRcode();
+          }
+          this.oldPayAddress = res.data.qrAddress;
+
           this.infoObject.remainingPaymentTime -= 1;
           this.turnMinute(this.infoObject.remainingPaymentTime)
           document.getElementsByClassName('el-progress__text')[0] ?
@@ -149,13 +176,21 @@ export default {
             this.colors = [{color: '#FF0000'}];
             document.getElementsByClassName('el-progress__text')[0].style.color = '#FF0000';
           }
+          this.infoObject.remainingPaymentTime === 600 ? this.springFrame_state = true : this.springFrame_state = false;
           //Timing end order end
-          this.infoObject.remainingPaymentTime === 0 ? clearInterval(this.countDown) : '';
+          this.infoObject.remainingPaymentTime <= 0 ? clearInterval(this.countDown) : '';
+
+          //to result
+          this.infoObject.payStatus !== 0 ? (this.$router.push('/overpayment'),this.$store.state.resultData = res.data) : '';
         }
       })
     },
     showAmount(){
-      console.log(this.checked)
+      if(this.checked === true && this.infoObject.qrAddress.indexOf("?") !== -1){
+        this.handleQrAddress = this.infoObject.qrAddress.substr(0, this.infoObject.qrAddress.indexOf("?"));
+        return;
+      }
+      this.handleQrAddress = this.infoObject.qrAddress;
     },
     choiseItem(item,index){
       this.networkList.map(item => {
@@ -163,6 +198,11 @@ export default {
       })
       this.networkList[index].state = true;
       this.network_state = false;
+      this.networkCode = item.currencyCode;
+      this.networkName = item.currencyFullName;
+      clearInterval(this.countDown);
+      this.$store.state.paymentType.payType = item.currencyCode;
+      this.refreshPayState();
     },
     copy(){
       let clipboard = new Clipboard('.payFormLine');
@@ -174,18 +214,20 @@ export default {
       })
     },
     turnMinute(value){
-      var second = value;
-      var minute=0;
-      minute = parseInt(second/60);
-      second%=60;
-      if(minute>60) {
-        minute%=60;
+      if(value >= 0){
+        var second = value;
+        var minute=0;
+        minute = parseInt(second/60);
+        second%=60;
+        if(minute>60) {
+          minute%=60;
+        }
+        second = second>9?second:"0"+second;
+        minute = minute>9?minute:"0"+minute;
+        this.timeText = minute+":"+second;
+        this.timeValue = (value / 900) * 100;
+        this.timeValue > 100 ? this.timeValue = 100 : '';
       }
-      second = second>9?second:"0"+second;
-      minute = minute>9?minute:"0"+minute;
-      this.timeText = minute+":"+second;
-      this.timeValue = (value / 3600) * 100;
-      this.timeValue > 100 ? this.timeValue = 100 : '';
     },
   }
 }
@@ -293,6 +335,9 @@ export default {
           font-family: Jost-Medium, Jost;
           font-weight: 500;
           color: #000000;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
         .icon{
           margin-left: auto;

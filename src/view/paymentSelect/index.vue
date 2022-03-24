@@ -4,12 +4,12 @@
       <input type="text" class="Input" @blur="isShowFn" v-model="search" @input="selectSearch">
       <div @click="isHideFn" v-show="isShow" >
         <img src="../../assets//search.png" alt="">
-        <p>Search Wallet Currency</p>
+        <p>{{ $t('nav.searchPayment_wall') }}</p>
       </div>
     </div>
         <div class="select-content" v-for="item in selectSearch()" :key="item.id">
-        <h2>{{ item.title }}</h2>
-        <div v-if="item.payList">
+        <h2 v-if="item.id === 1&& search === ''">{{ $t("nav.selectPayment") }}</h2>
+        <h2 v-else-if="search === ''">{{ $t("nav.selectPayment_wall") }}</h2>
           <div class="sele-con" v-for="i in item.payList " :key="i.coinSort" @click="payment(i)">
           <div class="left" >
             <img :src="i.imageAddress" alt="">
@@ -17,8 +17,6 @@
           </div>
           <img class="right" src="../../assets/rightArrows.png" alt="">
         </div>
-        </div>
-        
       </div>
   </div>
 </template>
@@ -30,7 +28,7 @@ export default{
       isShow:true,
       search:'',
       isHide:false,
-      selectData:[],
+      selectData:null,
     }
   },
   methods:{
@@ -48,7 +46,17 @@ export default{
     },
     //点击搜索
     selectSearch(){
-      
+      if(this.selectData){
+         let n = [
+          {
+            id:1,
+            payList:this.selectData[0].payList.slice(11)
+          },
+          {
+              title:'On-chain Crypto',
+              payList:this.selectData[0].payList.slice(0,11)
+          }
+        ]
       if(this.search){
        return this.selectData.map(item=>{
          let obj = {}
@@ -60,35 +68,26 @@ export default{
           return obj
         })
       }else{
-       
-          let n = []
-        //  let i = this.selectData[0].payList.slice(0,11)
-        //  let Crypto = this.selectData[0].payList[11]
-         n = [
-          {
-            id:1,
-            title:'Payment Wallets',
-          },
-          {
-              title:'On-chain Crypto',
-          }
-        ]
         return n
-        
-        
+      }
       }
     },
     //点击单个支付
     payment(payment){
-      alert(payment.currencyCode)
       this.$store.state.paymentType = payment
+      if(payment.payType === 'w1'){
+        this.$store.state.binancePayment = 'payList'
+        this.$router.push('/payment')
+      }else{
+        this.$router.push('/paymentDetails')
+      }
     },
     selectAxios(){
       let baseUrl = localStorage.getItem('baseUrl')
       let params = {
         "merchantCode":this.$store.state.merchantCode
       }
-      this.$axios.post(baseUrl+this.$api.post_payList,params).then(res=>{
+      this.$axios.post(baseUrl + this.$api.post_payList,params).then(res=>{
         if(res && res.data){
           this.selectData = [res.data]
         }
@@ -177,7 +176,7 @@ export default{
        }
       }
       .right{
-        width: .1rem;
+        width: .14rem;
         height: .14rem;
       }
     }

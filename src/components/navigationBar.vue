@@ -1,6 +1,6 @@
 <template>
   <div class="navigation">
-    <p class="navigation-icon"><img src="@/assets/leftIcon.svg" /></p>
+    <p class="navigation-icon"><img src="@/assets/leftIcon.svg" @click="goBack"/></p>
     <p class="routerName">{{ routerName }}</p>
     <div class="searchLanguage" @click="openLanguage" v-if="languageState">
       <p class="text">{{ this.$store.state.language }}</p>
@@ -37,6 +37,14 @@ export default {
       }
       this.$parent.languageView = false;
       this.routerName = this.$route.name;
+    },
+    goBack(){
+      console.log(this.$route.path)
+      if(this.$route.path === '/paymentMethod' || this.$route.path === '/payment'){
+        window.location.href = `${this.$store.state.cancelTo}`
+        return;
+      }
+      this.$router.go(-1);
     }
   }
 }

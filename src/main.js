@@ -21,6 +21,7 @@ Vue.use(Popup);
 // import Vconsole from 'vconsole'
 // const vConsole = new Vconsole()
 // export default vConsole
+//配置默认地址
 
 Vue.prototype.$api = api;
 Vue.prototype.$axios = axios;

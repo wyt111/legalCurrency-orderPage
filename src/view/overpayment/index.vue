@@ -1,30 +1,26 @@
 <template>
   <div class="over-container">
+    
     <!--支付成功 -->
       <div class="sessIcon1" v-if="overData.payStatus===1">
         <img src="../../assets/successIcon.png" alt="">
-        <p>{{ overData.payDesc }}</p>
+        <p>{{ $t('nav.overpayment_Stitle') }}</p>
         <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
-        <p>Your payment amount is greater than the amount due, and the payment is successful.
-           The system will send you an email to collect the overpaid part,
-            please pay attention to check the refund information</p>
+        <p>{{ $t('nav.overpayment_part') }}</p>
       </div>
       <!-- 多付 -->
       <div class="sessIcon1" v-else-if="overData.payStatus===2">
         <img src="../../assets/successIcon.png" alt="">
-        <p>{{ overData.payDesc }}&nbsp;(over)</p>
+        <p>{{ $t('nav.overpayment_over') }}</p>
         <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
-        <p>Your payment amount is greater than the
-           amount due, and the payment is successful. Since your overpayment
-            amount is less than 1USDT, the system will not issue a refund to you.</p>
+        <p>{{ $t('nav.overpayment_part') }}</p>
       </div>
       <!-- 少付 -->
       <div class="sessIcon2" v-else-if="overData.payStatus===3">
         <img src="../../assets/errorIcon1.png" alt="">
-        <p>{{ overData.payDesc }}</p>
+        <p>{{ $t('nav.overpayment_unpaid') }}</p>
         <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
-        <p>Your payment amount is less than the amount due and the payment was unsuccessful. 
-          The system will send you an email to collect, please pay attention to check the refund information.</p>
+        <p>{{ $t('nav.overpayment_succeed') }}</p>
       </div>
       <!-- 超时2 -->
       <div class="sessIcon2" v-else-if="overData.payStatus===6">
@@ -34,24 +30,24 @@
         <p style="textAlign:center;">Invoice is only valid for 30minutes. Return to merchant if you would like to resubmit a payment.</p>
       </div>
       <!-- 超时1 -->
-      <div class="sessIcon2" v-if="overData.payStatus===4">
+      <div class="sessIcon2" v-else-if="overData.payStatus===4">
         <img src="../../assets/errorIcon.png" alt="">
-        <p>{{ overData.payDesc }}</p>
+        <p>{{ $t('nav.overpayment_fapiao') }}</p>
         <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
-        <p>Invoice is only valid for 60 minutes. Return to merchant if you would like to resubmit a payment.</p>
-          <p>If you have paid after the invoice has expired, a refund request will automatically be sent to your email.</p>
+        <p>{{ $t('nav.overpayment_chao') }}</p>
+          <p>{{$t('nav.overpayment_chao1')}}</p>
       </div>
-      <div class="content" v-show="[1,2,3].includes(statePay)">
+      <div class="content" v-show="[1,2,3,].includes(overData.payStatus)">
                 <div>
-                  <p>Pay Amount:</p>
+                  <p>{{ $t('nav.overpayment_mount') }}</p>
                   <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
                 </div>
                 <div>
-                  <p>Transaction Amount:</p>
+                  <p>{{ $t('nav.overpayment_tran') }}</p>
                   <p>{{ overData.fiatAmount }}&nbsp;{{ overData.fiat }}</p>
                 </div>
                 <div>
-                  <p>Exchange Rate:</p>
+                  <p>{{ $t('nav.overpayment_rate') }}</p>
                   <p>{{ overData.fiatToUsdtRate }}&nbsp;{{ overData.fiat }}/{{ overData.coin }}</p>
                 </div>
       </div>
@@ -63,8 +59,8 @@
     name:'overpayment',
     data(){
       return {
-        statePay:2,
-        overData:null
+        statePay:3,
+        overData:'',
       }
     },
     methods:{
@@ -76,6 +72,7 @@
           "payMent":this.$store.state.payMent
         }
         this.$axios.post(baseUrl + this.$api.post_info, params).then(res=>{
+          // console.log(res);
           if(res && res.data){
             this.overData = res.data
           }
@@ -91,7 +88,7 @@
 
 .over-container{
   width: 100%;
-  padding: .6rem .2rem 0 .2rem;
+  padding: .3rem .2rem 0 .2rem;
   box-sizing: border-box;
   position: relative;
   .sessIcon1{
@@ -109,6 +106,7 @@
     }
      p:nth-of-type(2){
       font-size: .24rem;
+      font-family: Jost SemiBold,jost;
       color: #000;
       font-weight: 600;
       margin-top: .2rem;

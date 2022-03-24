@@ -2,9 +2,9 @@
   <div id="App">
     <Header ref="headerRef"/>
 
-    <language v-if="languageView"/>
+    <language v-show="languageView"/>
 
-    <router-view class="content" v-else ref="routerRef"/>
+    <router-view class="content" v-show="!languageView" ref="routerRef"/>
 
     <div class="comeFrom">
       <div class="comeFrom_text">Powered By</div>
@@ -16,6 +16,7 @@
 <script>
 import Header from '@/components/navigationBar';
 import language from '@/components/language';
+import i18n from "@/tool/i18n";
 
 export default {
   name: 'App',
@@ -36,6 +37,8 @@ export default {
     })
     //sotre order id
     this.$route.query.id ? this.$store.state.sysOrderNum = this.$route.query.id : '';
+    //language
+    i18n.locale = this.$store.state.language;
   }
 }
 </script>

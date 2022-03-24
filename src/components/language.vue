@@ -8,6 +8,8 @@
 </template>
 
 <script>
+import i18n from "@/tool/i18n";
+
 export default {
   name: "language",
   data(){
@@ -34,6 +36,7 @@ export default {
       this.languageList[index].state = true;
       this.$parent.languageView = false;
       this.$store.state.language = item.name;
+      i18n.locale = item.name;
     }
   }
 }

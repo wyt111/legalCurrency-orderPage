@@ -8,5 +8,6 @@ module.exports = {
         orderTimeout: 'Rechnung ist nur 60 Minuten gültig. Kehren Sie zum Händler zurück, wenn Sie eine Zahlung erneut senden möchten.',
         orderTimeoutText: 'Rechnung abgelaufen',
         returnTo: 'Zurücksenden an',
+        
     }
 }
