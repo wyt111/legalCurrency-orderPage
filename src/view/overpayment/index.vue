@@ -1,59 +1,61 @@
 <template>
   <div class="over-container">
-      <div class="sessIcon1" v-if="n===1">
+    <!--支付成功 -->
+      <div class="sessIcon1" v-if="overData.payStatus===1">
         <img src="../../assets/successIcon.png" alt="">
-        <p>Susscessful! (over)</p>
-        <p>38.01 USDT</p>
+        <p>{{ overData.payDesc }}</p>
+        <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
         <p>Your payment amount is greater than the amount due, and the payment is successful.
            The system will send you an email to collect the overpaid part,
             please pay attention to check the refund information</p>
       </div>
-      <div class="sessIcon1" v-else-if="n===2">
+      <!-- 多付 -->
+      <div class="sessIcon1" v-else-if="overData.payStatus===2">
         <img src="../../assets/successIcon.png" alt="">
-        <p>Susscessful! (over)</p>
-        <p>38.01 USDT</p>
-        <p>Your payment amount is greater than the amount due, and the payment is successful.
-           The system will send you an email to collect the overpaid part,
-            please pay attention to check the refund information</p>
+        <p>{{ overData.payDesc }}&nbsp;(over)</p>
+        <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
+        <p>Your payment amount is greater than the
+           amount due, and the payment is successful. Since your overpayment
+            amount is less than 1USDT, the system will not issue a refund to you.</p>
       </div>
-      <div class="sessIcon2" v-else-if="n===3">
+      <!-- 少付 -->
+      <div class="sessIcon2" v-else-if="overData.payStatus===3">
         <img src="../../assets/errorIcon1.png" alt="">
-        <p>Unpaid! (undepaid)</p>
-        <p>38.01 USDT</p>
+        <p>{{ overData.payDesc }}</p>
+        <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
         <p>Your payment amount is less than the amount due and the payment was unsuccessful. 
           The system will send you an email to collect, please pay attention to check the refund information.</p>
       </div>
-      <div class="sessIcon2" v-else-if="n===4">
-        <img src="../../assets/errorIcon1.png" alt="">
-        <p>Unpaid! (undepaid)</p>
-        <p>38.01 USDT</p>
-        <p>Your payment amount is less than the amount due and the payment was unsuccessful. 
-          Since your payment is less than 1USDT, the system will not issue a refund to you.</p>
+      <!-- 超时2 -->
+      <div class="sessIcon2" v-else-if="overData.payStatus===6">
+        <p class="error1">{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
+        <img src="../../assets/errorIcon.png" class="error3" alt="">
+        <p class="error2">{{ overData.payDesc }}</p>
+        <p style="textAlign:center;">Invoice is only valid for 30minutes. Return to merchant if you would like to resubmit a payment.</p>
       </div>
-      <div class="content" v-if="n!==a">
-                <div>
-                  <p>Pay Amount</p>
-                  <p>50 USDT</p>
-                </div>
-                <div>
-                  <p>Pay Amount</p>
-                  <p>50 USDT</p>
-                </div>
-                <div>
-                  <p>Pay Amount</p>
-                  <p>0.23453 SGD/USDT</p>
-                </div>
-      </div>
-      <div class="sessIcon2" v-if="n===5">
+      <!-- 超时1 -->
+      <div class="sessIcon2" v-if="overData.payStatus===4">
         <img src="../../assets/errorIcon.png" alt="">
-        <p>Unpaid! (undepaid)</p>
-        <p>38.01 USDT</p>
-        <p>Your payment amount is less than the amount due and the payment was unsuccessful. 
-          The system will send you an email to collect, please pay attention to check the refund information.</p>
-          <p>Your payment amount is less than the amount due and the payment was unsuccessful. 
-          The system will send you an email to collect, please pay attention to check the refund information.</p>
+        <p>{{ overData.payDesc }}</p>
+        <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
+        <p>Invoice is only valid for 60 minutes. Return to merchant if you would like to resubmit a payment.</p>
+          <p>If you have paid after the invoice has expired, a refund request will automatically be sent to your email.</p>
       </div>
-      <div class="sessButton" :style="{marginTop:n===5?1.2 + 'rem':.8 + 'rem'}"></div>
+      <div class="content" v-show="[1,2,3].includes(statePay)">
+                <div>
+                  <p>Pay Amount:</p>
+                  <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
+                </div>
+                <div>
+                  <p>Transaction Amount:</p>
+                  <p>{{ overData.fiatAmount }}&nbsp;{{ overData.fiat }}</p>
+                </div>
+                <div>
+                  <p>Exchange Rate:</p>
+                  <p>{{ overData.fiatToUsdtRate }}&nbsp;{{ overData.fiat }}/{{ overData.coin }}</p>
+                </div>
+      </div>
+      <div class="sessButton"></div>
   </div>
 </template>
 <script>
@@ -61,9 +63,27 @@
     name:'overpayment',
     data(){
       return {
-        n:5,
-        a:5
+        statePay:2,
+        overData:null
       }
+    },
+    methods:{
+      //请求
+      _overAxios(){
+        let baseUrl = localStorage.getItem("baseUrl")
+        let params = {
+          "sysOrderNum": this.$store.state.sysOrderNum,
+          "payMent":this.$store.state.payMent
+        }
+        this.$axios.post(baseUrl + this.$api.post_info, params).then(res=>{
+          if(res && res.data){
+            this.overData = res.data
+          }
+        })
+      }
+    },
+    mounted(){
+      this._overAxios()
     }
   }
 </script>
@@ -71,8 +91,9 @@
 
 .over-container{
   width: 100%;
-  padding: .4rem .2rem 0 .2rem;
+  padding: .6rem .2rem 0 .2rem;
   box-sizing: border-box;
+  position: relative;
   .sessIcon1{
     width: 100%;
     text-align: center;
@@ -120,6 +141,21 @@
       font-weight: 600;
       margin-top: .2rem;
     }
+    .error1{
+      font-size: .24rem !important;
+      color: #000 !important;
+      font-weight: 600 !important;
+      margin-bottom: .2rem;
+    }
+    .error2{
+      font-size: .18rem !important;
+      font-family: Jost-Regular, Jost !important;
+      color: #FF0000 !important;
+      font-weight: 600 !important;
+    }
+    .error3{
+      margin-top: .2rem;
+    }
      p:nth-of-type(3){
        font-size: .14rem;
        font-family: Jost-Regular, Jost;
@@ -158,11 +194,13 @@
        }
      }
      .sessButton{
-       width: 100%;
+       width: 90%;
        height: .44rem;
-       margin-top: .2rem;
        background:url('../../assets/successButton.png') no-repeat;
        background-size: 100% 100%;
+       position: absolute;
+       left: 5%;
+       bottom:  .6rem;
      }
 }
 

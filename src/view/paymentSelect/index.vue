@@ -1,22 +1,25 @@
 <template>
   <div class="select-container">
     <div class="select-search">
-      <input type="text" class="Input" @blur="isShowFn" v-model="search">
+      <input type="text" class="Input" @blur="isShowFn" v-model="search" @input="selectSearch">
       <div @click="isHideFn" v-show="isShow" >
         <img src="../../assets//search.png" alt="">
         <p>Search Wallet Currency</p>
       </div>
     </div>
-    <div class="select-content" v-for="item in searchFn()" :key="item.id">
-      <h2>{{ item.title }}</h2>
-      <div class="sele-con" v-for="i in item.data" :key="i.id" @click="payment(i)">
-        <div class="left" >
-          <img src="../../assets/errorIcon.png" alt="">
-          <p>{{ i.con1 }} <span>- {{ i.con }}</span></p>
+        <div class="select-content" v-for="item in selectSearch()" :key="item.id">
+        <h2>{{ item.title }}</h2>
+        <div v-if="item.payList">
+          <div class="sele-con" v-for="i in item.payList " :key="i.coinSort" @click="payment(i)">
+          <div class="left" >
+            <img :src="i.imageAddress" alt="">
+            <p>{{ i.currencyCode }} <span>- {{ i.currencyFullName }}</span></p>
+          </div>
+          <img class="right" src="../../assets/rightArrows.png" alt="">
         </div>
-        <img class="right" src="../../assets/rightArrows.png" alt="">
+        </div>
+        
       </div>
-    </div>
   </div>
 </template>
 <script>
@@ -27,28 +30,7 @@ export default{
       isShow:true,
       search:'',
       isHide:false,
-      selectData:[
-        {
-          id:1,
-          title:'Payment Wallets',
-          data:[
-            {id:101,con:'Alchemy Pay',con1:'ACH'}
-          ]
-        },
-        {
-          title:'Payment Wallets',
-           data:[
-            {id:111,con:'Alchemy Pay',con1:'ACH'},
-            {id:112,con:'Bitcoin',con1:'BTC'},
-            {id:113,con:'Binance USD',con1:'BUSD'},
-            {id:114,con:'Ethereum',con1:'ETH'},
-            {id:115,con:'Tether',con1:'USDT'},
-            {id:116,con:'Avalanche',con1:'AVAX'},
-            {id:117,con:'Algorand',con1:'ALGO'}
-          ]
-        }
-       
-      ]
+      selectData:[],
     }
   },
   methods:{
@@ -64,30 +46,57 @@ export default{
         this.isShow = true
       }, 200);
     },
-    //搜索
-    searchFn(){
-      const n = this.selectData
-      if (this.search !== '') {
-        // eslint-disable-next-line array-callback-return
-        let n1 =  this.selectData.map(item=>{
-          let obj = {}
-          obj.data =  item.data.filter(i=>{
-            if(i.con1.includes(this.search.toUpperCase()) === true || i.con.toUpperCase().includes(this.search.toUpperCase()) === true){
+    //点击搜索
+    selectSearch(){
+      
+      if(this.search){
+       return this.selectData.map(item=>{
+         let obj = {}
+          obj.payList = item.payList.filter(i=>{
+            if(i.currencyCode.toUpperCase().includes(this.search.toUpperCase()) || i.currencyFullName.toUpperCase().includes(this.search.toUpperCase())){
               return i
-            } 
+            }
           })
           return obj
-          
         })
-        return n1
-      } else {
+      }else{
+       
+          let n = []
+        //  let i = this.selectData[0].payList.slice(0,11)
+        //  let Crypto = this.selectData[0].payList[11]
+         n = [
+          {
+            id:1,
+            title:'Payment Wallets',
+          },
+          {
+              title:'On-chain Crypto',
+          }
+        ]
         return n
+        
+        
       }
     },
     //点击单个支付
-    payment(i){
-      alert(i.con1)
+    payment(payment){
+      alert(payment.currencyCode)
+      this.$store.state.paymentType = payment
+    },
+    selectAxios(){
+      let baseUrl = localStorage.getItem('baseUrl')
+      let params = {
+        "merchantCode":this.$store.state.merchantCode
+      }
+      this.$axios.post(baseUrl+this.$api.post_payList,params).then(res=>{
+        if(res && res.data){
+          this.selectData = [res.data]
+        }
+      })
     }
+  },
+  created(){
+    this.selectAxios()
   }
  
 }

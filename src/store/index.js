@@ -9,6 +9,8 @@ const store = new Vuex.Store({
     merchantCode: '',
     payMent: 'c_TRON_USDT',
     imageAddress: 'https://alchemywalletdownload.oss-cn-hongkong.aliyuncs.com/achpay/payimage/c1.png',
+    //支付方式
+    paymentType:null
   },
   getters: {},
   mutations: {}
