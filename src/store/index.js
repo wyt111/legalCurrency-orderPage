@@ -5,8 +5,6 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     language: "EN",
-
-
     sysOrderNum: 'API150618141549724057',
     merchantCode: '',
     payMent: 'c_TRON_USDT',

@@ -27,10 +27,10 @@ module.exports = {
         overpayment_mount:'支付金额',
         overpayment_tran:'订单金额',
         overpayment_rate:'汇率',
-        overpayment_fapiao:'支付超时',
-        overpayment_chao:'发票有效期为60分钟。返回到商人，如果你想重新提交付款。',
+        overpayment_fapiao:'订单超时',
+        overpayment_chao:'订单只有60分钟有效时间，若想重新支付请返回商户。',
         overpayment_chao1:'如果您在发票过期后付款，退款请求将自动发送到您的电子邮件。',
-        selectPayment:'选择支付方式',
+        selectPayment:'收款钱包',
         selectPayment_wall:'链上币种',
         searchPayment_wall:'搜索钱包或币种',
     }
