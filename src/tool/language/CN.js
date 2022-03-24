@@ -1,14 +1,14 @@
 module.exports = {
     language: '中文',
     nav:{
-        // advancePayment: 'Pre-Payment',
-        // completeReturn: 'Balance after usage charges will be refunded back to your Binance account.',
-        // transactionAmount: 'Transaction Amount',
-        // exchangeRate: 'Exchange Rate',
-        // orderTimeout: 'Invoice is only valid for 60 minutes. Return to merchant if you would like to resubmit a payment.',
-        // orderTimeoutText: 'Invoice Expired',
-        // returnTo: 'Return to',
-        //payment details
+        binancePayment_advancePayment: '预付款',
+        binancePayment_completeReturn: '使用完成后会将多付部分退回至您的账户',
+        binancePayment_transactionAmount: '订单金额',
+        binancePayment_exchangeRate: '汇率',
+        binancePayment_orderTimeout: '订单只有60分钟有效时间，若想重新支付请返回商户',
+        binancePayment_orderTimeoutText: '订单超时',
+        binancePayment_returnTo: '返回',
+        //binancePayment details
         paymentDetails_viewDetails1: '查看',
         paymentDetails_viewDetails2: '明细',
         paymentDetails_qrCodeAmount: '二维码含金额',

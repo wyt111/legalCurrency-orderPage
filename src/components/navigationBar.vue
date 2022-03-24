@@ -24,9 +24,17 @@ export default {
       immediate: true,
       handler(to){
         this.languageState = to.path === "/language" ? false : true;
+        //The payment currency is displayed in the payment header on the chain
+        if(to.path === ''){
+          this.routerName = to.name + this.$store.state.paymentType.currencyCode;
+          return;
+        }
         this.routerName = to.name;
       }
     }
+  },
+  mounted(){
+    console.log(this.$store.state.language)
   },
   methods: {
     openLanguage(){
@@ -39,12 +47,11 @@ export default {
       this.routerName = this.$route.name;
     },
     goBack(){
-      console.log(this.$route.path)
-      if(this.$route.path === '/paymentMethod' || this.$route.path === '/payment'){
-        window.location.href = `${this.$store.state.cancelTo}`
+      if(this.$route.path === '/paymentDetails' || (this.$route.path === '/binancePayment' && this.$store.state.binancePayment === 'payList')){
+        this.$router.go(-1);
         return;
       }
-      this.$router.go(-1);
+      window.location.href = `${this.$store.state.cancelTo}`
     }
   }
 }

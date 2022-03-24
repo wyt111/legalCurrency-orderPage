@@ -24,18 +24,13 @@ export const constantRoutes = [
     component: () => import("../view/loadingStatus/index"),
   },
   {
-    path: '/paymentMethod',
-    name: 'payment method pag',
-    component: () => import("../view/paymentMethod/index"),
-  },
-  {
-    path: '/payment',
-    name: 'payment pag',
-    component: () => import("../view/payment/index"),
+    path: '/binancePayment',
+    name: '',
+    component: () => import("../view/binancePayment/index"),
   },
   {
     path: '/paymentDetails',
-    name: 'Payment details',
+    name: 'Pay with',
     component: () => import("../view/paymentDetails/index"),
   },
   {

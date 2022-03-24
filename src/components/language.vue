@@ -25,6 +25,7 @@ export default {
   },
   methods: {
     initializationData(){
+      console.log(this.$store.state.language,"lana")
       this.languageList.map(item => {
         return item.name === this.$store.state.language ? item.state = true : item.state = false;
       })
@@ -37,6 +38,7 @@ export default {
       this.$parent.languageView = false;
       this.$store.state.language = item.name;
       i18n.locale = item.name;
+      console.log(this.$store.state.language,"sele")
     }
   }
 }

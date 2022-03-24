@@ -10,13 +10,13 @@ export default {
   mounted(){
     let baseUrl = localStorage.getItem("baseUrl")
     let params = {
-      "sysOrderNum": this.$store.state.sysOrderNum //API148660202748314009 API149637939023643033
+      "sysOrderNum": localStorage.getItem("sysOrderNum") //API148660202748314009 API149637939023643033
     }
     this.$axios.post(baseUrl + this.$api.post_info, params).then(res=>{
       if(res && res.data){
         this.$store.state.paymentType.merchantCode = res.data.merchantCode;
         this.$store.state.cancelTo = res.data.cancelTo;
-        res.data.payMent === "w1" ? this.$router.replace("/payment") : this.$router.replace("/paymentSelect");
+        res.data.payMent === "w1" ? (this.$router.replace("/binancePayment"),this.$store.state.binancePayment = 'initialPag') : (this.$router.replace("/paymentSelect"),this.$store.state.binancePayment = '');
       }
     })
   }

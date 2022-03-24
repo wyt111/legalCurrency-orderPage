@@ -5,7 +5,6 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     language: "EN",
-    sysOrderNum: 'API148660202748314009',
     paymentType: {},
   },
   getters: {},

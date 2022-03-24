@@ -26,6 +26,7 @@ Vue.prototype.$api = api;
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false
 
+localStorage.setItem('sysOrderNum', 'API150691493521142988');
 localStorage.setItem('baseUrl', 'http://47.243.170.64:9080');
 // localStorage.setItem('baseUrl', 'https://service.alchemypay.cc');
 // localStorage.setItem('baseUrl', 'https://paytest.alchemypay.cc');

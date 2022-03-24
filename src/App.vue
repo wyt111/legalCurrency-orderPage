@@ -1,6 +1,6 @@
 <template>
   <div id="App">
-    <Header ref="headerRef"/>
+    <Header ref="headerRef" v-if="navigationBarState"/>
 
     <language v-show="languageView"/>
 
@@ -24,19 +24,30 @@ export default {
   data(){
     return{
       languageView: false,
+      navigationBarState: true,
+    }
+  },
+  watch: {
+    '$route': {
+      deep: true,
+      immediate: true,
+      handler(to) {
+        //The result page does not display the title
+        this.navigationBarState = to.path === '/overpayment' ? false : true;
+        console.log(this.navigationBarState)
+      }
     }
   },
   mounted(){
     //Vuex store data
     if (sessionStorage.getItem("store")) {
-      // this.$store.replaceState( Object.assign({},JSON.parse(sessionStorage.getItem("store")),this.$store.state))
-      this.$store.replaceState( Object.assign({},this.$store.state,JSON.parse(sessionStorage.getItem("store"))))
+      this.$store.replaceState(Object.assign({},this.$store.state,JSON.parse(sessionStorage.getItem("store"))))
     }
     window.addEventListener("beforeunload",()=>{
       sessionStorage.setItem("store", JSON.stringify(this.$store.state))
     })
     //sotre order id
-    this.$route.query.id ? this.$store.state.sysOrderNum = this.$route.query.id : '';
+    this.$route.query.id ? localStorage.setItem("sysOrderNum",this.$route.query.id) : '';
     //language
     i18n.locale = this.$store.state.language;
   }
