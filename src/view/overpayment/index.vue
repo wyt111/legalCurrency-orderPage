@@ -1,35 +1,35 @@
 <template>
   <div class="over-container">
     <!-- succeed -->
-      <div class="sessIcon1" v-if="this.$store.resultData.payStatus===1">
+      <div class="sessIcon1" v-if="overData.payStatus===1">
         <img src="../../assets/successIcon.png" alt="">
         <p>{{ $t('nav.overpayment_Stitle') }}</p>
-        <p>{{ this.$store.resultData.coinCount }}&nbsp;{{ this.$store.resultData.coin }}</p>
+        <p>{{ overData.coinCount }}&nbsp;{{ overData.coin }}</p>
         <!-- <p>{{ $t('nav.overpayment_part') }}</p> -->
       </div>
       <!-- overPayment -->
-      <div class="sessIcon1" v-else-if="this.$store.resultData.payStatus===2">
+      <div class="sessIcon1" v-else-if="overData.payStatus===2">
         <img src="../../assets/successIcon.png" alt="">
         <p>{{ $t('nav.overpayment_over') }}</p>
-        <p>{{ this.$store.resultData.coinCount }}&nbsp;{{ this.$store.resultData.coin }}</p>
+        <p>{{ overData.coinCount }}&nbsp;{{ overData.coin }}</p>
         <p>{{ $t('nav.overpayment_part') }}</p>
       </div>
       <!-- underPayment -->
-      <div class="sessIcon2" v-else-if="this.$store.resultData.payStatus===3">
+      <div class="sessIcon2" v-else-if="overData.payStatus===3">
         <img src="../../assets/errorIcon1.png" alt="">
         <p>{{ $t('nav.overpayment_unpaid') }}</p>
-        <p>{{ this.$store.resultData.coinCount }}&nbsp;{{ this.$store.resultData.coin }}</p>
+        <p>{{ overData.coinCount }}&nbsp;{{ overData.coin }}</p>
         <p>{{ $t('nav.overpayment_succeed') }}</p>
       </div>
       <!-- overTime -->
-      <div class="sessIcon2" v-else-if="this.$store.resultData.payStatus === 4">
+      <div class="sessIcon2" v-else-if="overData.payStatus === 4">
         <img src="../../assets/errorIcon.png" alt="">
         <p>{{ $t('nav.overpayment_fapiao') }}</p>
-        <p>{{ this.$store.resultData.coinCount}}&nbsp;{{ this.$store.resultData.coin }}</p>
+        <p>{{ overData.coinCount}}&nbsp;{{ overData.coin }}</p>
         <p>{{ $t('nav.overpayment_chao') }}</p>
           <p>{{$t('nav.overpayment_chao1')}}</p>
       </div>
-      <div class="content" v-show="[1,2,3,].includes(this.$store.resultData.payStatus)">
+      <div class="content" v-show="[1,2,3,].includes(overData.payStatus)">
                 <div>
                   <p>{{ $t('nav.overpayment_mount') }}</p>
                   <p>{{ this.$store.resultData.orderAmount }}&nbsp;{{ this.$store.resultData.coin }}</p>
@@ -43,7 +43,7 @@
                   <p>{{ this.$store.resultData.payMent==='w1'?this.$store.resultData.fiatToUsdtRate:this.$store.resultData.fiatToCoinRate }}&nbsp;{{ this.$store.resultData.fiat }}/{{ this.$store.resultData.coin }}</p>
                 </div>
       </div>
-      <div class="sessButton" :style="{marginTop:this.$store.resultData.payStatus !== 4?.6 + 'rem':1.6 + 'rem'}" @click="_returnCan"></div>
+      <div class="sessButton" :style="{marginTop:overData.payStatus !== 4?.6 + 'rem':1.6 + 'rem'}" @click="_returnCan"></div>
   </div>
 </template>
 <script>
@@ -51,13 +51,17 @@
     name:'overpayment',
     data(){
       return {
-       
+       overData:''
       }
     },
     methods:{
       _returnCan(){
         window.open(this.$store.state.returnTo);
       }
+    },
+    mounted(){
+      this.overData = this.$store.resultData
+
     }
   }
 </script>

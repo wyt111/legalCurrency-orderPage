@@ -76,8 +76,9 @@ export default{
     },
     payment(payment){
       this.$store.state.paymentType = payment
+      this.$store.state.binancePayment = 'payList'
       if(payment.payType === 'w1'){
-        this.$store.state.binancePayment = 'payList'
+        
         this.$router.push('/binancePayment')
       }else{
         this.$router.push('/paymentDetails')
