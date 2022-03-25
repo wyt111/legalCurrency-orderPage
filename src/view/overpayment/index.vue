@@ -47,7 +47,7 @@
     name:'overpayment',
     data(){
       return {
-        statePay:1,
+        statePay:2,
         overData:'',
       }
     },
@@ -55,8 +55,8 @@
       _overAxios(){
         let baseUrl = localStorage.getItem("baseUrl")
         let params = {
-          "sysOrderNum": this.$store.state.sysOrderNum,
-          "payMent":this.$store.state.payMent
+          "sysOrderNum": localStorage.getItem('sysOrderNum'),
+          "payMent":this.$store.state.paymentType.payType
         }
         this.$axios.post(baseUrl + this.$api.post_info, params).then(res=>{
           if(res && res.data){
@@ -77,7 +77,7 @@
 
 .over-container{
   width: 100%;
-  padding: .9rem .2rem 0 .2rem;
+  padding: .7rem .2rem 0 .2rem;
   box-sizing: border-box;
   position: relative;
   .sessIcon1{
