@@ -69,19 +69,27 @@ export default {
   },
   mounted() {
     document.getElementsByClassName('el-progress__text')[0].innerText = '00:00';
-    i18n.locale = this.$store.state.binancePayment_locale;
+    if(this.$route.path === '/binancePayment' && this.$store.state.binancePayment_locale !== ''){
+      i18n.locale = this.$store.state.binancePayment_locale;
+    }
     this.queryInfo();
     this.countDown = setInterval(()=>{
       this.queryInfo();
     },1000);
   },
+  destroyed(){
+    i18n.locale = this.$store.state.language;
+    clearInterval(this.countDown);
+  },
   methods: {
     queryInfo(){
       let baseUrl = localStorage.getItem("baseUrl")
       let params = {
-        "sysOrderNum": localStorage.getItem("sysOrderNum") //API148660202748314009 API149637939023643033
+        "sysOrderNum": localStorage.getItem("sysOrderNum"), //API148660202748314009 API149637939023643033
+        "payMent": this.$store.state.paymentType.payType,
+        "email": '',
       }
-      this.$axios.post(baseUrl + this.$api.post_info, params).then(res=>{
+      this.$axios.post(baseUrl + this.$api.post_qrPay, params).then(res=>{
         if(res.data){
           this.infoObject = res.data
           //Hide the title bar when there are payment results - this.$parent.navigationBarState
@@ -95,12 +103,16 @@ export default {
             this.orderStatus = 'error';
             this.$parent.$refs.headerRef.routerNameState = false;
           }
-
           this.infoObject.remainingPaymentTime -= 1;
           this.turnMinute(this.infoObject.remainingPaymentTime)
           document.getElementsByClassName('el-progress__text')[0] ?
               document.getElementsByClassName('el-progress__text')[0].innerText = this.timeText : '';
-          this.infoObject.remainingPaymentTime <= 0 ? clearInterval(this.countDown) : '';
+          if(this.infoObject.remainingPaymentTime <= 0){
+            clearInterval(this.countDown);
+            this.$store.state.orderTimeOut = 4;
+            this.$store.state.resultData = 4;
+            this.$router.push("/overpayment");
+          }
         }
       })
     },
