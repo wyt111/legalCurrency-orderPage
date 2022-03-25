@@ -191,11 +191,8 @@ export default {
             document.getElementsByClassName('el-progress__text')[0].style.color = '#FF0000';
           }
           this.infoObject.remainingPaymentTime === 600 ? this.springFrame_state = true : '';
-          //Timing end order end
-          this.infoObject.remainingPaymentTime <= 0 ? clearInterval(this.countDown) : '';
-
           //to result
-          this.infoObject.payStatus !== 0 ? (this.$router.push('/overpayment'),this.$store.state.resultData = res.data) : '';
+          this.infoObject.payStatus !== 0 ? (clearInterval(this.countDown),this.$router.push('/overpayment'),this.$store.state.resultData = res.data) : '';
         }
       })
     },

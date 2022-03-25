@@ -7,11 +7,12 @@ const store = new Vuex.Store({
     language: "EN",
     binancePayment_locale: '',
     merchantCode: '',
-    binancePayment: '', //from view name (payList/initialPag)
+    binancePayment: '', //from view name (payList/initialPag/'')
     paymentType: {
       payType: '',
       currencyCode: '',
       imageAddress: '',
+      payStatus: '',
     },
     resultData: {},
   },

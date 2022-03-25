@@ -70,6 +70,7 @@ export default {
   mounted() {
     document.getElementsByClassName('el-progress__text')[0].innerText = '00:00';
     if(this.$route.path === '/binancePayment' && this.$store.state.binancePayment_locale !== ''){
+      this.$store.state.binancePayment_locale == 'null' ? this.$store.state.binancePayment_locale = 'EN' : '';
       i18n.locale = this.$store.state.binancePayment_locale;
     }
     this.queryInfo();
@@ -84,12 +85,17 @@ export default {
   methods: {
     queryInfo(){
       let baseUrl = localStorage.getItem("baseUrl")
-      let params = {
+      let params1 = {
         "sysOrderNum": localStorage.getItem("sysOrderNum"), //API148660202748314009 API149637939023643033
         "payMent": this.$store.state.paymentType.payType,
         "email": '',
       }
-      this.$axios.post(baseUrl + this.$api.post_qrPay, params).then(res=>{
+      let params2 = {
+        "sysOrderNum": localStorage.getItem("sysOrderNum"),
+      }
+      let methodsName = this.$store.state.binancePayment === 'payList' ? this.$api.post_qrPay : this.$api.post_info;
+      let overParams = this.$store.state.binancePayment === 'payList' ? params1 : params2;
+      this.$axios.post(baseUrl + methodsName, overParams).then(res=>{
         if(res.data){
           this.infoObject = res.data
           //Hide the title bar when there are payment results - this.$parent.navigationBarState
@@ -109,8 +115,8 @@ export default {
               document.getElementsByClassName('el-progress__text')[0].innerText = this.timeText : '';
           if(this.infoObject.remainingPaymentTime <= 0){
             clearInterval(this.countDown);
-            this.$store.state.orderTimeOut = 4;
-            this.$store.state.resultData = 4;
+            this.$store.state.resultData = res.data;
+            console.log(this.$store.state.resultData,res.data)
             this.$router.push("/overpayment");
           }
         }
