@@ -25,7 +25,7 @@
         <p>{{ $t('nav.overpayment_chao') }}</p>
           <p>{{$t('nav.overpayment_chao1')}}</p>
       </div>
-      <div class="content" v-show="[1,2,3,].includes(statePay)">
+      <div class="content" v-show="[1,2,3,].includes(overData.payStatus)">
                 <div>
                   <p>{{ $t('nav.overpayment_mount') }}</p>
                   <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>

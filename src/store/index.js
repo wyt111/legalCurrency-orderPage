@@ -6,7 +6,6 @@ const store = new Vuex.Store({
   state: {
     language: "EN",
     merchantCode: '',
-    //支付方式
     paymentType:null,
   },
   getters: {},
