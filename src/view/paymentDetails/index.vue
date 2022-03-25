@@ -9,7 +9,8 @@
     </div>
     <div class="payAmount">{{ infoObject.coinCount }} {{ infoObject.coin }}</div>
     <div class="QRCodeView">
-      <div class="qrcode" ref="qrCodeUrl"><div class="qrcodeLogo" v-if="payMethodLogoState"><img :src=this.$store.state.paymentType.imageAddress></div></div>
+      <div class="qrcodeLogo" v-if="payMethodLogoState"><img :src=this.$store.state.paymentType.imageAddress></div>
+      <div class="qrcode" ref="qrCodeUrl"></div>
     </div>
     <div class="QRCodeOptions" v-if="showAmountState">
       <p>{{ $t('nav.paymentDetails_qrCodeAmount') }}</p>
@@ -111,7 +112,13 @@ export default {
   },
   mounted() {
     document.getElementsByClassName('el-progress__text')[0].innerText = '00:00';
-    this.$store.state.paymentType && this.$store.state.paymentType.currencyCode === 'USDT' ? (this.networkView = true,this.queryNetwork()) : (this.networkView = false,this.refreshPayState());
+    if(this.$store.state.paymentType && this.$store.state.paymentType.currencyCode === 'USDT'){
+      this.networkView = true;
+      this.queryNetwork();
+    }else {
+      this.networkView = false;
+      this.refreshPayState();
+    }
     if(this.$store.state.paymentType && (this.$store.state.paymentType.currencyCode === 'ETH' || this.$store.state.paymentType.currencyCode === 'BTC' || this.$store.state.paymentType.currencyCode === 'TRX')){
       this.showAmountState = true;
     }
@@ -155,7 +162,7 @@ export default {
     pay(){
       let params = {
         sysOrderNum: localStorage.getItem("sysOrderNum"),
-        payMent: this.$store.state.paymentType.merchantCode,
+        payMent: this.$store.state.paymentType.payType,
         email: '',
       }
       this.$axios.post(localStorage.getItem("baseUrl") + this.$api.post_qrPay, params).then(res => {
@@ -164,7 +171,7 @@ export default {
           //QR code processing
           if(this.oldPayAddress !== this.infoObject.qrAddress){
             this.handleQrAddress = res.data.qrAddress;
-            this.$refs.qrCodeUrl.firstChild.innerHtml = "";
+            this.$refs.qrCodeUrl.innerHTML = "";
             this.payMethodLogoState = true;
             this.generateQRcode();
           }
@@ -205,12 +212,13 @@ export default {
       this.networkCode = item.currencyCode;
       this.networkName = item.currencyFullName;
       clearInterval(this.countDown);
-      this.$store.state.paymentType.merchantCode = item.currencyCode;
+      this.$store.state.paymentType.payType = item.currencyCode;
       this.refreshPayState();
     },
     copy(){
       let clipboard = new Clipboard('.payFormLine');
       clipboard.on('success', () => {
+        this.$toast('copy success');
         clipboard.destroy()
       })
       clipboard.on('error', () => {
@@ -280,17 +288,21 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
     .qrcode{
       height: 100% !important;
-      position: relative;
     }
     .qrcodeLogo{
       position: absolute;
-      top: 35%;
-      left: 38%;
+      top: 38%;
+      left: 44.5%;
       background: #FFFFFF;
       border-radius: 50%;
-      padding: 0.08rem;
+      width: 0.46rem;
+      height: 0.46rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       img{
         width: 0.3rem;
         height: 0.3rem;

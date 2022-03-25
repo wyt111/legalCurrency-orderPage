@@ -34,7 +34,6 @@ export default {
       handler(to) {
         //The result page does not display the title
         this.navigationBarState = to.path === '/overpayment' ? false : true;
-        console.log(this.navigationBarState)
       }
     }
   },
@@ -47,7 +46,9 @@ export default {
       sessionStorage.setItem("store", JSON.stringify(this.$store.state))
     })
     //sotre order id
-    this.$route.query.id ? localStorage.setItem("sysOrderNum",this.$route.query.id) : '';
+    setTimeout(()=>{
+      this.$router.currentRoute.query.id ? localStorage.setItem("sysOrderNum",this.$router.currentRoute.query.id) : '';
+    },100)
     //language
     i18n.locale = this.$store.state.language;
   }

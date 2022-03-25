@@ -25,16 +25,13 @@ export default {
       handler(to){
         this.languageState = to.path === "/language" ? false : true;
         //The payment currency is displayed in the payment header on the chain
-        if(to.path === ''){
-          this.routerName = to.name + this.$store.state.paymentType.currencyCode;
+        if(to.path === '/paymentDetails'){
+          this.routerName = to.name + ' ' + this.$store.state.paymentType.currencyCode;
           return;
         }
         this.routerName = to.name;
       }
     }
-  },
-  mounted(){
-    console.log(this.$store.state.language)
   },
   methods: {
     openLanguage(){
@@ -47,8 +44,12 @@ export default {
       this.routerName = this.$route.name;
     },
     goBack(){
-      if(this.$route.path === '/paymentDetails' || (this.$route.path === '/binancePayment' && this.$store.state.binancePayment === 'payList')){
+      if(this.$parent.languageView === false && this.$route.path === '/paymentDetails' || (this.$route.path === '/binancePayment' && this.$store.state.binancePayment === 'payList')){
         this.$router.go(-1);
+        return;
+      }
+      if(this.$parent.languageView === true){
+        this.$parent.languageView = false;
         return;
       }
       window.location.href = `${this.$store.state.cancelTo}`

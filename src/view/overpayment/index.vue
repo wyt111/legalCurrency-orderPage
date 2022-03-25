@@ -66,7 +66,7 @@
         })
       },
       _returnCan(){
-        window.location.href = this.$store.state.returnTo
+        window.open(this.$store.state.returnTo);
       }
     },
     mounted(){
