@@ -4,28 +4,28 @@
       <div class="sessIcon1" v-if="overData.payStatus===1">
         <img src="../../assets/successIcon.png" alt="">
         <p>{{ $t('nav.overpayment_Stitle') }}</p>
-        <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
+        <p>{{ overData.coinCount }}&nbsp;{{ overData.coin }}</p>
         <!-- <p>{{ $t('nav.overpayment_part') }}</p> -->
       </div>
       <!-- overPayment -->
       <div class="sessIcon1" v-else-if="overData.payStatus===2 ">
         <img src="../../assets/successIcon.png" alt="">
         <p>{{ $t('nav.overpayment_over') }}</p>
-        <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
+        <p>{{ overData.coinCount }}&nbsp;{{ overData.coin }}</p>
         <p>{{ $t('nav.overpayment_part') }}</p>
       </div>
       <!-- underPayment -->
       <div class="sessIcon2" v-else-if="overData.payStatus===3">
         <img src="../../assets/errorIcon1.png" alt="">
         <p>{{ $t('nav.overpayment_unpaid') }}</p>
-        <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
+        <p>{{ overData.coinCount }}&nbsp;{{ overData.coin }}</p>
         <p>{{ $t('nav.overpayment_succeed') }}</p>
       </div>
       <!-- overTime -->
       <div class="sessIcon2" v-else-if="overData.payStatus===4">
         <img src="../../assets/errorIcon.png" alt="">
         <p>{{ $t('nav.overpayment_fapiao') }}</p>
-        <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
+        <p>{{ overData.coinCount }}&nbsp;{{ overData.coin }}</p>
         <p>{{ $t('nav.overpayment_chao') }}</p>
           <p>{{$t('nav.overpayment_chao1')}}</p>
       </div>
@@ -40,7 +40,7 @@
                 </div>
                 <div>
                   <p>{{ $t('nav.overpayment_rate') }}</p>
-                  <p>{{ overData.fiatToCoinRate }}&nbsp;{{ overData.fiat }}/{{ overData.coin }}</p>
+                  <p>{{ overData.payMent==='w1'?overData.fiatToUsdtRate:overData.fiatToCoinRate }}&nbsp;{{ overData.fiat }}/{{ overData.coin }}</p>
                 </div>
       </div>
       <div class="sessButton" :style="{marginTop:overData.payStatus !== 4?.6 + 'rem':1.6 + 'rem'}" @click="_returnCan"></div>
