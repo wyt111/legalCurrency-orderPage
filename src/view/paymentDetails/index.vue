@@ -25,7 +25,7 @@
           <div class="icon"><img src="@/assets/rightIcon2.png"></div>
         </div>
       </div>
-      <div class="payFormLine" @click="copy" :data-clipboard-text="infoObject.coinCount + infoObject.coin">
+      <div class="payFormLine" @click="copy" :data-clipboard-text="infoObject.coinCount">
         <div class="title">{{ $t('nav.paymentDetails_amountDue') }}</div>
         <div class="formItem">
           <div class="text">{{ infoObject.coinCount }} {{ infoObject.coin }}</div>

@@ -33,7 +33,7 @@ export default {
       immediate: true,
       handler(to) {
         //The result page does not display the title
-        this.navigationBarState = to.path === '/overpayment' ? false : true;
+        this.$refs.headerRef.routerNameState = to.path === '/overpayment' ? false : true;
       }
     }
   },

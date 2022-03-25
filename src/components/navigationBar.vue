@@ -1,7 +1,7 @@
 <template>
   <div class="navigation">
-    <p class="navigation-icon"><img src="@/assets/leftIcon.svg" @click="goBack"/></p>
-    <p class="routerName">{{ routerName }}</p>
+    <p class="navigation-icon" v-if="routerNameState"><img src="@/assets/leftIcon.svg" @click="goBack"/></p>
+    <p class="routerName" v-if="routerNameState">{{ routerName }}</p>
     <div class="searchLanguage" @click="openLanguage" v-if="languageState">
       <p class="text">{{ this.$store.state.language }}</p>
       <p class="icon"><img src="@/assets/downIcon.png"></p>
@@ -16,6 +16,7 @@ export default {
     return{
       languageState: true,
       routerName: "",
+      routerNameState: true,
     }
   },
   watch: {
@@ -85,16 +86,13 @@ export default {
     margin-left: auto;
     display: flex;
     align-items: center;
+    cursor: pointer;
     .text{
-      width: 0.24rem;
-      height: 0.24rem;
-      line-height: 0.21rem;
       text-align: center;
       color: #999999;
       font-size: 0.14rem;
       font-weight: bold;
       margin-right: 0.1rem;
-      margin-top: 0.03rem;
     }
     .icon{
       display: flex;

@@ -16,7 +16,7 @@ export default {
     return{
       languageList: [
         {name: 'EN',state: true},
-        {name: 'CN',state: false}
+        {name: '中文',state: false}
       ]
     }
   },
@@ -55,6 +55,7 @@ export default {
   padding: 0.1rem 0;
   display: flex;
   align-items: center;
+  cursor: pointer;
   .name{
     font-size: 0.16rem;
     font-family: Jost-Medium, Jost;
