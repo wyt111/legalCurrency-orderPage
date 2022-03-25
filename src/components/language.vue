@@ -34,9 +34,9 @@ export default {
         return item.state = false;
       })
       this.languageList[index].state = true;
-      this.$parent.languageView = false;
       this.$store.state.language = item.name;
       i18n.locale = item.name;
+      this.$parent.$refs.headerRef.openLanguage();
     }
   }
 }

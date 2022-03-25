@@ -80,7 +80,7 @@ import Clipboard from 'clipboard';
 import springFrame from './childrens/countdownWarning';
 
 export default {
-  name: "Payment details",
+  name: "paymentDetails",
   components: { springFrame },
   data(){
     return{
@@ -117,7 +117,7 @@ export default {
       this.queryNetwork();
     }else {
       this.networkView = false;
-      this.refreshPayState();
+      // this.refreshPayState();
     }
     if(this.$store.state.paymentType && (this.$store.state.paymentType.currencyCode === 'ETH' || this.$store.state.paymentType.currencyCode === 'BTC' || this.$store.state.paymentType.currencyCode === 'TRX')){
       this.showAmountState = true;
@@ -186,7 +186,7 @@ export default {
             this.colors = [{color: '#FF0000'}];
             document.getElementsByClassName('el-progress__text')[0].style.color = '#FF0000';
           }
-          this.infoObject.remainingPaymentTime === 600 ? this.springFrame_state = true : this.springFrame_state = false;
+          this.infoObject.remainingPaymentTime === 600 ? this.springFrame_state = true : '';
           //Timing end order end
           this.infoObject.remainingPaymentTime <= 0 ? clearInterval(this.countDown) : '';
 

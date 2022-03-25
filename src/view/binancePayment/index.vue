@@ -52,7 +52,7 @@
 
 <script>
 export default {
-  name: "payment pag",
+  name: "binancePayment",
   data() {
     return {
       orderStatus: "loading", //success error loading

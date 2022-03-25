@@ -19,9 +19,9 @@ Vue.use(Switch);
 Vue.use(Popup);
 Vue.use(Toast);
 
-import Vconsole from 'vconsole'
-const vConsole = new Vconsole()
-export default vConsole
+// import Vconsole from 'vconsole'
+// const vConsole = new Vconsole()
+// export default vConsole
 
 Vue.prototype.$api = api;
 Vue.prototype.$axios = axios;
