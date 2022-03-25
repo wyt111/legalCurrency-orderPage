@@ -10,7 +10,7 @@ export default {
   mounted(){
     //sotre order id
     this.$route.query.id ? localStorage.setItem("sysOrderNum",this.$route.query.id) : '';
-
+    this.$store.state.binancePayment_locale = this.$route.query.locale ? this.$route.query.locale : '';
     let baseUrl = localStorage.getItem('baseUrl');
     let params = {
       "sysOrderNum": localStorage.getItem("sysOrderNum") //API148660202748314009 API149637939023643033
@@ -23,11 +23,13 @@ export default {
         if(res.data.payMent === "w1"){
           this.$router.replace("/binancePayment");
           this.$store.state.binancePayment = 'initialPag';
+          this.$store.state.paymentType.chainName = '';
           return;
         }
         if(res.data.payMent === "" || res.data.payMent === null){
           this.$router.replace("/paymentSelect");
           this.$store.state.binancePayment = '';
+          this.$store.state.paymentType.chainName = '';
           return;
         }
         this.$router.replace("/paymentDetails");
