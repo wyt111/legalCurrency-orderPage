@@ -5,7 +5,7 @@
         <img src="../../assets/successIcon.png" alt="">
         <p>{{ $t('nav.overpayment_Stitle') }}</p>
         <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
-        <p>{{ $t('nav.overpayment_part') }}</p>
+        <!-- <p>{{ $t('nav.overpayment_part') }}</p> -->
       </div>
       <!-- overPayment -->
       <div class="sessIcon1" v-else-if="overData.payStatus===2 ">
