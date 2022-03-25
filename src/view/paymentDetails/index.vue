@@ -18,9 +18,9 @@
     </div>
     <div class="codeDescription">{{ $t('nav.paymentDetails_qrCodeExplain') }}</div>
     <div class="payForm">
-      <div class="payFormLine" v-if="networkView">
+      <div class="payFormLine">
         <div class="title">{{ $t('nav.paymentDetails_network') }}</div>
-        <div class="formItem" @click="network_state = true">
+        <div class="formItem" @click="networkView === true ? network_state = true : network_state = false">
           <div class="text">{{ networkName }}</div>
           <div class="icon"><img src="@/assets/rightIcon2.png"></div>
         </div>
@@ -32,7 +32,7 @@
           <div class="icon"><img src="@/assets/copyIcon.png"></div>
         </div>
       </div>
-      <div class="payFormLine" @click="copy" :data-clipboard-text="infoObject.qrAddress">
+      <div class="payFormLine" @click="copy" :data-clipboard-text="handleQrAddress">
         <div class="title">{{ $t('nav.paymentDetails_address') }}</div>
         <div class="formItem">
           <div class="text">{{ handleQrAddress }}</div>
@@ -45,7 +45,7 @@
     <van-popup v-model="details_state" round position="bottom" :style="{ height: '25%' }">
       <div class="mask-header">
         <span v-if="$store.state.language === 'EN'">{{ $t('nav.paymentDetails_detailsTitle') }} {{ timeText }}</span>
-        <span v-else-if="$store.state.language === 'CN'">请在{{ timeText }}内完成支付</span>
+        <span v-else-if="$store.state.language === '中文'">请在{{ timeText }}内完成支付</span>
       </div>
       <div class="mask-line">
         <div class="title">{{ $t('nav.paymentDetails_transactionAmount') }}:</div>
@@ -53,7 +53,7 @@
       </div>
       <div class="mask-line">
         <div class="title">{{ $t('nav.paymentDetails_exchangeRate') }}:</div>
-        <div class="value">{{ infoObject.fiatToUsdtRate }} {{ infoObject.fiat }}/{{ infoObject.coin }}</div>
+        <div class="value">{{ infoObject.fiatToCoinRate }} {{ infoObject.fiat }}/{{ infoObject.coin }}</div>
       </div>
       <div class="mask-line">
         <div class="title">{{ $t('nav.paymentDetails_amountDue') }}:</div>
@@ -112,12 +112,12 @@ export default {
   },
   mounted() {
     document.getElementsByClassName('el-progress__text')[0].innerText = '00:00';
-    console.log(this.$store.state.paymentType.currencyCode)
     if(this.$store.state.paymentType && this.$store.state.paymentType.currencyCode === "USDT"){
       this.networkView = true;
       this.queryNetwork();
     }else {
       this.networkView = false;
+      this.networkName = this.$store.state.paymentType.chainName;
       this.refreshPayState();
     }
     if(this.$store.state.paymentType && (this.$store.state.paymentType.currencyCode === 'ETH' || this.$store.state.paymentType.currencyCode === 'BTC' || this.$store.state.paymentType.currencyCode === 'TRX')){
@@ -199,10 +199,12 @@ export default {
     //QR code with amount
     showAmount(){
       if(this.checked === true && this.infoObject.qrAddress.indexOf("?") !== -1){
+        this.handleQrAddress = this.infoObject.qrAddress;
+      }else{
         this.handleQrAddress = this.infoObject.qrAddress.substr(0, this.infoObject.qrAddress.indexOf("?"));
-        return;
       }
-      this.handleQrAddress = this.infoObject.qrAddress;
+      this.$refs.qrCodeUrl.innerHTML = "";
+      this.generateQRcode();
     },
     choiseNetwork(item,index){
       this.networkList.map(item => {

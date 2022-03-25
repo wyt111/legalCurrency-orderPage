@@ -24,7 +24,10 @@ export default {
       deep: true,
       immediate: true,
       handler(to){
+        //The result page does not display the title
         this.languageState = to.path === "/language" ? false : true;
+        this.routerNameState = to.path === '/overpayment' ? false : true;
+        this.languageState = to.path === '/binancePayment' ? false : true;
         //The payment currency is displayed in the payment header on the chain
         if(to.path === '/paymentDetails'){
           this.routerName = to.meta.title + ' ' + this.$store.state.paymentType.currencyCode;

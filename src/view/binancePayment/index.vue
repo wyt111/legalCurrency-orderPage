@@ -13,13 +13,13 @@
           <img v-if="orderStatus === 'success'" src="@/assets/successIcon.png"/>
           <img v-if="orderStatus === 'error'" src="@/assets/errorIcon.png" />
         </div>
-        <div class="orderStatus_text">
+        <div class="orderStatus_text" v-if="infoObject.isPrePay !== 0">
           <span v-if="orderStatus === 'success'">{{ infoObject.payDesc }}</span>
           <span v-else-if="orderStatus === 'error'">{{$t('nav.binancePayment_orderTimeoutText')}}</span>
           <span v-else>{{$t('nav.binancePayment_advancePayment')}}</span>
         </div>
       </div>
-      <div class="loading_text" v-if="orderStatus === 'loading'">{{ $t('nav.binancePayment_completeReturn') }}</div>
+      <div class="loading_text" v-if="orderStatus === 'loading' && infoObject.isPrePay !== 0">{{ $t('nav.binancePayment_completeReturn') }}</div>
       <div
         class="informationBar"
         :class="{ informationBar_success: orderStatus === 'loading' }"
@@ -51,6 +51,8 @@
 </template>
 
 <script>
+import i18n from "@/tool/i18n";
+
 export default {
   name: "binancePayment",
   data() {
@@ -67,6 +69,7 @@ export default {
   },
   mounted() {
     document.getElementsByClassName('el-progress__text')[0].innerText = '00:00';
+    this.$route.query.locale ? i18n.locale = this.$route.query.locale : '';
     this.queryInfo();
     this.countDown = setInterval(()=>{
       this.queryInfo();

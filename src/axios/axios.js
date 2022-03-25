@@ -15,7 +15,6 @@ axios.interceptors.response.use(function (response) {
   storeControl.state.loadding = false;//The returned data is processed here
   return response.data
 }, function (error) {
-
   let errMsg = '';
   if (error.response) {
     // The request is executed and the server responds with a status code
@@ -31,7 +30,6 @@ axios.interceptors.response.use(function (response) {
       case 403:
         errMsg = 'access denied';
         // localStorage.removeItem("token");
-        console.log(this);
         // this.$message.error(errMsg);
         break;
       case 404:

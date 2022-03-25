@@ -1,12 +1,12 @@
 module.exports = {
     language:'印度尼西亚',
     nav:{
-        advancePayment: 'Pra-Pembayaran',
-        completeReturn: 'Saldo setelah biaya penggunaan akan dikembalikan ke akun Binance Anda.',
-        transactionAmount: 'jumlah transaksi',
-        exchangeRate: 'Kurs',
-        orderTimeout: 'Faktur hanya berlaku selama 60 menit. Kembali ke pedagang jika Anda ingin mengirim ulang pembayaran.',
-        orderTimeoutText: 'Faktur Kedaluwarsa',
-        returnTo: 'Kembali ke',
+        binancePayment_advancePayment: 'Pra-Pembayaran',
+        binancePayment_completeReturn: 'Saldo setelah biaya penggunaan akan dikembalikan ke akun Binance Anda.',
+        binancePayment_transactionAmount: 'jumlah transaksi',
+        binancePayment_exchangeRate: 'Kurs',
+        binancePayment_orderTimeout: 'Faktur hanya berlaku selama 60 menit. Kembali ke pedagang jika Anda ingin mengirim ulang pembayaran.',
+        binancePayment_orderTimeoutText: 'Faktur Kedaluwarsa',
+        binancePayment_returnTo: 'Kembali ke',
     }
 }

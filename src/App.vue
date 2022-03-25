@@ -32,8 +32,8 @@ export default {
       deep: true,
       immediate: true,
       handler(to) {
-        //The result page does not display the title
-        this.$refs.headerRef.routerNameState = to.path === '/overpayment' ? false : true;
+        //language
+        // to.path !== '/binancePayment' ? i18n.locale = this.$store.state.language : '';
       }
     }
   },
@@ -46,7 +46,7 @@ export default {
       sessionStorage.setItem("store", JSON.stringify(this.$store.state))
     })
     //language
-    i18n.locale = this.$store.state.language;
+    i18n.locale = this.$store.state.language
   },
 }
 </script>

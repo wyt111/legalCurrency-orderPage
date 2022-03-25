@@ -25,7 +25,7 @@ export default {
           this.$store.state.binancePayment = 'initialPag';
           return;
         }
-        if(res.data.payMent === ""){
+        if(res.data.payMent === "" || res.data.payMent === null){
           this.$router.replace("/paymentSelect");
           this.$store.state.binancePayment = '';
           return;
@@ -35,7 +35,7 @@ export default {
         this.$store.state.paymentType.payType = res.data.payMent;
         this.$store.state.paymentType.currencyCode = res.data.coin;
         this.$store.state.paymentType.imageAddress = res.data.qrIcon;
-        console.log(this.$store.state)
+        this.$store.state.paymentType.chainName = res.data.chainName;
       }
     })
   }
