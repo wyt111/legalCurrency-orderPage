@@ -19,16 +19,16 @@ Vue.use(Switch);
 Vue.use(Popup);
 Vue.use(Toast);
 
-// import Vconsole from 'vconsole'
-// const vConsole = new Vconsole()
-// export default vConsole
+import Vconsole from 'vconsole'
+const vConsole = new Vconsole()
+export default vConsole
 
 Vue.prototype.$api = api;
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false
 
 //配置默认地址
-localStorage.setItem('sysOrderNum', 'API150724786641712332');
+// localStorage.setItem('sysOrderNum', 'API150691493521142988');
 localStorage.setItem('baseUrl', 'http://47.243.170.64:9080');
 // localStorage.setItem('baseUrl', 'https://service.alchemypay.cc');
 // localStorage.setItem('baseUrl', 'https://paytest.alchemypay.cc');

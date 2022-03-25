@@ -9,7 +9,7 @@
     </div>
     <div class="payAmount">{{ infoObject.coinCount }} {{ infoObject.coin }}</div>
     <div class="QRCodeView">
-      <div class="qrcodeLogo" v-if="payMethodLogoState"><img :src=this.$store.state.paymentType.imageAddress></div>
+      <div class="qrcodeLogo" v-if="payMethodLogoState"><img :src="this.$store.state.paymentType.imageAddress"></div>
       <div class="qrcode" ref="qrCodeUrl"></div>
     </div>
     <div class="QRCodeOptions" v-if="showAmountState">
@@ -112,12 +112,13 @@ export default {
   },
   mounted() {
     document.getElementsByClassName('el-progress__text')[0].innerText = '00:00';
-    if(this.$store.state.paymentType && this.$store.state.paymentType.currencyCode === 'USDT'){
+    console.log(this.$store.state.paymentType.currencyCode)
+    if(this.$store.state.paymentType && this.$store.state.paymentType.currencyCode === "USDT"){
       this.networkView = true;
       this.queryNetwork();
     }else {
       this.networkView = false;
-      // this.refreshPayState();
+      this.refreshPayState();
     }
     if(this.$store.state.paymentType && (this.$store.state.paymentType.currencyCode === 'ETH' || this.$store.state.paymentType.currencyCode === 'BTC' || this.$store.state.paymentType.currencyCode === 'TRX')){
       this.showAmountState = true;
@@ -326,6 +327,7 @@ export default {
     color: #666666;
     text-align: center;
     padding: 0.1rem 0.4rem;
+    word-break: break-all;
   }
   .payForm{
     padding: 0 0.2rem;

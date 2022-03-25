@@ -41,10 +41,13 @@ export default {
         return;
       }
       this.$parent.languageView = false;
-      this.routerName = this.$route.meta.title + ' ' + this.$store.state.paymentType.currencyCode;
+      if(this.$route.path === '/paymentDetails') {
+        this.routerName = this.$route.meta.title + ' ' + this.$store.state.paymentType.currencyCode;
+      }
     },
     goBack(){
-      if(this.$parent.languageView === false && this.$route.path === '/paymentDetails' || (this.$route.path === '/binancePayment' && this.$store.state.binancePayment === 'payList')){
+      if(this.$parent.languageView === false && (this.$route.path === '/paymentDetails' && this.$store.state.binancePayment === 'payList')||
+          (this.$route.path === '/binancePayment' && this.$store.state.binancePayment === 'payList')){
         this.$router.go(-1);
         return;
       }

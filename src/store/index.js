@@ -6,7 +6,12 @@ const store = new Vuex.Store({
   state: {
     language: "EN",
     merchantCode: '',
-    paymentType:null,
+    binancePayment: '', //from view name (payList/initialPag)
+    paymentType: {
+      payType: '',
+      currencyCode: '',
+      imageAddress: '',
+    },
   },
   getters: {},
   mutations: {}
