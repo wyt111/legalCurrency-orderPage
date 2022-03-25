@@ -1,35 +1,35 @@
 <template>
   <div class="over-container">
     <!-- succeed -->
-      <div class="sessIcon1" v-if="overData.payStatus===1">
+      <div class="sessIcon1" v-if="overData.payStatus===1 || this.$store.state.orderTimeOut === 1">
         <img src="../../assets/successIcon.png" alt="">
         <p>{{ $t('nav.overpayment_Stitle') }}</p>
         <p>{{ overData.coinCount }}&nbsp;{{ overData.coin }}</p>
         <!-- <p>{{ $t('nav.overpayment_part') }}</p> -->
       </div>
       <!-- overPayment -->
-      <div class="sessIcon1" v-else-if="overData.payStatus===2 ">
+      <div class="sessIcon1" v-else-if="overData.payStatus===2 || this.$store.state.orderTimeOut === 2">
         <img src="../../assets/successIcon.png" alt="">
         <p>{{ $t('nav.overpayment_over') }}</p>
         <p>{{ overData.coinCount }}&nbsp;{{ overData.coin }}</p>
         <p>{{ $t('nav.overpayment_part') }}</p>
       </div>
       <!-- underPayment -->
-      <div class="sessIcon2" v-else-if="overData.payStatus===3">
+      <div class="sessIcon2" v-else-if="overData.payStatus===3 || this.$store.state.orderTimeOut === 3">
         <img src="../../assets/errorIcon1.png" alt="">
         <p>{{ $t('nav.overpayment_unpaid') }}</p>
         <p>{{ overData.coinCount }}&nbsp;{{ overData.coin }}</p>
         <p>{{ $t('nav.overpayment_succeed') }}</p>
       </div>
       <!-- overTime -->
-      <div class="sessIcon2" v-else-if="overData.payStatus===4">
+      <div class="sessIcon2" v-else-if="overData.payStatus===4 || this.$store.state.orderTimeOut === 4">
         <img src="../../assets/errorIcon.png" alt="">
         <p>{{ $t('nav.overpayment_fapiao') }}</p>
         <p>{{ overData.coinCount }}&nbsp;{{ overData.coin }}</p>
         <p>{{ $t('nav.overpayment_chao') }}</p>
           <p>{{$t('nav.overpayment_chao1')}}</p>
       </div>
-      <div class="content" v-show="[1,2,3,].includes(overData.payStatus)">
+      <div class="content" v-show="[1,2,3,].includes(overData.payStatus || this.$store.state.orderTimeOut)">
                 <div>
                   <p>{{ $t('nav.overpayment_mount') }}</p>
                   <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
