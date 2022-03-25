@@ -27,16 +27,6 @@ export default {
       navigationBarState: true,
     }
   },
-  watch: {
-    '$route': {
-      deep: true,
-      immediate: true,
-      handler(to) {
-        //language
-        // to.path !== '/binancePayment' ? i18n.locale = this.$store.state.language : '';
-      }
-    }
-  },
   mounted(){
     //Vuex store data
     if (sessionStorage.getItem("store")) {

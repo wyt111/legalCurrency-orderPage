@@ -32,10 +32,10 @@
           <div class="icon"><img src="@/assets/copyIcon.png"></div>
         </div>
       </div>
-      <div class="payFormLine" @click="copy" :data-clipboard-text="handleQrAddress">
+      <div class="payFormLine" @click="copy" :data-clipboard-text="displayAddress">
         <div class="title">{{ $t('nav.paymentDetails_address') }}</div>
         <div class="formItem">
-          <div class="text">{{ handleQrAddress }}</div>
+          <div class="text">{{ displayAddress }}</div>
           <div class="icon"><img src="@/assets/copyIcon.png"></div>
         </div>
       </div>
@@ -93,6 +93,7 @@ export default {
 
       showAmountState: false,
       checked: true,
+      displayAddress: '',
       handleQrAddress: '',
 
       details_state: false,
@@ -169,9 +170,11 @@ export default {
       this.$axios.post(localStorage.getItem("baseUrl") + this.$api.post_qrPay, params).then(res => {
         if(res && res.data){
           this.infoObject = res.data;
+          res.data.chainName !== null && res.data.chainName !== '' ? this.networkName = res.data.chainName : '';
           //QR code processing
           if(this.oldPayAddress !== this.infoObject.qrAddress){
             this.handleQrAddress = res.data.qrAddress;
+            this.displayAddress = res.data.qrAddress.slice(res.data.qrAddress.indexOf(":")+1,res.data.qrAddress.indexOf("?"))
             this.$refs.qrCodeUrl.innerHTML = "";
             this.payMethodLogoState = true;
             this.generateQRcode();
@@ -201,7 +204,7 @@ export default {
       if(this.checked === true && this.infoObject.qrAddress.indexOf("?") !== -1){
         this.handleQrAddress = this.infoObject.qrAddress;
       }else{
-        this.handleQrAddress = this.infoObject.qrAddress.substr(0, this.infoObject.qrAddress.indexOf("?"));
+        this.handleQrAddress = this.infoObject.qrAddress.slice(this.infoObject.qrAddress.indexOf(":")+1, this.infoObject.qrAddress.indexOf("?"));
       }
       this.$refs.qrCodeUrl.innerHTML = "";
       this.generateQRcode();

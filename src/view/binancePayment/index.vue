@@ -69,7 +69,7 @@ export default {
   },
   mounted() {
     document.getElementsByClassName('el-progress__text')[0].innerText = '00:00';
-    this.$route.query.locale ? i18n.locale = this.$route.query.locale : '';
+    i18n.locale = this.$store.state.binancePayment_locale;
     this.queryInfo();
     this.countDown = setInterval(()=>{
       this.queryInfo();

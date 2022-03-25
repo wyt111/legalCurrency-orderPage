@@ -2,6 +2,8 @@ import axios from 'axios';
 // import Vue from "vue";
 import storeControl from '../store/index';
 
+// console.log(process.env)
+
 axios.defaults.timeout = 30000; // Set the request timeout (MS) to no more than half a minute
 
 axios.interceptors.request.use(function (config) {
