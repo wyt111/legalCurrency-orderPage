@@ -26,22 +26,22 @@ export default {
         this.languageState = to.path === "/language" ? false : true;
         //The payment currency is displayed in the payment header on the chain
         if(to.path === '/paymentDetails'){
-          this.routerName = to.name + ' ' + this.$store.state.paymentType.currencyCode;
+          this.routerName = to.meta.title + ' ' + this.$store.state.paymentType.currencyCode;
           return;
         }
-        this.routerName = to.name;
+        this.routerName = to.meta.title;
       }
-    }
+    },
   },
   methods: {
     openLanguage(){
       if(this.$parent.languageView === false){
         this.$parent.languageView = true;
         this.routerName = "Change Language";
-        return
+        return;
       }
       this.$parent.languageView = false;
-      this.routerName = this.$route.name;
+      this.routerName = this.$route.meta.title + ' ' + this.$store.state.paymentType.currencyCode;
     },
     goBack(){
       if(this.$parent.languageView === false && this.$route.path === '/paymentDetails' || (this.$route.path === '/binancePayment' && this.$store.state.binancePayment === 'payList')){
@@ -53,7 +53,7 @@ export default {
         return;
       }
       window.location.href = `${this.$store.state.cancelTo}`
-    }
+    },
   }
 }
 </script>
@@ -85,14 +85,13 @@ export default {
     .text{
       width: 0.24rem;
       height: 0.24rem;
-      border: 1.9px solid #999999;
       line-height: 0.21rem;
       text-align: center;
-      border-radius: 5px;
       color: #999999;
-      font-size: 0.12rem;
+      font-size: 0.14rem;
       font-weight: bold;
       margin-right: 0.1rem;
+      margin-top: 0.03rem;
     }
     .icon{
       display: flex;

@@ -20,27 +20,36 @@ export const constantRoutes = [
   },
   {
     path: '/loadingStatus',
-    name: 'Loading Status',
+    name: 'loadingStatus',
     component: () => import("../view/loadingStatus/index"),
+    meta: {
+      title: 'Loading Status'
+    }
   },
   {
     path: '/binancePayment',
-    name: '',
+    name: 'binancePayment',
     component: () => import("../view/binancePayment/index"),
   },
   {
     path: '/paymentDetails',
-    name: 'Pay with',
+    name: 'paymentDetails',
     component: () => import("../view/paymentDetails/index"),
+    meta: {
+      title: 'Pay with'
+    }
   },
   {
     path: '/paymentSelect',
-    name: 'Select payment option',
+    name: 'paymentSelect',
     component: () => import("../view/paymentSelect"),
+    meta: {
+      title: 'Select payment option'
+    }
   },
   {
     path: '/overpayment',
-    // name: 'overpayment',
+    name: 'overpayment',
     component: () => import("../view/overpayment"),
   }
 ]

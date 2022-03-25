@@ -22,6 +22,7 @@
 </template>
 <script>
 export default{
+  name:'paymentSelect',
   data(){
     return {
       isShow:true,
