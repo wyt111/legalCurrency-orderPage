@@ -1,31 +1,31 @@
 <template>
   <div class="over-container">
-      <div class="sessIcon1" v-if="overData.payStatus===1">
+      <div class="sessIcon1" v-if="statePay===1">
         <img src="../../assets/successIcon.png" alt="">
         <p>{{ $t('nav.overpayment_Stitle') }}</p>
         <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
         <p>{{ $t('nav.overpayment_part') }}</p>
       </div>
-      <div class="sessIcon1" v-else-if="overData.payStatus===2 ">
+      <div class="sessIcon1" v-else-if="statePay===2 ">
         <img src="../../assets/successIcon.png" alt="">
         <p>{{ $t('nav.overpayment_over') }}</p>
         <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
         <p>{{ $t('nav.overpayment_part') }}</p>
       </div>
-      <div class="sessIcon2" v-else-if="overData.payStatus===3">
+      <div class="sessIcon2" v-else-if="statePay===3">
         <img src="../../assets/errorIcon1.png" alt="">
         <p>{{ $t('nav.overpayment_unpaid') }}</p>
         <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
         <p>{{ $t('nav.overpayment_succeed') }}</p>
       </div>
-      <div class="sessIcon2" v-else-if="overData.payStatus===4">
+      <div class="sessIcon2" v-else-if="statePay===4">
         <img src="../../assets/errorIcon.png" alt="">
         <p>{{ $t('nav.overpayment_fapiao') }}</p>
         <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
         <p>{{ $t('nav.overpayment_chao') }}</p>
           <p>{{$t('nav.overpayment_chao1')}}</p>
       </div>
-      <div class="content" v-show="[1,2,3,].includes(overData.payStatus)">
+      <div class="content" v-show="[1,2,3,].includes(statePay)">
                 <div>
                   <p>{{ $t('nav.overpayment_mount') }}</p>
                   <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
@@ -47,7 +47,7 @@
     name:'overpayment',
     data(){
       return {
-        statePay:4,
+        statePay:1,
         overData:'',
       }
     },
@@ -59,7 +59,6 @@
           "payMent":this.$store.state.payMent
         }
         this.$axios.post(baseUrl + this.$api.post_info, params).then(res=>{
-          // console.log(res);
           if(res && res.data){
             this.overData = res.data
           }

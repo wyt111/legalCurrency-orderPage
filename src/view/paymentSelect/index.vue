@@ -17,13 +17,11 @@
           </div>
           <img class="right" src="../../assets/rightArrows.png" alt="">
         </div>
-        <!-- <h3 v-show="isHide" class="dataStyle">暂无数据</h3> -->
       </div>
   </div>
 </template>
 <script>
 export default{
-  name:'Select payment option',
   data(){
     return {
       isShow:true,
