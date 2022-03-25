@@ -20,7 +20,22 @@ export default {
         this.$store.state.merchantCode = res.data.merchantCode;
         this.$store.state.cancelTo = res.data.cancelTo;
         this.$store.state.returnTo = res.data.returnTo;
-        res.data.payMent === "w1" ? (this.$router.replace("/binancePayment"),this.$store.state.binancePayment = 'initialPag') : (this.$router.replace("/paymentSelect"),this.$store.state.binancePayment = '');
+        if(res.data.payMent === "w1"){
+          this.$router.replace("/binancePayment");
+          this.$store.state.binancePayment = 'initialPag';
+          return;
+        }
+        if(res.data.payMent === ""){
+          this.$router.replace("/paymentSelect");
+          this.$store.state.binancePayment = '';
+          return;
+        }
+        this.$router.replace("/paymentDetails");
+        this.$store.state.binancePayment = 'initialPag';
+        this.$store.state.paymentType.payType = res.data.payMent;
+        this.$store.state.paymentType.currencyCode = res.data.coin;
+        this.$store.state.paymentType.imageAddress = res.data.qrIcon;
+        console.log(this.$store.state)
       }
     })
   }

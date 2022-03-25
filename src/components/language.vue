@@ -25,8 +25,10 @@ export default {
   },
   methods: {
     initializationData(){
-      this.languageList.map(item => {
-        return item.name === this.$store.state.language ? item.state = true : item.state = false;
+      this.$nextTick(()=>{
+        this.languageList.map(item => {
+          return item.name === this.$store.state.language ? item.state = true : item.state = false;
+        })
       })
     },
     choiseItem(item,index){
