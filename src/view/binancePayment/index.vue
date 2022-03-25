@@ -87,10 +87,10 @@ export default {
           }else if(this.infoObject.payStatus === 1){
             // this.orderStatus = 'success';
             window.location.href = this.infoObject.returnTo;
-            this.$parent.navigationBarState = false;
+            this.$parent.$refs.headerRef.routerNameState = false;
           }else{
             this.orderStatus = 'error';
-            this.$parent.navigationBarState = false;
+            this.$parent.$refs.headerRef.routerNameState = false;
           }
 
           this.infoObject.remainingPaymentTime -= 1;
