@@ -32,15 +32,15 @@
       <div class="content" v-show="[1,2,3,].includes(overData.payStatus)">
                 <div>
                   <p>{{ $t('nav.overpayment_mount') }}</p>
-                  <p>{{ this.$store.resultData.orderAmount }}&nbsp;{{ this.$store.resultData.coin }}</p>
+                  <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
                 </div>
                 <div>
                   <p>{{ $t('nav.overpayment_tran') }}</p>
-                  <p>{{ this.$store.resultData.fiatAmount }}&nbsp;{{ this.$store.resultData.fiat }}</p>
+                  <p>{{ overData.fiatAmount }}&nbsp;{{ overData.fiat }}</p>
                 </div>
                 <div>
                   <p>{{ $t('nav.overpayment_rate') }}</p>
-                  <p>{{ this.$store.resultData.payMent==='w1'?this.$store.resultData.fiatToUsdtRate:this.$store.resultData.fiatToCoinRate }}&nbsp;{{ this.$store.resultData.fiat }}/{{ this.$store.resultData.coin }}</p>
+                  <p>{{ overData.payMent==='w1'?overData.fiatToUsdtRate:overData.fiatToCoinRate }}&nbsp;{{ overData.fiat }}/{{ overData.coin }}</p>
                 </div>
       </div>
       <div class="sessButton" :style="{marginTop:overData.payStatus !== 4?.6 + 'rem':1.6 + 'rem'}" @click="_returnCan"></div>
@@ -60,7 +60,7 @@
       }
     },
     mounted(){
-      this.overData = this.$store.resultData
+      this.overData = this.$store.state.resultData
 
     }
   }

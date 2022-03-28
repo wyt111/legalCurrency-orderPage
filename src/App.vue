@@ -37,6 +37,7 @@ export default {
     })
     //language
     i18n.locale = this.$store.state.language
+    // console.log(process.env);
   },
 }
 </script>

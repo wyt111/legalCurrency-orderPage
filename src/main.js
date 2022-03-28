@@ -26,12 +26,12 @@ Vue.use(Toast);
 Vue.prototype.$api = api;
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false
-
+// console.log(process.env.VUE_APP_BASE_API);
 //配置默认地址
-// localStorage.setItem('sysOrderNum', 'API150691493521142988');
-// localStorage.setItem('baseUrl', 'http://47.243.170.64:9080');
+localStorage.setItem('sysOrderNum', 'API148660202748314009');
+localStorage.setItem('baseUrl', 'http://47.243.170.64:9080');
 // localStorage.setItem('baseUrl', 'https://service.alchemypay.cc');
-localStorage.setItem('baseUrl', 'https://paytest.alchemypay.cc');
+// localStorage.setItem('baseUrl', 'https://paytest.alchemypay.cc');
 
 new Vue({
   router,

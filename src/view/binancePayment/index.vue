@@ -116,7 +116,7 @@ export default {
           if(this.infoObject.remainingPaymentTime <= 0){
             clearInterval(this.countDown);
             this.$store.state.resultData = res.data;
-            console.log(this.$store.state.resultData,res.data)
+            // console.log(this.$store.state.resultData,res.data)
             this.$router.push("/overpayment");
           }
         }
