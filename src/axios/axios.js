@@ -1,20 +1,20 @@
 import axios from 'axios';
 // import Vue from "vue";
-import storeControl from '../store/index';
+// import storeControl from '../store/index';
 
-// console.log(process.env)
+const baseUrl = process.env.VUE_APP_BASE_API;
 
 axios.defaults.timeout = 30000; // Set the request timeout (MS) to no more than half a minute
 
 axios.interceptors.request.use(function (config) {
-  storeControl.state.loadding = true; //Do something before the request is issued
+  // storeControl.state.loadding = true; //Do something before the request is issued
   return config;
 }, function (error) {
   return Promise.reject(error)
 });
 
 axios.interceptors.response.use(function (response) {
-  storeControl.state.loadding = false;//The returned data is processed here
+  // storeControl.state.loadding = false;//The returned data is processed here
   return response.data
 }, function (error) {
   let errMsg = '';
@@ -74,18 +74,16 @@ axios.interceptors.response.use(function (response) {
 export default {
   /**
    *
-   * @param url  Interface address
+   * @param requestUrl  Interface address
    * @param params Interface parameters (object)
    * @returns {Q.Promise<any>}
    */
-  post(url, params) {
+  post(requestUrl, params) {
     return axios({
       method: 'post',
-      url: url,
+      url: baseUrl + requestUrl,
       data: params,
       headers: {
-        // 'authorization': '{"token":"' + this.token + '"}',
-        // 'device': deviceUse,
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
@@ -106,18 +104,16 @@ export default {
 
   /**
    *
-   * @param url  Interface address
+   * @param requestUrl  Interface address
    * @param params Interface parameters (object)
    * @returns {Q.Promise<any>}
    */
-  get(url, params) {
+  get(requestUrl, params) {
     return axios({
       method: 'get',
-      url: url,
+      url: baseUrl + requestUrl,
       params: params,
       headers: {
-        // 'authorization': '{"token":"' + this.token + '"}',
-        // 'device': deviceUse,
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       }
@@ -137,22 +133,22 @@ export default {
     });
   },
 
-  getJson(method) {
-
-    return new Promise((resolve, reject) => {
-      axios({
-        method: 'get',
-        baseURL: '',
-        url: method,
-        dataType: "json",
-        crossDomain: true,
-        cache: false
-      }).then(res => {
-        resolve(res)
-      }).catch(error => {
-        reject(error)
-      })
-    })
-
-  }
+  // getJson(method) {
+  //
+  //   return new Promise((resolve, reject) => {
+  //     axios({
+  //       method: 'get',
+  //       baseURL: '',
+  //       url: method,
+  //       dataType: "json",
+  //       crossDomain: true,
+  //       cache: false
+  //     }).then(res => {
+  //       resolve(res)
+  //     }).catch(error => {
+  //       reject(error)
+  //     })
+  //   })
+  //
+  // }
 }

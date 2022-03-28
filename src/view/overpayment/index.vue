@@ -61,7 +61,6 @@
     },
     mounted(){
       this.overData = this.$store.state.resultData
-
     }
   }
 </script>

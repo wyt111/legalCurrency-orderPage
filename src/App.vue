@@ -16,7 +16,7 @@
 <script>
 import Header from '@/components/navigationBar';
 import language from '@/components/language';
-import i18n from "@/tool/i18n";
+import i18n from "@/utils/i18n";
 
 export default {
   name: 'App',
