@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import i18n from "@/tool/i18n";
+import i18n from "@/utils/i18n";
 
 export default {
   name: "binancePayment",
@@ -84,7 +84,6 @@ export default {
   },
   methods: {
     queryInfo(){
-      let baseUrl = localStorage.getItem("baseUrl")
       let params1 = {
         "sysOrderNum": localStorage.getItem("sysOrderNum"), //API148660202748314009 API149637939023643033
         "payMent": this.$store.state.paymentType.payType,
@@ -95,7 +94,7 @@ export default {
       }
       let methodsName = this.$store.state.binancePayment === 'payList' ? this.$api.post_qrPay : this.$api.post_info;
       let overParams = this.$store.state.binancePayment === 'payList' ? params1 : params2;
-      this.$axios.post(baseUrl + methodsName, overParams).then(res=>{
+      this.$axios.post(methodsName, overParams).then(res=>{
         if(res.data){
           this.infoObject = res.data
           //Hide the title bar when there are payment results - this.$parent.navigationBarState
@@ -116,7 +115,7 @@ export default {
           if(this.infoObject.remainingPaymentTime <= 0){
             clearInterval(this.countDown);
             this.$store.state.resultData = res.data;
-            console.log(this.$store.state.resultData,res.data)
+            this.$store.state.resultData.payStatus = 4;
             this.$router.push("/overpayment");
           }
         }

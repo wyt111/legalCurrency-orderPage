@@ -2,36 +2,32 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import './tool/rem_size.js';
 
 import api from "./axios/api";
 import axios from "./axios/axios";
 
-import i18n from './tool/i18n'
+import './utils/rem_size.js';
 
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-Vue.use(ElementUI);
+import i18n from './utils/i18n'
 
-import 'vant/lib/index.css';
-import { Switch,Popup,Toast } from 'vant';
-Vue.use(Switch);
-Vue.use(Popup);
-Vue.use(Toast);
+import "./utils/uiClassLibrary";
 
 // import Vconsole from 'vconsole'
 // const vConsole = new Vconsole()
 // export default vConsole
 
+//id - Order ID   locale - The language can be set on the currency security payment page of the order with payment method
+router.beforeEach((to,from,next)=>{
+  if(to.path === '/loadingStatus'){
+    to.query.id ? localStorage.setItem("sysOrderNum",to.query.id) : '';
+    to.query.locale ? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = '';
+  }
+  next();
+})
+
 Vue.prototype.$api = api;
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false
-
-//配置默认地址
-// localStorage.setItem('sysOrderNum', 'API150691493521142988');
-// localStorage.setItem('baseUrl', 'http://47.243.170.64:9080');
-// localStorage.setItem('baseUrl', 'https://service.alchemypay.cc');
-localStorage.setItem('baseUrl', 'https://paytest.alchemypay.cc');
 
 new Vue({
   router,

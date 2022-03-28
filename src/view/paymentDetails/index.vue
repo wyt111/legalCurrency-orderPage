@@ -141,7 +141,7 @@ export default {
     },
     //network List
     queryNetwork(){
-      this.$axios.post(localStorage.getItem("baseUrl") + this.$api.post_networkList, '').then(res => {
+      this.$axios.post(this.$api.post_networkList, '').then(res => {
         if (res && res.data) {
           //network default state
           res.data.map(item => {return item.state = false});
@@ -167,7 +167,7 @@ export default {
         payMent: this.$store.state.paymentType.payType,
         email: '',
       }
-      this.$axios.post(localStorage.getItem("baseUrl") + this.$api.post_qrPay, params).then(res => {
+      this.$axios.post(this.$api.post_qrPay, params).then(res => {
         if(res && res.data){
           this.infoObject = res.data;
           res.data.chainName !== null && res.data.chainName !== '' ? this.networkName = res.data.chainName : '';

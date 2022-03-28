@@ -86,11 +86,10 @@ export default{
       }
     },
     selectAxios(){
-      let baseUrl = localStorage.getItem('baseUrl')
       let params = {
         "merchantCode":this.$store.state.merchantCode
       }
-      this.$axios.post(baseUrl + this.$api.post_payList,params).then(res=>{
+      this.$axios.post(this.$api.post_payList,params).then(res=>{
         if(res && res.data){
           this.selectData = [res.data]
         }
