@@ -1,5 +1,6 @@
 <template>
-  <div id="selectLanguage">
+  <div id="selectLanguage" >
+    
     <div class="language-line" v-for="(item,index) in languageList" :key="index" @click="choiseItem(item,index)">
       <div class="name">{{ item.name }}</div>
       <div class="icon" v-if="item.state"><img src="@/assets/checkIcon.png"></div>

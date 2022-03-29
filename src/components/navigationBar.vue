@@ -1,12 +1,16 @@
 <template>
-  <div class="navigation">
-    <p class="navigation-icon" v-if="routerNameState"><img src="@/assets/leftIcon.svg" @click="goBack"/></p>
+  <div class="navigation" v-if="this.$route.meta.isShow">
+      <p class="navigation-icon" v-if="routerNameState"><img class="backF" src="@/assets/leftIcon.svg" @click="goBack"/></p>
     <p class="routerName" v-if="routerNameState">{{ routerName }}</p>
     <div class="searchLanguage" @click="openLanguage" v-if="languageState">
       <p class="text">{{ this.$store.state.language }}</p>
       <p class="icon"><img src="@/assets/downIcon.png"></p>
     </div>
   </div>
+  <div class="logo" v-else>
+        <img src="../assets/achLogo.png" alt="">
+    </div>
+    
 </template>
 
 <script>
@@ -66,12 +70,84 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.logo{
+  width: 100%;
+  height: 44px;
+  background: #4479D9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img{
+    width: 110px;
+    height: 23px;
+  }
+}
 .navigation {
+  background: #fff;
   display: flex;
   align-items: center;
-  padding: 0.1rem 0.2rem;
+  padding: 10px 20px;
+  display: none;
+  .backF {
+    width: 18px;
+  }
+  .navigation-icon{
+    display: flex;
+  }
+  .routerName{
+    font-size: 18px;
+    font-family: Jost-SemiBold, Jost;
+    font-weight: 600;
+    color: #000000;
+    line-height: 0.21rem;
+    margin-left: 0.2rem;
+    margin-top: -0.01rem;
+    display: none;
+  }
+  .searchLanguage{
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    .text{
+      text-align: center;
+      color: #999999;
+      font-size: 14px;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    .icon{
+      display: flex;
+      align-items: center;
+      img{
+        width: 14px;
+      }
+    }
+  }
+}
+@media screen and (max-width:440px){
+  .logo{
+  width: 100%;
+  height: .44rem;
+  background: #4479D9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .backF{
+    width: 1.1rem;
+    height: .23rem;
+  }
+}
+.navigation {
+  width: 100%;
+  height: .44rem;
+  display: flex;
+  align-items: center;
+  padding: 0 .1rem 0 .2rem;
+  
   img {
     width: 0.18rem;
+    display: block;
   }
   .navigation-icon{
     display: flex;
@@ -84,6 +160,7 @@ export default {
     line-height: 0.21rem;
     margin-left: 0.2rem;
     margin-top: -0.01rem;
+    display: block;
   }
   .searchLanguage{
     margin-left: auto;
@@ -102,8 +179,11 @@ export default {
       align-items: center;
       img{
         width: 0.14rem;
+        display: block;
       }
     }
   }
 }
+}
+
 </style>

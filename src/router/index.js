@@ -23,20 +23,25 @@ export const constantRoutes = [
     name: 'loadingStatus',
     component: () => import("../view/loadingStatus/index"),
     meta: {
-      title: 'Loading Status'
+      title: 'Loading Status',
+      isShow:true
     }
   },
   {
     path: '/binancePayment',
     name: 'binancePayment',
     component: () => import("../view/binancePayment/index"),
+    meta:{
+      isShow:true
+    }
   },
   {
     path: '/paymentDetails',
     name: 'paymentDetails',
     component: () => import("../view/paymentDetails/index"),
     meta: {
-      title: 'Pay with'
+      title: 'Pay with',
+      isShow:true
     }
   },
   {
@@ -44,20 +49,25 @@ export const constantRoutes = [
     name: 'paymentSelect',
     component: () => import("../view/paymentSelect"),
     meta: {
-      title: 'Select payment option'
+      title: 'Select payment option',
+      isShow:true
     }
   },
   {
     path: '/overpayment',
     name: 'overpayment',
     component: () => import("../view/overpayment"),
+    meta:{
+      isShow:true
+    }
   },
   {
     path: '/paymentEmail',
     name: 'paymentEmail',
     component: () => import("../view/paymentEmail"),
     meta:{
-      title:'Pay with USDT'
+      title:'Pay with USDT',
+      isShow:true
     }
   },
   {
@@ -65,7 +75,24 @@ export const constantRoutes = [
     name: 'paymentPrompt',
     component: () => import("../view/paymentPrompt"),
     meta:{
-      title:'Pay with USDT'
+      title:'Pay with USDT',
+      isShow:true
+    }
+  },
+  {
+    path: '/overPaymentEmail',
+    name: 'overPaymentEmail',
+    component: () => import("../view/overPaymentEmail"),
+    meta:{
+      isShow:false
+    }
+  },
+  {
+    path: '/refundLoading',
+    name: 'refundLoading',
+    component: () => import("../view/refundLoading"),
+    meta:{
+      isShow:false
     }
   },
 ]

@@ -110,13 +110,101 @@ export default{
 
 </script>
 <style lang="scss" scoped>
-
 .select-container{
+  width: 440px;
+  height: 700px;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12);
+  font-family: Jost-Regular, Jost;
+  border-radius: 15px;
+  padding-top: 40px;
+  box-sizing: border-box;
+  margin: auto;
+  
+  .select-search{
+    width: 100%;
+    height: 44px;
+    padding: 0 20px 0 20px;
+    box-sizing: border-box;
+    position: relative;
+    input{
+      width: 99%;
+      height: 100%;
+      border-radius: 4px;
+      background: #F3F4F5;
+      border: none;
+      outline:none;
+      text-indent: 20px;
+    }
+    div{
+      width: 100%;
+      height: 100%;
+      color: #999999;
+      font-size: 12px;
+      position: absolute;
+      left:0;
+      top: 10%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img{
+        width: 15px;
+        height: 15px;
+        margin-right: 10px;
+      }
+    }
+  }
+  .select-content{
+    width: 100%;
+    padding: 0 20px 0 20px ;
+    box-sizing: border-box;
+    position: relative;
+    .dataStyle{
+      text-align: center;
+      margin-top: 50%;
+    }
+    h2{
+      font-size: 16px;
+      color: #000;
+      margin-top: 20px;
+    }
+    .sele-con{
+      width: 100%;
+      height: 35px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      .left{
+       height: 100%;
+       font-size: 14px;
+       display: flex;
+       align-items: center;
+       span{
+         color:#666666;
+       }
+       img{
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          margin-right: 20px;
+       }
+      }
+      .right{
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+}
+@media screen and (max-width:440px){
+ .select-container{
   width: 100%;
   font-size: .2rem;
   height: 100%;
   font-family: Jost-Regular, Jost;
   padding-top: .09rem;
+  border-radius: 0;
   .select-search{
     width: 100%;
     height: .44rem;
@@ -207,4 +295,7 @@ export default{
 
   }
 }
+}
+
+
 </style>
