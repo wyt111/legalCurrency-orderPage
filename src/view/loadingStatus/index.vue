@@ -28,12 +28,24 @@ export default {
           this.$store.state.paymentType.chainName = '';
           return;
         }
-        this.$router.replace("/paymentDetails");
+        let params = {
+          "merchantCode":res.data.merchantCode
+        }
+       this.$axios.post(this.$api.post_payList,params).then(res=>{
+         if(res && res.data){
+            if(res.data.isEmail===1){
+              this.$store.state.isTips = res.data.isTips
+              this.$router.replace("/paymentEmail");
+            }else{
+                this.$router.replace("/paymentDetails");
+            }
+         }
+       })
         this.$store.state.binancePayment = 'initialPag';
-        this.$store.state.paymentType.payType = res.data.payMent;
-        this.$store.state.paymentType.currencyCode = res.data.coin;
-        this.$store.state.paymentType.imageAddress = res.data.qrIcon;
-        this.$store.state.paymentType.chainName = res.data.chainName;
+          this.$store.state.paymentType.payType = res.data.payMent;
+          this.$store.state.paymentType.currencyCode = res.data.coin;
+          this.$store.state.paymentType.imageAddress = res.data.qrIcon;
+          this.$store.state.paymentType.chainName = res.data.chainName;
       }
     })
   }

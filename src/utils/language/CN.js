@@ -33,5 +33,12 @@ module.exports = {
         selectPayment:'收款钱包',
         selectPayment_wall:'链上币种',
         searchPayment_wall:'搜索钱包或币种',
+        payment_email:'联系信息',
+        paymentemail_addr:'请提供您的收款邮箱通知',
+        paymentemail_Email:'邮箱地址',
+        paymentemail_consent:'通过提供我的电子邮件地址，我同意炼金术师支付使用它支付相关的问题.',
+        paymentPrompt_tips:'付款提示',
+        paymentPrompt_succe:'请输入准确的金额，以支付加密货币 确保成功付款.',
+        paymentPrompt_high:'选择您钱包上的“高”或“最快”网络费用，以确保及时确认.'
     }
 }

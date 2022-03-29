@@ -87,7 +87,7 @@ export default {
       let params1 = {
         "sysOrderNum": localStorage.getItem("sysOrderNum"), //API148660202748314009 API149637939023643033
         "payMent": this.$store.state.paymentType.payType,
-        "email": '',
+        "email": this.$store.state.paymentEmail,
       }
       let params2 = {
         "sysOrderNum": localStorage.getItem("sysOrderNum"),

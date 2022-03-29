@@ -51,7 +51,23 @@ export const constantRoutes = [
     path: '/overpayment',
     name: 'overpayment',
     component: () => import("../view/overpayment"),
-  }
+  },
+  {
+    path: '/paymentEmail',
+    name: 'paymentEmail',
+    component: () => import("../view/paymentEmail"),
+    meta:{
+      title:'Pay with USDT'
+    }
+  },
+  {
+    path: '/paymentPrompt',
+    name: 'paymentPrompt',
+    component: () => import("../view/paymentPrompt"),
+    meta:{
+      title:'Pay with USDT'
+    }
+  },
 ]
 
 const createRouter = () => new Router({

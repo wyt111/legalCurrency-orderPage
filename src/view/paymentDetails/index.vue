@@ -165,7 +165,7 @@ export default {
       let params = {
         sysOrderNum: localStorage.getItem("sysOrderNum"),
         payMent: this.$store.state.paymentType.payType,
-        email: '',
+        email: this.$store.state.paymentEmail,
       }
       this.$axios.post(this.$api.post_qrPay, params).then(res => {
         if(res && res.data){

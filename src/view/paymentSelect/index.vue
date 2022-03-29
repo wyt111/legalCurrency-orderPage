@@ -10,7 +10,7 @@
         <div class="select-content" v-for="item in selectSearch()" :key="item.id">
         <h2 v-if="(item.id === 1&& search === '')" v-show="isHide">{{ $t("nav.selectPayment") }}</h2>
         <h2 v-else-if="search === ''">{{ $t("nav.selectPayment_wall") }}</h2>
-          <div class="sele-con" v-for="i in item.payList " :key="i.coinSort" @click="payment(i)">
+          <div class="sele-con" v-for="i in item.payList " :key="i.coinSort" @click="payment(i,item)">
           <div class="left" >
             <img :src="i.imageAddress" alt="">
             <p>{{ i.currencyCode }} <span>- {{ i.currencyFullName }}</span></p>
@@ -75,15 +75,21 @@ export default{
       }
     },
     payment(payment){
-
       this.$store.state.paymentType = payment
-
       this.$store.state.binancePayment = 'payList';
-      if(payment.payType === 'w1'){
-        this.$router.push('/binancePayment')
+      this.$store.state.isTips = this.selectData[0].isTips
+      if(this.selectData[0].isEmail === 1){
+          this.$router.push({
+            path:'/paymentEmail',
+          })
       }else{
-        this.$router.push('/paymentDetails')
+        if(payment.payType === 'w1'){
+          this.$router.push('/binancePayment')
+        }else{
+          this.$router.push('/paymentDetails')
+        }
       }
+      
     },
     selectAxios(){
       let params = {

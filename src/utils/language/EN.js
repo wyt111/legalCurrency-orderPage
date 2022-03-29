@@ -32,6 +32,13 @@ module.exports = {
         overpayment_succeed:'Your payment quantity is less than the payable quantity, and the order has not been successfully paid. You can contact support@alchemytech.io to initiate a refund',
         selectPayment:'Payment Wallets',
         selectPayment_wall:'On-chain Crypto',
-        searchPayment_wall:'Search Wallet or Currency'
+        searchPayment_wall:'Search Wallet or Currency',
+        payment_email:'Contact Information',
+        paymentemail_addr:'Please provide your email to receive payment notification',
+        paymentemail_Email:'Email Address',
+        paymentemail_consent :'By giving my email address, I consent to Alchemy Pay to use it for payment related issues.',
+        paymentPrompt_tips:'Payment Tips ',
+        paymentPrompt_succe:'Please key in the exact amount to be paid in crypto to ensure successful payment.',
+        paymentPrompt_high:'Select the “High” or "Fastest" network fee on your wallet to ensure timely confir mation. '
     }
 }
