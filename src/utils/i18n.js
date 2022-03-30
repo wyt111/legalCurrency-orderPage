@@ -14,6 +14,7 @@ const i18n = new VueI18n({
         'PT-BR': require('./language/PT-BR'),
         'TR': require('./language/TR'),
         '中文': require('./language/CN'),
+        'JP': require('./language/JP'),
     }
 })
 export default i18n;
