@@ -5,9 +5,10 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     //Page overall language
-    language: "EN",
+    languageName: "en",
+    languageValue: "en",
     //Currency security payment page language
-    binancePayment_locale: '',
+    binancePayment_locale: 'en',
     //Record order with payment method
     merchantCode: '',
     //from view name (payList/initialPag/'')

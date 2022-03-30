@@ -1,6 +1,6 @@
 <template>
   <div id="selectLanguage" >
-    
+
     <div class="language-line" v-for="(item,index) in languageList" :key="index" @click="choiseItem(item,index)">
       <div class="name">{{ item.name }}</div>
       <div class="icon" v-if="item.state"><img src="@/assets/checkIcon.png"></div>
@@ -16,8 +16,8 @@ export default {
   data(){
     return{
       languageList: [
-        {name: 'EN',state: true},
-        {name: '中文',state: false}
+        {name: 'EN',value: 'EN',state: true},
+        {name: '中文',value: 'zh-CN',state: false}
       ]
     }
   },
@@ -28,7 +28,7 @@ export default {
     initializationData(){
       this.$nextTick(()=>{
         this.languageList.map(item => {
-          return item.name === this.$store.state.language ? item.state = true : item.state = false;
+          return item.value === this.$store.state.languageValue ? item.state = true : item.state = false;
         })
       })
     },
@@ -37,8 +37,9 @@ export default {
         return item.state = false;
       })
       this.languageList[index].state = true;
-      this.$store.state.language = item.name;
-      i18n.locale = item.name;
+      this.$store.state.languageValue = item.value;
+      this.$store.state.languageName = item.name;
+      i18n.locale = item.value;
       this.$parent.$refs.headerRef.openLanguage();
     }
   }
