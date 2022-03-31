@@ -3,12 +3,12 @@
       <p class="navigation-icon" v-if="routerNameState"><img class="backF" src="@/assets/leftIcon.svg" @click="goBack"/></p>
     <p class="routerName" v-if="routerNameState">{{ routerName }}</p>
     <div class="searchLanguage" @click="openLanguage" v-if="languageState">
-      <p class="text">{{ this.$store.state.language }}</p>
+      <p class="text">{{ this.$store.state.languageName }}</p>
       <p class="icon"><img src="@/assets/downIcon.png"></p>
     </div>
   </div>
   <div class="logo" v-else>
-        <img src="../assets/achLogo.png" alt="">
+        <img src="../assets/logo_top.png" alt="">
     </div>
     
 </template>

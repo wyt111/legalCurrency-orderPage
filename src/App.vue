@@ -14,7 +14,7 @@
       <div class="comeFrom_text">Powered By</div>
       <div class="comeFrom_logo"><img src="@/assets/achLogo.png" /></div>
       <div class="searchLanguage">
-        <p class="text">{{ this.$store.state.language }}</p>
+        <p class="text">{{ this.$store.state.languageName }}</p>
         <p class="icon"><img src="@/assets/downIcon.png"></p>
     </div>
     </div>
@@ -44,7 +44,7 @@ export default {
       sessionStorage.setItem("store", JSON.stringify(this.$store.state))
     })
     //language
-    i18n.locale = this.$store.state.language
+    i18n.locale = this.$store.state.languageValue
   },
 }
 </script>

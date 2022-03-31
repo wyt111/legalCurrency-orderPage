@@ -44,8 +44,8 @@
     <!-- view details -->
     <van-popup v-model="details_state" round position="bottom" :style="{ height: '25%' }">
       <div class="mask-header">
-        <span v-if="$store.state.language === 'EN'">{{ $t('nav.paymentDetails_detailsTitle') }} {{ timeText }}</span>
-        <span v-else-if="$store.state.language === '中文'">请在{{ timeText }}内完成支付</span>
+        <span v-if="$store.state.languageValue === 'en'">{{ $t('nav.paymentDetails_detailsTitle') }} {{ timeText }}</span>
+        <span v-else-if="$store.state.languageValue === 'zh-CN'">请在{{ timeText }}内完成支付</span>
       </div>
       <div class="mask-line">
         <div class="title">{{ $t('nav.paymentDetails_transactionAmount') }}:</div>

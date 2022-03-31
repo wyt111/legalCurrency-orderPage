@@ -10,7 +10,7 @@
       </div>
       <ul class="content">
         <li>
-          <p>Payment amount:</p>
+          <p>Receipt amount:</p>
           <p>123 CNY</p>
         </li>
         <li>

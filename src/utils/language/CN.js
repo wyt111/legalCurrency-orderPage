@@ -3,7 +3,7 @@ module.exports = {
     nav:{
         binancePayment_advancePayment: '预付款',
         binancePayment_completeReturn: '使用完成后会将多付部分退回至您的账户',
-        binancePayment_transactionAmount: '订单金额',
+        binancePayment_transactionAmount: '交易金额',
         binancePayment_exchangeRate: '汇率',
         binancePayment_orderTimeout: '订单只有60分钟有效时间，若想重新支付请返回商户',
         binancePayment_orderTimeoutText: '订单超时',

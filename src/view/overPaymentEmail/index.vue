@@ -1,37 +1,37 @@
 <template>
   <div class="overPaymentEmail-container">
       <div class="email-centent">
-          <div class="email">413335492@qq.com</div>
+          <div class="email">{{ overPaymentData.email }}</div>
           <!-- overPayment -->
-          <p v-if="isOver">You paid with cryptocurrency at <span>( merchant name ) </span>
-          at 2022-01-02 12:35. Since your payment amount is greater than the amount due,
+          <p v-if="overPaymentData.status===2">You paid with cryptocurrency at <span>( {{ overPaymentData.merchantCode }} ) </span>
+          at {{ overPaymentData.refundTime }}. Since your payment amount is greater than the amount due,
           you need to refund the overpayment please fill in your on-chain <span>USDT- TRC20</span>
           address completes the refund.</p>
           <!-- underPayment -->
-          <p v-else>You paid with cryptocurrency at <span>( merchant name ) </span>
-          at 2022-01-02 12:35. Since your payment amount is less than the payable amount, the order has not been 
+          <p v-else-if="overPaymentData.status===3">You paid with cryptocurrency at <span>( {{ overPaymentData.merchantCode }} ) </span>
+          at {{ overPaymentData.refundTime }}. Since your payment amount is less than the payable amount, the order has not been 
           completed please fill in your on-chain <span>USDT- TRC20</span>
           address completes the refund.</p>
-          <p>Network : <span>TRC20</span></p>
+          <p>Network : <span>{{ overPaymentData.network }}</span></p>
           <p>Address : </p>
           <input type="text" placeholder="Enter Address..." v-model="Input" @blur="AddrssIs">
           <span style="display:block;margin:.2rem 0 .1rem .1rem;color:#FF0000;font-size:.14rem">{{ isAddrss }}</span>
           <ul class="payment">
             <li>
               <p>Amount received:</p>
-              <p>123 CNY</p>
+              <p>{{ overPaymentData.currencyAmount }} {{ overPaymentData.currencyCode }}</p>
             </li>
             <li>
               <p>Amounts payable:</p>
-              <p>22 USDT</p>
+              <p>{{ overPaymentData.realCount }} {{ overPaymentData.digitalCurrencyCode }}</p>
             </li>
             <li>
               <p>The amount actually paid:</p>
-              <p>24 BTC</p>
+              <p>{{overPaymentData.coboRealCount}} {{ overPaymentData.digitalCurrencyCode }}</p>
             </li>
             <li>
               <p>Refund amount:</p>
-              <p>2 USDT</p>
+              <p>{{ overPaymentData.refundCount }} {{ overPaymentData.refundUnit }}</p>
             </li>
           </ul>
           <p>Remarks: On-chain transfers will be charged a handling fee of 
@@ -46,7 +46,8 @@ export default{
     return {
       isAddrss:'',
       Input:'',
-      isOver:true
+      isOver:2,
+      overPaymentData:''
     }
   },
   methods:{
@@ -54,7 +55,7 @@ export default{
     AddrssIs(){
       if(this.Input!==''){
         this.isAddrss = ''
-        return true
+          return true  
       }else{
         this.isAddrss = 'Address is ont corre'
         return false
@@ -69,6 +70,18 @@ export default{
         this.$toast('Address is ont corre')
       }
     }
+  },
+  mounted(){
+    let params = {
+        "sysOrderNum":"ArnzUmO6/aZRbQrru1CZKdgx0cwTQqyUYkFTe+dCG7rO/8zcGcYnLYEJryyvRhZXGOhqHbFxyG2f3miU0M2AwSTwiUbzLAFQ2RCUV8QTXm5JauKnJiTLlC1a/QlgkaKRcUnbjECVJkVTTkDSYtQ8ALEsxhm6KFIWfgddOJHwIRM="
+      }
+      this.$axios.post(this.$api.post_Addrss,params).then(res=>{
+        // console.log(res);
+        if(res && res.data){
+          this.overPaymentData = res.data
+          console.log(this.overPaymentData);
+        }
+      })
   }
 }
 </script>

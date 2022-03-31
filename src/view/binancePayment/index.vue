@@ -1,8 +1,5 @@
 <template>
   <div id="index">
-<!--    <header>-->
-<!--      <div class="navigation" @click="back"><img src="@/assets/leftIcon.svg" /></div>-->
-<!--    </header>-->
     <div class="content">
       <div class="amountMoney">{{ infoObject.orderAmount }} USDT</div>
       <div class="orderStatus">
@@ -69,9 +66,10 @@ export default {
   },
   mounted() {
     document.getElementsByClassName('el-progress__text')[0].innerText = '00:00';
-    if(this.$route.path === '/binancePayment' && this.$store.state.binancePayment_locale !== ''){
-      this.$store.state.binancePayment_locale == 'null' ? this.$store.state.binancePayment_locale = 'EN' : '';
-      i18n.locale = this.$store.state.binancePayment_locale;
+    if(this.$route.path === '/binancePayment'){
+      this.$store.state.binancePayment_locale === '' ? this.$store.state.binancePayment_locale = 'en' : '';
+      //Case insensitive recognition string
+      this.recognitionLanguage(this.$store.state.binancePayment_locale);
     }
     this.queryInfo();
     this.countDown = setInterval(()=>{
@@ -79,10 +77,56 @@ export default {
     },1000);
   },
   destroyed(){
-    i18n.locale = this.$store.state.language;
+    i18n.locale = this.$store.state.languageValue;
     clearInterval(this.countDown);
   },
   methods: {
+    recognitionLanguage(subStr){
+      if(eval("/"+subStr+"/ig").test('de')){
+        i18n.locale = 'de';
+        return;
+      }
+      if(eval("/"+subStr+"/ig").test('en')){
+        i18n.locale = 'en';
+        return;
+      }
+      if(eval("/"+subStr+"/ig").test('es')){
+        i18n.locale = 'es';
+        return;
+      }
+      if(eval("/"+subStr+"/ig").test('fr')){
+        i18n.locale = 'fr';
+        return;
+      }
+      if(eval("/"+subStr+"/ig").test('hu')){
+        i18n.locale = 'hu';
+        return;
+      }
+      if(eval("/"+subStr+"/ig").test('id')){
+        i18n.locale = 'id';
+        return;
+      }
+      if(eval("/"+subStr+"/ig").test('pt-BR')){
+        i18n.locale = 'pt-BR';
+        return;
+      }
+      if(eval("/"+subStr+"/ig").test('tr')){
+        i18n.locale = 'tr';
+        return;
+      }
+      if(eval("/"+subStr+"/ig").test('zh-CN')){
+        i18n.locale = 'zh-CN';
+        return;
+      }
+      if(eval("/"+subStr+"/ig").test('zh-HK')){
+        i18n.locale = 'zh-HK';
+        return;
+      }
+      if(eval("/"+subStr+"/ig").test('ja')){
+        i18n.locale = 'ja';
+        return;
+      }
+    },
     queryInfo(){
       let params1 = {
         "sysOrderNum": localStorage.getItem("sysOrderNum"), //API148660202748314009 API149637939023643033
@@ -146,9 +190,6 @@ export default {
         window.location.href = this.infoObject.deeplink;
       }
     },
-    back(){
-      window.location.href = `${this.infoObject.cancelTo}`;
-    },
   },
 };
 </script>
@@ -168,13 +209,6 @@ body,
     overflow: auto;
   }
 }
-//.navigation {
-//  display: flex;
-//  padding: 0.1rem 0.2rem;
-//  img {
-//    width: 0.18rem;
-//  }
-//}
 .amountMoney {
   font-size: 0.24rem;
   font-family: Jost-SemiBold, Jost;
