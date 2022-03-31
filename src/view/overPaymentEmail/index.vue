@@ -4,12 +4,12 @@
           <div class="email">{{ overPaymentData.email }}</div>
           <!-- overPayment -->
           <p v-if="overPaymentData.status===2">You paid with cryptocurrency at <span>( {{ overPaymentData.merchantCode }} ) </span>
-          at {{ overPaymentData.refundTime }}. Since your payment amount is greater than the amount due,
+          at {{ overPaymentData.payCompleteTime }}. Since your payment amount is greater than the amount due,
           you need to refund the overpayment please fill in your on-chain <span>USDT- TRC20</span>
           address completes the refund.</p>
           <!-- underPayment -->
           <p v-else-if="overPaymentData.status===3">You paid with cryptocurrency at <span>( {{ overPaymentData.merchantCode }} ) </span>
-          at {{ overPaymentData.refundTime }}. Since your payment amount is less than the payable amount, the order has not been 
+          at {{ overPaymentData.payCompleteTime }}. Since your payment amount is less than the payable amount, the order has not been 
           completed please fill in your on-chain <span>USDT- TRC20</span>
           address completes the refund.</p>
           <p>Network : <span>{{ overPaymentData.network }}</span></p>
@@ -55,7 +55,7 @@ export default{
     AddrssIs(){
       if(this.Input!==''){
         this.isAddrss = ''
-          return true  
+        return true  
       }else{
         this.isAddrss = 'Address is ont corre'
         return false
@@ -65,7 +65,24 @@ export default{
     refundFn(){
       this.AddrssIs()
       if(this.AddrssIs()){
-        this.$router.push('/refundLoading')
+        let Id = this.$route.query.id
+        let params = {
+          "sysOrderNum":Id,
+          "refundAddress":this.Input
+        }
+        this.$axios.post(this.$api.post_AddrssSuccs,params).then(res=>{
+          if(res.msg === '成功'){
+            this.$router.push({
+              path:'/refundLoading',
+              query:{
+                id:Id
+              }
+            })
+          }else{
+            this.$toast('Address is ont corre')
+          }
+        })
+        
       }else{
         this.$toast('Address is ont corre')
       }
@@ -73,13 +90,12 @@ export default{
   },
   mounted(){
     let params = {
-        "sysOrderNum":"ArnzUmO6/aZRbQrru1CZKdgx0cwTQqyUYkFTe+dCG7rO/8zcGcYnLYEJryyvRhZXGOhqHbFxyG2f3miU0M2AwSTwiUbzLAFQ2RCUV8QTXm5JauKnJiTLlC1a/QlgkaKRcUnbjECVJkVTTkDSYtQ8ALEsxhm6KFIWfgddOJHwIRM="
+        "sysOrderNum":this.$route.query.id
       }
       this.$axios.post(this.$api.post_Addrss,params).then(res=>{
-        // console.log(res);
         if(res && res.data){
           this.overPaymentData = res.data
-          console.log(this.overPaymentData);
+          // this.$store.state.overDataEmail = res.data
         }
       })
   }
@@ -158,6 +174,7 @@ export default{
       width: 100%;
       height: .44rem;
       background: #4479D9;
+      font-size: .16rem;
       border-radius: .04rem;
       text-align: center;
       color: #ffffff;

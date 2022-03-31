@@ -23,7 +23,8 @@ const store = new Vuex.Store({
     //Result page parameters
     resultData: {},
     //email drrs
-    paymentEmail:''
+    paymentEmail:'',
+    overDataEmail:''
   },
   getters: {},
   mutations: {}

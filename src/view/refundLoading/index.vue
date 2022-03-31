@@ -1,51 +1,55 @@
 <template>
   <div class="refundLoading-container">
-    <div class="title" v-if="isShow">
+    <div class="title" v-if="loadingData.refundStatus===2">
         <img src="@/assets/successIcon.png" alt="">
         <h2>Refund completed</h2>
       </div>
       <div class="title" v-else>
-        <img src="@/assets/loading.gif" alt="">
+        <img src="@/assets/loading1.gif" alt="">
         <h2>Refund processing…</h2>
       </div>
       <ul class="content">
         <li>
           <p>Receipt amount:</p>
-          <p>123 CNY</p>
+          <p>{{ loadingData.currencyAmount }} {{ loadingData.currencyCode }}</p>
         </li>
         <li>
           <p>Amounts payable:</p>
-          <p>22 USDT</p>
+          <p>{{ loadingData.realCount }} {{ loadingData.digitalCurrencyCode }}</p>
         </li>
         <li>
           <p>The amount actually paid:</p>
-          <p>24 BTC</p>
+          <p>{{ loadingData.coboRealCount }} {{ loadingData.digitalCurrencyCode }}</p>
         </li>
         <li>
           <p>Refund amount:</p>
-          <p>2 USDT</p>
+          <p>{{ loadingData.refundCount }} {{ loadingData.refundUnit }}</p>
         </li>
         <li>
           <p>Amount received:</p>
-          <p>1 USDT</p>
+          <p>{{ loadingData.refundCount-1 }} {{ loadingData.refundUnit }}</p>
         </li>
       </ul>
       <ul class="nrtwork">
         <li>
           <p>Address:</p>
-          <p>213456789dfh2345km21</p>
+          <p>{{ loadingData.address}}</p>
         </li>
         <li>
           <p>Nrtwork:</p>
-          <p>TRC20</p>
+          <p>{{ loadingData.network }}</p>
         </li>
-        <li v-show="isShow">
+        <li v-if="loadingData.refundStatus===2">
           <p>Hash:</p>
-          <p>213456DFVD23456</p>
+          <p>{{ loadingData.hash }}</p>
         </li>
-        <li>
+        <li v-if="loadingData.refundStatus===2">
           <p>fill time:</p>
-          <p>2020-03-23 14:23:34</p>
+          <p>{{ loadingData.refundCompleteTime }}</p>
+        </li>
+        <li v-else>
+          <p>fill time:</p>
+          <p>{{ loadingData.refundTime }}</p>
         </li>
       </ul>
       <div class="footer">
@@ -57,13 +61,25 @@
   export default{
       data(){
         return {
-          isShow:false
+          isShow:false,
+          loadingData:''
         }
       },
       mounted(){
-        setTimeout(()=>{
-          this.isShow = true
-        },3000)
+        let params = {
+        "sysOrderNum":this.$route.query.Id
+      }
+        let Id = setInterval(()=>{
+          this.$axios.post(this.$api.post_Addrss,params).then(res=>{
+            if(res && res.data){
+              if(res.data.refundStatus===2){
+                this.loadingData = res.data
+                clearInterval(Id)
+              }
+            }
+          })
+        },1000)
+        console.log(Id);
       }
   }
 
@@ -104,6 +120,7 @@
   }
   .nrtwork{
     width: 100%;
+    font-size: .14rem;
     background: #F3F4F5;
     padding: 0 .2rem .2rem .2rem;
     border-radius: .04rem;
@@ -112,17 +129,23 @@
     overflow: hidden;
     li{
       width: 100%;
-      height: .2rem;
+      height: .4rem;
       margin-top: .2rem;
       display: flex;
       justify-content: space-between;
+      >p:nth-of-type(2){
+        width: 50%;
+        text-align: right;
+        word-wrap:  break-word;   /*使用css换行*/
+        word-break:  normal;
+      }
     }
   }
   .footer{
     width: 100%;
     font-size: .12rem;
     color: #4479D9;
-    line-height: 18px;
+    line-height: .18rem;
   }
 }
 </style>
