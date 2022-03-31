@@ -8,12 +8,12 @@
 
     <language v-show="languageView"/>
 
-    <router-view class="content" v-show="!languageView" ref="routerRef"/>
+    <router-view class="content"  ref="routerRef"/>
 
     <div class="comeFrom" v-if="this.$route.meta.isShow">
       <div class="comeFrom_text">Powered By</div>
       <div class="comeFrom_logo"><img src="@/assets/achLogo.png" /></div>
-      <div class="searchLanguage">
+      <div class="searchLanguage" @click="goBack">
         <p class="text">{{ this.$store.state.languageName }}</p>
         <p class="icon"><img src="@/assets/downIcon.png"></p>
     </div>
@@ -34,6 +34,11 @@ export default {
       languageView: false,
       navigationBarState: true,
     }
+  },
+  methods:{
+    goBack(){
+      console.log(this.languageView = !this.languageView);
+    },
   },
   mounted(){
     //Vuex store data
@@ -62,6 +67,7 @@ export default {
 #App{
   padding-bottom: 40px;
   font-size: 16px;
+  position: relative;
   .none{
     display: none;
   }

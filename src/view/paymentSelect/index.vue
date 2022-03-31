@@ -205,6 +205,7 @@ export default{
   font-family: Jost-Regular, Jost;
   padding-top: .09rem;
   border-radius: 0;
+  z-index: 0;
   .select-search{
     width: 100%;
     height: .44rem;
