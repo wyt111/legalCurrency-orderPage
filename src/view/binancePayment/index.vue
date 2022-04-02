@@ -190,6 +190,10 @@ export default {
         window.location.href = this.infoObject.deeplink;
       }
     },
+    widthChilt(){
+      let w = document.documentElement.clientWidth || document.body.clientWidth
+      console.log(w);
+    }
   },
 };
 </script>
@@ -202,6 +206,159 @@ body,
   height: 100%;
 }
 #index {
+  width: 440px;
+  height: 700px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  .content {
+    flex: 1;
+    overflow: auto;
+  }
+}
+.amountMoney {
+  font-size: 24px;
+  font-family: Jost-SemiBold, Jost;
+  font-weight: 600;
+  color: #000000;
+  text-align: center;
+  margin-top: 16px;
+  display: none;
+}
+.orderStatus {
+  .orderStatus_text {
+    font-size: 18px;
+    font-family: Jost-Regular, Jost;
+    font-weight: 400;
+    color: #000000;
+    margin-top: 20px;
+    text-align: center;
+  }
+  .orderStatus_img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    .el-progress-circle{
+      width: 95px;
+      height: 95px;
+    }
+    &>div{
+      display: flex;
+    }
+    img {
+      width: 60px;
+    }
+  }
+  .orderStatus_text_success {
+    margin-top: 10px;
+    font-weight: 600;
+    color: #02af38;
+    text-align: center;
+  }
+  .orderStatus_text_error {
+    margin-top: 10px;
+    font-weight: 600;
+    color: #ff0000;
+    text-align: center;
+  }
+}
+.loading_text {
+  font-size: 16px;
+  font-family: Jost-Regular, Jost;
+  font-weight: 400;
+  color: #666666;
+  margin-top: 10px;
+  padding: 10px 30px 0 30px;
+  text-align: center;
+}
+.informationBar {
+  margin: 60px 20px 0 20px;
+  padding:5px 20px;
+  background: #f3f4f5;
+  border-radius: 4px;
+  .informationBar_line {
+    display: flex;
+    margin-top: 15px;
+    font-size: 14px;
+    font-family: Jost-Regular, Jost;
+    font-weight: 400;
+    color: #000000;
+    .number {
+      margin-left: auto;
+    }
+    &:last-child {
+      margin-bottom: 15px;
+    }
+  }
+}
+.informationBar_success {
+  margin-top: 20px;
+}
+.errorText {
+  font-size:16px;
+  font-family: Jost-Regular, Jost;
+  font-weight: 400;
+  color: #666666;
+  text-align: center;
+  margin: 20px 18px 0 18px;
+}
+footer{
+  margin-top: 40px;
+}
+.goButton {
+opacity: 0;
+  margin: 0 0.2rem;
+  display: flex;
+  .returnButton{
+    
+    width: 100%;
+    height:44px;
+    background: #4479D9;
+    border-radius: 4px;
+    line-height: 0.44rem;
+    text-align: center;
+    font-size: 0.16rem;
+    font-family: Jost-SemiBold, Jost;
+    font-weight: 600;
+    color: #FFFFFF;
+    position: relative;
+    img{
+      position: absolute;
+      top: 0.14rem;
+      right: 0.19rem;
+      width: 0.27rem;
+      height: 0.16rem;
+    }
+  }
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.orderStatus_img ::v-deep .el-progress__text{
+  font-size:18px;
+  font-family: Jost-Regular, Jost;
+  font-weight: 400;
+  color: #4479D9;
+}
+.orderStatus_img ::v-deep .el-progress-circle{
+  height: 130px !important;
+  width: 130px !important;
+}
+@media screen and (max-width:440px) {
+  html,
+body,
+#index {
+  width: 100%;
+  height: 100%;
+}
+#index {
+  border-radius: 0;
+  box-shadow: 0px 0px 0px 0px #fff;
   display: flex;
   flex-direction: column;
   .content {
@@ -216,6 +373,7 @@ body,
   color: #000000;
   text-align: center;
   margin-top: 0.16rem;
+  display: block;
 }
 .orderStatus {
   .orderStatus_text {
@@ -332,5 +490,6 @@ footer{
 .orderStatus_img ::v-deep .el-progress-circle{
   height: 1.3rem !important;
   width: 1.3rem !important;
+}
 }
 </style>

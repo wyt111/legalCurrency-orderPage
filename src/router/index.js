@@ -24,7 +24,8 @@ export const constantRoutes = [
     component: () => import("../view/loadingStatus/index"),
     meta: {
       title: 'Loading Status',
-      isShow:true
+      isShow:true,
+      isTitle:false
     }
   },
   {
@@ -32,7 +33,8 @@ export const constantRoutes = [
     name: 'binancePayment',
     component: () => import("../view/binancePayment/index"),
     meta:{
-      isShow:true
+      isShow:true,
+      isTitle:true
     }
   },
   {
@@ -41,7 +43,8 @@ export const constantRoutes = [
     component: () => import("../view/paymentDetails/index"),
     meta: {
       title: 'Pay with',
-      isShow:true
+      isShow:true,
+      isTitle:true
     }
   },
   {
@@ -50,7 +53,8 @@ export const constantRoutes = [
     component: () => import("../view/paymentSelect"),
     meta: {
       title: 'Select payment option',
-      isShow:true
+      isShow:true,
+      isTitle:true
     }
   },
   {
@@ -58,7 +62,8 @@ export const constantRoutes = [
     name: 'overpayment',
     component: () => import("../view/overpayment"),
     meta:{
-      isShow:true
+      isShow:true,
+      isTitle:true
     }
   },
   {
@@ -67,7 +72,8 @@ export const constantRoutes = [
     component: () => import("../view/paymentEmail"),
     meta:{
       title:'Pay with USDT',
-      isShow:true
+      isShow:true,
+      isTitle:true
     }
   },
   {
@@ -76,7 +82,8 @@ export const constantRoutes = [
     component: () => import("../view/paymentPrompt"),
     meta:{
       title:'Pay with USDT',
-      isShow:true
+      isShow:true,
+      isTitle:true
     }
   },
   {
@@ -84,7 +91,8 @@ export const constantRoutes = [
     name: 'overPaymentEmail',
     component: () => import("../view/overPaymentEmail"),
     meta:{
-      isShow:false
+      isShow:false,
+      isTitle:false
     }
   },
   {
@@ -92,7 +100,8 @@ export const constantRoutes = [
     name: 'refundLoading',
     component: () => import("../view/refundLoading"),
     meta:{
-      isShow:false
+      isShow:false,
+      isTitle:false
     }
   },
 ]

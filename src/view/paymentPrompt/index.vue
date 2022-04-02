@@ -34,10 +34,83 @@
 </script>
 <style lang="scss" scoped>
 .paymentPrompt-container{
+  width: 440px;
+  height: 700px;
+  font-family: Jost-Regular, Jost;
+  padding: 0 20px 0 20px;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12);
+  border-radius: 15px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  position: relative;
+  .paymentPrompt-title{
+    text-align: center;
+    padding-top: 60px;
+    box-sizing: border-box;
+    img{
+      width: 60px;
+      height: 60px;
+      margin-bottom: 10px;
+    }
+    h2{
+      font-size: 16px;
+      color:#000000;
+      margin-bottom: 40px;
+    }
+  }
+  .content{
+    width: 100%;
+    height: 50px;
+    margin-top: 30px;
+    position: relative;
+    p{
+      width: 90%;
+      font-size: 14px;
+      color: #666666;
+      margin-left: 30px;
+    }
+  }
+  .content::after{
+    display: block;
+    content:'';
+    width: 8px;
+    height: 8px;
+    background: #666666;
+    border-radius: 50%;
+    position: absolute;
+    left: 0;
+    top: 10%;
+  }
+  .goPayment{
+    width: 100%;
+    height: 44px;
+    background: #4479D9;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    margin-top:250px;
+    cursor: pointer;
+    img{
+      width: 25px;
+      height: 16px;
+    }
+    p{
+      text-align: center;
+      font-size: 16px;
+      color: #FFFFFF;
+      font-weight: 600;
+      margin: 0  25% 0 44%;
+    }
+  }
+}
+@media screen and (max-width:440px) {
+  .paymentPrompt-container{
   width: 100%;
   font-family: Jost-Regular, Jost;
   padding: 0 .2rem 0 .2rem;
   box-sizing: border-box;
+  border-radius: 0;
+  box-shadow: 0 0 0 0 #fff;
   .paymentPrompt-title{
     text-align: center;
     padding-top: .6rem;
@@ -83,6 +156,7 @@
     display: flex;
     align-items: center;
     margin-top: 2rem;
+    cursor: pointer;
     // justify-content: space-around;
     img{
       width: .25rem;
@@ -96,5 +170,6 @@
       margin: 0  25% 0 44%;
     }
   }
+}
 }
 </style>

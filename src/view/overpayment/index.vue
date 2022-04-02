@@ -43,7 +43,7 @@
                   <p>{{ overData.payMent==='w1'?overData.fiatToUsdtRate:overData.fiatToCoinRate }}&nbsp;{{ overData.fiat }}/{{ overData.coin }}</p>
                 </div>
       </div>
-      <div class="sessButton" :style="{marginTop:overData.payStatus !== 4?.6 + 'rem':1.6 + 'rem'}" @click="_returnCan"></div>
+      <div class="sessButton"  @click="_returnCan"></div>
   </div>
 </template>
 <script>
@@ -67,9 +67,130 @@
 <style lang="scss" scoped>
 
 .over-container{
+  width: 440px;
+  height: 700px;
+  padding: 70px 20px 0 20px;
+  box-sizing: border-box;
+  position: relative;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12);
+  border-radius: 15px;
+  margin: 0 auto;
+  .sessIcon1{
+    width: 100%;
+    text-align: center;
+    img{
+      width: 60px;
+      height: 60px;
+    }
+    p:nth-of-type(1){
+      font-size: 18px;
+      font-family: Jost-Regular, Jost;
+      color: #02AF38;
+      font-weight: 600;
+    }
+     p:nth-of-type(2){
+      font-size: 24px;
+      font-family: Jost SemiBold,jost;
+      color: #000;
+      font-weight: 600;
+      margin-top: 20px;
+    }
+     p:nth-of-type(3){
+       font-size: 14px;
+       font-family: Jost-Regular, Jost;
+       color: #666666;
+       line-height: 20px;
+       text-align: justify;
+       margin-top: 10px;
+     }
+  }
+  .sessIcon2{
+    width: 100%;
+    text-align: center;
+    img{
+      width: 60px;
+      height: 60px;
+    }
+    p:nth-of-type(1){
+      font-size: 18px;
+      font-family: Jost-Regular, Jost;
+      color: #FF0000;
+      font-weight: 600;
+    }
+     p:nth-of-type(2){
+      font-size: 24px;
+      color: #000;
+      font-weight: 600;
+      margin-top: 20px;
+    }
+    .error1{
+      font-size: 24px !important;
+      color: #000 !important;
+      font-weight: 600 !important;
+      margin-bottom: 20px;
+    }
+    .error2{
+      font-size: 18px !important;
+      font-family: Jost-Regular, Jost !important;
+      color: #FF0000 !important;
+      font-weight: 600 !important;
+    }
+    .error3{
+      margin-top: 20px;
+    }
+     p:nth-of-type(3){
+       font-size: 14px;
+       font-family: Jost-Regular, Jost;
+       color: #666666;
+       line-height: 20px;
+       text-align: justify;
+       margin-top: 10px;
+     }
+     p:nth-of-type(4){
+       font-size: 14px;
+       font-family: Jost-Regular, Jost;
+       color: #666666;
+       line-height: 20px;
+       text-align: justify;
+       margin-top: 10px;
+     }
+  }
+  .content{
+       width: 100%;
+       height: 135px;
+       padding: 0 20px 0 20px;
+
+       background: #F3F4F5;
+       border-radius: 4px;
+       margin-top: 20px;
+       p{
+         font-size: 14px;
+         font-family: Jost-Regular,Jost;
+         font-weight: 600;
+       }
+       div{
+         height: 33.3%;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+       }
+     }
+     .sessButton{
+       width: 100%;
+       height: 44px;
+       background:url('../../assets/successButton.png') no-repeat;
+       background-size: 100% 100%;
+       margin-top: 220px;
+       cursor: pointer;
+     }
+}
+@media screen and (max-width:440px) {
+  .over-container{
   width: 100%;
   padding: .7rem .2rem 0 .2rem;
   box-sizing: border-box;
+  border-radius: 0;
+  box-shadow: 0px 0px 0px 0px #fff;
   position: relative;
   .sessIcon1{
     width: 100%;
@@ -172,12 +293,15 @@
        }
      }
      .sessButton{
-       width: 100%;
+       width: 90%;
        height: .44rem;
        background:url('../../assets/successButton.png') no-repeat;
        background-size: 100% 100%;
+      position: absolute;
+      bottom: 10%;
+      cursor: pointer;
      }
 }
-
+}
 </style>>
 

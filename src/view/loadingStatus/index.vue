@@ -13,6 +13,7 @@ export default {
     }
     this.$axios.post(this.$api.post_info, params).then(res=>{
       if(res && res.data){
+        this.$store.state.resultData = res.data
         this.$store.state.merchantCode = res.data.merchantCode;
         this.$store.state.cancelTo = res.data.cancelTo;
         this.$store.state.returnTo = res.data.returnTo;
@@ -54,6 +55,21 @@ export default {
 
 <style lang="scss" scoped>
 #loadingStatus{
+  width: 440px;
+  height: 700px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img{
+    width: 150px;
+    height: 150px;
+  }
+}
+@media screen and (max-width:440px) {
+  #loadingStatus{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -61,5 +77,6 @@ export default {
     width: 1.5rem;
     height: 1.5rem;
   }
+}
 }
 </style>

@@ -81,11 +81,76 @@ export default{
 </script>
 <style lang="scss" scoped>
 .paymentEmail-container{
+  width: 440px;
+  height: 700px;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12);
+  border-radius: 15px;
+  margin: auto;
+  font-family: Jost-Regular, Jost;
+  text-align: center;
+  padding: 60px 20px 0 20px;
+  box-sizing: border-box;
+  // position: relative;
+  .logo{
+    width: 60px;
+    height: 60px;
+  }
+  >h2{
+    font-size: 24px;
+    color: #000000;
+    margin-top: 10px;
+    font-weight: 700;
+  }
+  >p{
+    font-size: 16px;
+    color: #666666;
+   line-height: 24px;
+  }
+  .email{
+    width: 380px;
+    height: 44px;
+    border-radius: 4px;
+    background: #F3F4F5FF;
+    border: none;
+    outline:none;
+    font-size: 16px;
+    text-indent: 10px;
+    margin-top: 40px;
+  }
+  #hint{
+    text-align: left;
+  }
+  .centent{
+    display: flex;
+    box-sizing: border-box;
+    line-height: 24px;
+    margin: 20px 10px 10px 10px;
+    text-align: left;
+    font-size: 14px;
+    input{
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      margin-right: 5px;
+    }
+  }
+  .submit{
+    width: 380px;
+    height:44px;
+    margin-top: 205px;
+    cursor: pointer;
+  }
+}
+@media screen and (max-width:440px) {
+  .paymentEmail-container{
   width: 100%;
+  border-radius: 0;
   font-family: Jost-Regular, Jost;
   text-align: center;
   padding: .6rem .2rem 0 .2rem;
   box-sizing: border-box;
+   box-shadow: 0 0 0 0 #fff;
   // position: relative;
   .logo{
     width: .6rem;
@@ -133,6 +198,9 @@ export default{
   .submit{
     width: 100%;
     height: .44rem;
+    margin-top: .2rem;
+    cursor: pointer;
   }
+}
 }
 </style>>

@@ -1,19 +1,25 @@
 <template>
   <div id="App">
     <Header class="none" ref="headerRef" v-if="navigationBarState"/>
-    <div class="title1">
-        <img src="@/assets/achLogo.png" alt="">
+    <div class="title1" v-if="this.$route.meta.isTitle">
+        <div>
+          <img :src="this.$store.state.resultData.qrIcon" alt="">
+          <p>{{ this.$store.state.resultData.mchName }}</p>
+        </div>
         <h2>{{ this.$route.meta.title }}</h2>
+        <img src="./assets/goBack.png" alt="" class="goBack" @click="goBack" v-show="['binancePayment','paymentDetails','paymentEmail','paymentPrompt'].includes(this.$route.name)">
     </div>
-
+    <div class="title2" v-else>
+      <img src="./assets/logoEmail.png" alt="">
+    </div>
     <language v-show="languageView"/>
 
     <router-view class="content"  ref="routerRef"/>
-
+    
     <div class="comeFrom" v-if="this.$route.meta.isShow">
       <div class="comeFrom_text">Powered By</div>
       <div class="comeFrom_logo"><img src="@/assets/achLogo.png" /></div>
-      <div class="searchLanguage" @click="goBack">
+      <div class="searchLanguage1" @click="Language">
         <p class="text">{{ this.$store.state.languageName }}</p>
         <p class="icon"><img src="@/assets/downIcon.png"></p>
     </div>
@@ -36,8 +42,25 @@ export default {
     }
   },
   methods:{
+    Language(){
+      this.languageView = !this.languageView
+      let Button = document.querySelector('.text')
+      if(this.languageView)
+      Button.className = 'active text'
+      else
+      Button.style.className = 'text'
+    },
     goBack(){
-      console.log(this.languageView = !this.languageView);
+      if(this.languageView === false && (this.$route.path === '/paymentDetails' && this.$store.state.binancePayment === 'payList')||
+          (this.$route.path === '/binancePayment' && this.$store.state.binancePayment === 'payList')){
+        this.$router.go(-1);
+        return;
+      }
+      if(this.languageView === true){
+        this.languageView = false;
+        return;
+      }
+      window.location.href = `${this.$store.state.cancelTo}`
     },
   },
   mounted(){
@@ -64,19 +87,50 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
+.active{
+  color: #4479D9FF;
+}
 #App{
+  padding-top: 90px;
   padding-bottom: 40px;
   font-size: 16px;
   position: relative;
   .none{
     display: none;
   }
-  .title1{
+  .title2{
+    width: 100%;
     text-align: center;
     img{
-      width: 210px;
+      width: 250px;
       height: 50px;
-      margin-top: 50px;
+    }
+  }
+  .title1{
+    width: 400px;
+    text-align: center;
+    margin: 0 auto;
+    position: relative;
+    div{
+      display: flex;
+     align-items: center;
+     justify-content: center;
+      img{
+      width: 60px;
+      height: 50px;
+      margin-right: 40px;
+    }
+    p{
+      font-size: 36px;
+    }
+    }
+    >img:nth-of-type(1){
+      width: 80px;
+      height: 30px;
+      position: absolute;
+      left: -150px;
+      bottom: 0;
+      cursor: pointer;
     }
     h2{
       font-size: 24px;
@@ -114,7 +168,7 @@ export default {
       }
     }
   }
-  .searchLanguage{
+  .searchLanguage1{
     padding: 15px 0 0 0;
     opacity: 1;
     margin-left: auto;
@@ -160,6 +214,9 @@ export default {
   .title1{
     display: none;
   }
+  .title2{
+    display: none;
+  }
   .none{
     display: flex;
   }
@@ -172,7 +229,7 @@ export default {
     width: 100%;
     display: flex;
     justify-content: center;
-    background: #fff;
+    background: #fff ;
     margin: 0;
     // padding: 0.21rem 0;
     .none2{
@@ -194,7 +251,7 @@ export default {
     }
   }
 }
-.searchLanguage{
+.searchLanguage1{
     margin-left:auto;
     display: none;
     align-items: center;

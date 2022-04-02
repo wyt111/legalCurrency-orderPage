@@ -1,21 +1,22 @@
 <template>
   <div class="overPaymentEmail-container">
+    <div class="title">On-chain transfers will be charged a handling fee of 1USDT, and the estimated amount you will receive is 1USDT.</div>
       <div class="email-centent">
-          <div class="email">{{ overPaymentData.email }}</div>
+          <div class="email">{{ overPaymentData.email }}dsadsad</div>
           <!-- overPayment -->
           <p v-if="overPaymentData.status===2">You paid with cryptocurrency at <span>( {{ overPaymentData.merchantCode }} ) </span>
           at {{ overPaymentData.payCompleteTime }}. Since your payment amount is greater than the amount due,
           you need to refund the overpayment please fill in your on-chain <span>USDT- TRC20</span>
           address completes the refund.</p>
           <!-- underPayment -->
-          <p v-else-if="overPaymentData.status===3">You paid with cryptocurrency at <span>( {{ overPaymentData.merchantCode }} ) </span>
+          <p v-else>You paid with cryptocurrency at <span>( {{ overPaymentData.merchantCode }} ) </span>
           at {{ overPaymentData.payCompleteTime }}. Since your payment amount is less than the payable amount, the order has not been 
           completed please fill in your on-chain <span>USDT- TRC20</span>
           address completes the refund.</p>
           <p>Network : <span>{{ overPaymentData.network }}</span></p>
           <p>Address : </p>
           <input type="text" placeholder="Enter Address..." v-model="Input" @blur="AddrssIs">
-          <span style="display:block;margin:.2rem 0 .1rem .1rem;color:#FF0000;font-size:.14rem">{{ isAddrss }}</span>
+          <span class="isAddr">{{ isAddrss }}</span>
           <ul class="payment">
             <li>
               <p>Amount received:</p>
@@ -71,7 +72,9 @@ export default{
           "refundAddress":this.Input
         }
         this.$axios.post(this.$api.post_AddrssSuccs,params).then(res=>{
-          if(res.msg === '成功'){
+          if(res && res.data){
+            if(res.msg === '成功'){
+            this.$toast('succss')
             this.$router.push({
               path:'/refundLoading',
               query:{
@@ -79,10 +82,12 @@ export default{
               }
             })
           }else{
-            this.$toast('Address is ont corre')
+             this.$toast('Address is ont corre')
+          }
+          }else{
+            this.$toast('Network error')
           }
         })
-        
       }else{
         this.$toast('Address is ont corre')
       }
@@ -95,7 +100,6 @@ export default{
       this.$axios.post(this.$api.post_Addrss,params).then(res=>{
         if(res && res.data){
           this.overPaymentData = res.data
-          // this.$store.state.overDataEmail = res.data
         }
       })
   }
@@ -103,9 +107,120 @@ export default{
 </script>
 <style lang="scss" scoped>
 .overPaymentEmail-container{
+  width: 55%;
+  height: 100%;
+  padding: 100px 0 0 0;
+  margin: 0 auto;
+  font-family: Jost-Regular, Jost;
+  // position: relative;
+    .title{
+      width: 100%;
+      height: 60px;
+      text-align: center;
+      background: #EEF4FFFF;
+      font-size: 14px;
+      line-height: 60px;
+      color: #566E9AFF;
+      position: absolute;
+      left: 0;
+      top: 180px;
+      overflow: hidden;
+    }
+  .email-centent{
+    width: 100%;
+    padding: 10px 20px 8px 20px;
+    box-sizing: border-box;
+    .email{
+      font-size: 16px;
+      color: #4479D9;
+      margin: 10px 0 10px 0;
+    }
+    >p:nth-of-type(1){
+      font-size: 16px;
+      line-height: 23px;
+      text-align: justify;
+      margin-bottom: 20px;
+      span{
+        color: #4479D9;
+      }
+    }
+    >p:nth-of-type(2){
+      font-size: 16px;
+      font-weight: 600;
+      span{
+        font-weight: 200;
+      }
+    }
+    >p:nth-of-type(3){
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+    input{
+      width: 400px;
+      height: 44px;
+      border: none;
+      background: #F3F4F5;
+      border-radius: 4px;
+      margin-top: 10px;
+      font-size: 16px;
+      text-indent: 20px;
+    }
+    .isAddr{
+      display: block;
+      color: #FF0000FF;
+      font-size: 14px;
+      margin: 10px 0 0 20px;
+    }
+    .payment{
+      width: 400px;
+      height: 180px;
+      background: #F3F4F5;
+      border-radius: 4px;
+      margin-top: 20px;
+      padding: 20px 20px 0 20px;
+      box-sizing: border-box;
+      li{
+        width: 100%;
+        height: 20px;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        font-size: 16px;
+      }
+    }
+    >p:nth-of-type(4){
+      color: #4479D9;
+      font-size: 12px;
+      line-height: 18px;
+      text-align: justify;
+      margin-top: 10px;
+      display: none;
+    }
+    .confirm{
+      width: 160px;
+      height: 44px;
+      background: #4479D9;
+      font-size: 16px;
+      border-radius: 4px;
+      text-align: center;
+      color: #ffffff;
+      line-height: 44px;
+      margin-top: 50px;
+      cursor: pointer;
+    }
+  }
+}
+@media screen and(max-width:440px) {
+  .overPaymentEmail-container{
   width: 100%;
   font-family: Jost-Regular, Jost;
-  
+  border-radius: 0;
+  box-shadow: 0 0 0 0 #ffffff;
+  padding: 0;
+  .title{
+    display: none;
+  }
   .email-centent{
     width: 100%;
     padding: .1rem .2rem .8rem .2rem;
@@ -169,6 +284,7 @@ export default{
       line-height: 18px;
       text-align: justify;
       margin-top: .1rem;
+      display: block;
     }
     .confirm{
       width: 100%;
@@ -180,7 +296,9 @@ export default{
       color: #ffffff;
       line-height: .44rem;
       margin-top: .5rem;
+      cursor: pointer;
     }
   }
+}
 }
 </style>

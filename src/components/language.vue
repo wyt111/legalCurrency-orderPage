@@ -16,7 +16,7 @@ export default {
   data(){
     return{
       languageList: [
-        {name: 'EN',value: 'EN',state: true},
+        {name: 'EN',value: 'en',state: true},
         {name: '中文',value: 'zh-CN',state: false}
       ]
     }
@@ -47,7 +47,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#selectLanguage{
+  #selectLanguage{
   width: 130px;
   height: 700px;
   background: #FFFFFFFF;
@@ -59,6 +59,7 @@ export default {
   top: 72%;
   transform: translate(-72%,-76%);
   border-radius: 15px;
+  z-index: 999;
   .language-line{
   border-bottom: 1px solid #F6F6F6;
   padding: 10px 0;
@@ -84,12 +85,17 @@ export default {
   }
 }
 }
+
 @media screen and (max-width:440px){
   #selectLanguage{
   width: 100%;
-  height: 100%;
-  padding: 0.2rem 0 0 0.2rem;
+  // height: 100%;
+  padding: 0.2rem 0.2rem;
+  border-radius: 0;
+  box-shadow: 0px 0px 0px 0px #ffffff;
+  box-sizing: border-box;
   position: relative;
+  // top: 5rem;
   z-index: 6;
 }
 .language-line{

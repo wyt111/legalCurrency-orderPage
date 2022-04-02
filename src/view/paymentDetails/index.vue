@@ -251,8 +251,239 @@ export default {
 
 <style lang="scss" scoped>
 #paymentDetails{
+  width: 440px;
+  height: 100%;
+  border-radius: 15px;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12);
+  margin: 0 auto;
+  padding-bottom: 50px;
+  position: relative;
+  .countDown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    position: relative;
+    &>div{
+      display: flex;
+    }
+    img {
+      width: 60px;
+    }
+    .seeDetails{
+      position: absolute;
+      right: 20px;
+      display: block;
+      text-align: center;
+      font-size:14px;
+      font-family: Jost-Medium, Jost;
+      font-weight: 500;
+      color: #4479D9;
+      cursor: pointer;
+    }
+  }
+  .payAmount{
+    font-size: 18px;
+    font-family: Jost-SemiBold, Jost;
+    font-weight: 600;
+    color: #000000;
+    text-align: center;
+    margin-top: 25px;
+  }
+  .QRCodeView{
+    margin-top: 11px;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    .qrcode{
+      height: 100% !important;
+    }
+    .qrcodeLogo{
+      position: absolute;
+      top: 38%;
+      left: 44.5%;
+      background: #FFFFFF;
+      border-radius: 50%;
+      width: 46px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      img{
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
+  .QRCodeOptions{
+    width: 200px;
+    margin: 10px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    p:nth-of-type(2){
+      margin-left: auto;
+    }
+  }
+  .codeDescription{
+    font-size: 14px;
+    font-family: Jost-Regular, Jost;
+    font-weight: 400;
+    color: #666666;
+    text-align: center;
+    padding: 10px 40px;
+    word-break: break-all;
+  }
+  .payForm{
+    padding: 0 20px;
+    .payFormLine{
+      margin-top: 20px;
+      cursor: pointer;
+      .title{
+        font-size: 16px;
+        font-family: Jost-Medium, Jost;
+        font-weight: 500;
+        color: #000000;
+      }
+      .formItem{
+        height: 44px;
+        line-height: 44px;
+        background: #F3F4F5;
+        border-radius: 4px;
+        padding: 0 10px;
+        margin-top:10px;
+        display: flex;
+        align-items: center;
+        .text{
+          font-size: 14px;
+          font-family: Jost-Medium, Jost;
+          font-weight: 500;
+          color: #000000;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .icon{
+          margin-left: auto;
+          img{
+            height: 14px;
+          }
+        }
+      }
+    }
+  }
+
+  .mask-header{
+    height: 46px;
+    background: #F6F6F6;
+    font-size: 16px;
+    font-family: Jost-Medium, Jost;
+    font-weight: 500;
+    color: #000000;
+    text-align: center;
+    line-height: 46px;
+  }
+  .mask-line{
+    padding: 20px 20px 0 20px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-family: Jost-Medium, Jost;
+    font-weight: 500;
+    color: #000000;
+    .value{
+      margin-left: auto;
+    }
+  }
+
+  .network-title{
+    font-size: 18px;
+    font-family: Jost-Medium, Jost;
+    font-weight: 500;
+    color: #000000;
+    padding: 10px 0;
+    text-align: center;
+  }
+  .network-line{
+    border-bottom: 1px solid #F6F6F6;
+    padding: 10px 0;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    .name{
+      font-size: 16px;
+      font-family: Jost-Medium, Jost;
+      font-weight: 500;
+      color: #000000;
+    }
+    .icon{
+      display: flex;
+      margin-left: auto;
+      margin-right: 20px;
+      img{
+        width: 19px;
+      }
+    }
+    &:first-child{
+      padding-top: 0;
+    }
+  }
+
+  .springFrameView{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// element ui CountDown
+.countDown ::v-deep .el-progress__text{
+  font-size: 14px;
+  font-family: Jost-Regular, Jost;
+  font-weight: 400;
+  color: #4479D9;
+
+}
+.countDown ::v-deep .el-progress-circle{
+  height: 75px !important;
+  width:75px !important;
+}
+
+//vant switch
+.QRCodeOptions ::v-deep .van-switch{
+  width: 30px;
+  height:15px;
+  font-size: inherit;
+}
+.QRCodeOptions ::v-deep .van-switch__node{
+  width: 15px;
+  height: 15px;
+}
+
+//vant Mask
+#paymentDetails ::v-deep .van-overlay{
   width: 100%;
   height: 100%;
+  background: rgba(0, 0, 0, 0.2) !important;
+}
+#paymentDetails ::v-deep .van-popup--round{
+  width: 440px !important;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%,0);
+  // transition: 1s;
+}
+@media screen and (max-width:440px) {
+  #paymentDetails{
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  box-shadow: 0 0 0 0 #FFFFFF;
+  padding: 0;
   .countDown {
     display: flex;
     justify-content: center;
@@ -462,5 +693,9 @@ export default {
 //vant Mask
 #paymentDetails ::v-deep .van-overlay{
   background: rgba(0, 0, 0, 0.2) !important;
+}
+#paymentDetails ::v-deep .van-popup--round{
+  width: 100% !important;
+}
 }
 </style>

@@ -1,5 +1,6 @@
 <template>
   <div class="refundLoading-container">
+    <div class="title4">On-chain transfers will be charged a handling fee of 1USDT, and the estimated amount you will receive is 1USDT.</div>
     <div class="title" v-if="loadingData.refundStatus===2">
         <img src="@/assets/successIcon.png" alt="">
         <h2>Refund completed</h2>
@@ -62,30 +63,112 @@
       data(){
         return {
           isShow:false,
-          loadingData:''
+          loadingData:'',
+          Id:null
         }
       },
       mounted(){
         let params = {
         "sysOrderNum":this.$route.query.Id
       }
-        let Id = setInterval(()=>{
+        this.Id = setInterval(()=>{
           this.$axios.post(this.$api.post_Addrss,params).then(res=>{
             if(res && res.data){
               if(res.data.refundStatus===2){
                 this.loadingData = res.data
-                clearInterval(Id)
+                clearInterval(this.Id)
               }
             }
           })
         },1000)
-        console.log(Id);
+      },
+      destroyed(){
+        clearInterval(this.Id)
       }
   }
 
 </script>
 <style lang="scss" scoped>
 .refundLoading-container{
+  width: 400px;
+  padding: 120px 0 0 0;
+  font-family: Jost-Regular, Jost;
+  box-sizing: border-box;
+  margin:  0 auto;
+  .title4{
+    width: 100%;
+    height: 60px;
+    background: #EEF4FFFF;
+    font-size: 14px;
+    color: #566E9AFF;
+    line-height: 60px;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    top: 180px;
+    overflow: hidden;
+  }
+  .title{
+    width: 100%;
+    height: 120px;
+    text-align: center;
+    >img{
+      width: 60px;
+      height: 60px;
+    }
+    h2{
+      font-size: 16px;
+      margin-top: 5px;
+    }
+  }
+  .content{
+    width: 100%;
+    height: 220px;
+    background: #F3F4F5;
+    border-radius: 4px;
+    margin-top: 20px;
+    padding: 0 20px 0 20px;
+    font-size: 14px;
+    box-sizing: border-box;
+    li{
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+  }
+  .nrtwork{
+    width: 100%;
+    font-size: 14px;
+    background: #F3F4F5;
+    padding: 0 20px 20px 20px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin: 20px 0 20px;
+    overflow: hidden;
+    li{
+      width: 100%;
+      height: 40px;
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      >p:nth-of-type(2){
+        width: 50%;
+        text-align: right;
+        word-wrap:  break-word;
+        word-break:  normal;
+      }
+    }
+  }
+  .footer{
+    width: 100%;
+    font-size: 12px;
+    color: #4479D9;
+    line-height: .18rem;
+    display: none;
+  }
+}
+@media screen and (max-width:440px) {
+  .refundLoading-container{
   width: 100%;
   padding: .5rem .2rem 1rem .2rem;
   font-family: Jost-Regular, Jost;
@@ -102,6 +185,9 @@
       font-size: .16rem;
       margin-top: .05rem;
     }
+  }
+  .title4{
+    display: none;
   }
   .content{
     width: 100%;
@@ -136,7 +222,7 @@
       >p:nth-of-type(2){
         width: 50%;
         text-align: right;
-        word-wrap:  break-word;   /*使用css换行*/
+        word-wrap:  break-word;
         word-break:  normal;
       }
     }
@@ -146,6 +232,8 @@
     font-size: .12rem;
     color: #4479D9;
     line-height: .18rem;
+    display: block;
   }
+}
 }
 </style>
