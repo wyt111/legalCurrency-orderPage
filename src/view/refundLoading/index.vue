@@ -167,7 +167,7 @@
     display: none;
   }
 }
-@media screen and (max-width:440px) {
+@media screen and (max-width:768px) {
   .refundLoading-container{
   width: 100%;
   padding: .5rem .2rem 1rem .2rem;

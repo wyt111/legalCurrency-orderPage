@@ -68,11 +68,15 @@ export default {
     height: 150px;
   }
 }
-@media screen and (max-width:440px) {
+@media screen and (max-width:768px) {
   #loadingStatus{
+    width: 100%;
+    height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+   border-radius: 0;
+  box-shadow: 0px 0px 0px 0px #fff;
   img{
     width: 1.5rem;
     height: 1.5rem;

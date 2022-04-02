@@ -1,6 +1,6 @@
 <template>
   <div class="navigation" v-if="this.$route.meta.isShow">
-      <p class="navigation-icon" v-if="routerNameState"><img class="backF" src="@/assets/leftIcon.svg" @click="goBack"/></p>
+      <p class="navigation-icon" v-if="routerNameState"><img id="backF1" src="@/assets/leftIcon.svg" @click="goBack"/></p>
     <p class="routerName" v-if="routerNameState">{{ routerName }}</p>
     <div class="searchLanguage" @click="openLanguage" v-if="languageState">
       <p class="text">{{ this.$store.state.languageName }}</p>
@@ -88,7 +88,7 @@ export default {
   align-items: center;
   padding: 10px 20px;
   display: none;
-  .backF {
+  .backF1 {
     width: 18px;
   }
   .navigation-icon{
@@ -125,7 +125,7 @@ export default {
     }
   }
 }
-@media screen and (max-width:440px){
+@media screen and (max-width:768px){
   .logo{
   width: 100%;
   height: .44rem;
@@ -133,14 +133,14 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  .backF{
+  #backF1{
     width: 1.1rem;
     height: .23rem;
   }
 }
 .navigation {
   width: 100%;
-  height: .44rem;
+  height: 6%;
   display: flex;
   align-items: center;
   padding: 0 .1rem 0 .2rem;

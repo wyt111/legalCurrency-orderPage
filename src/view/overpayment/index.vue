@@ -29,7 +29,7 @@
         <p>{{ $t('nav.overpayment_chao') }}</p>
           <p>{{$t('nav.overpayment_chao1')}}</p>
       </div>
-      <div class="content" v-show="[1,2,3,].includes(overData.payStatus)">
+      <div class="content" v-show="[1,2,3].includes(overData.payStatus)">
                 <div>
                   <p>{{ $t('nav.overpayment_mount') }}</p>
                   <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
@@ -43,7 +43,7 @@
                   <p>{{ overData.payMent==='w1'?overData.fiatToUsdtRate:overData.fiatToCoinRate }}&nbsp;{{ overData.fiat }}/{{ overData.coin }}</p>
                 </div>
       </div>
-      <div class="sessButton"  @click="_returnCan"></div>
+      <div class="sessButton" :style="{marginTop:_clientWidth()}"  @click="_returnCan"></div>
   </div>
 </template>
 <script>
@@ -57,6 +57,25 @@
     methods:{
       _returnCan(){
         window.open(this.$store.state.returnTo);
+      },
+      _clientWidth(){
+        let _width = document.documentElement.clientWidth || document.body.clientWidth
+        console.log(_width);
+        let arr = [1,2,3]
+        let top = ''
+        if(_width < 768 && arr.includes(this.overData.payStatus)){
+          top = '.6rem'
+            return top
+        }else if(_width < 768 && arr.includes(this.overData.payStatus)===false){
+          top = '.9rem'
+            return top
+        }else if(_width > 768 && arr.includes(this.overData.payStatus)){
+          top = '120px'
+            return top
+        }else{
+          top = '240px'
+            return top
+        }
       }
     },
     mounted(){
@@ -180,11 +199,10 @@
        height: 44px;
        background:url('../../assets/successButton.png') no-repeat;
        background-size: 100% 100%;
-       margin-top: 220px;
        cursor: pointer;
      }
 }
-@media screen and (max-width:440px) {
+@media screen and (max-width:768px) {
   .over-container{
   width: 100%;
   padding: .7rem .2rem 0 .2rem;
@@ -297,9 +315,9 @@
        height: .44rem;
        background:url('../../assets/successButton.png') no-repeat;
        background-size: 100% 100%;
-      position: absolute;
-      bottom: 10%;
-      cursor: pointer;
+        position: absolute;
+        bottom: 10%;
+        cursor: pointer;
      }
 }
 }

@@ -9,19 +9,19 @@
         <h2>{{ this.$route.meta.title }}</h2>
         <img src="./assets/goBack.png" alt="" class="goBack" @click="goBack" v-show="['binancePayment','paymentDetails','paymentEmail','paymentPrompt'].includes(this.$route.name)">
     </div>
-    <div class="title2" v-else>
+    <div class="title2" v-else v-show="!this.$route.path==='/loadingStatus'">
       <img src="./assets/logoEmail.png" alt="">
     </div>
+    
     <language v-show="languageView"/>
-
     <router-view class="content"  ref="routerRef"/>
     
     <div class="comeFrom" v-if="this.$route.meta.isShow">
       <div class="comeFrom_text">Powered By</div>
       <div class="comeFrom_logo"><img src="@/assets/achLogo.png" /></div>
-      <div class="searchLanguage1" @click="Language">
-        <p class="text">{{ this.$store.state.languageName }}</p>
-        <p class="icon"><img src="@/assets/downIcon.png"></p>
+      <div class="searchLanguage1" @click="languageView=!languageView" v-show="this.$route.meta.isShow">
+        <p :class="languageView?'text active1':'text'">{{ this.$store.state.languageName.toUpperCase() }}</p>
+        <p class="icon"><img :src="languageView?ImgSrc1:ImgSrc2"></p>
     </div>
     </div>
   </div>
@@ -39,17 +39,11 @@ export default {
     return{
       languageView: false,
       navigationBarState: true,
+      ImgSrc1:require('@/assets/rightJ.png'),
+      ImgSrc2:require('@/assets/downIcon.png')
     }
   },
   methods:{
-    Language(){
-      this.languageView = !this.languageView
-      let Button = document.querySelector('.text')
-      if(this.languageView)
-      Button.className = 'active text'
-      else
-      Button.style.className = 'text'
-    },
     goBack(){
       if(this.languageView === false && (this.$route.path === '/paymentDetails' && this.$store.state.binancePayment === 'payList')||
           (this.$route.path === '/binancePayment' && this.$store.state.binancePayment === 'payList')){
@@ -73,6 +67,7 @@ export default {
     })
     //language
     i18n.locale = this.$store.state.languageValue
+    
   },
 }
 </script>
@@ -87,14 +82,13 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
-.active{
-  color: #4479D9FF;
-}
+
 #App{
   padding-top: 90px;
   padding-bottom: 40px;
   font-size: 16px;
   position: relative;
+ 
   .none{
     display: none;
   }
@@ -150,6 +144,7 @@ export default {
     margin:30px auto 0;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     .comeFrom_text {
       line-height: 40px;
       font-size: 24px;
@@ -169,21 +164,20 @@ export default {
     }
   }
   .searchLanguage1{
-    padding: 15px 0 0 0;
+    // padding: 15px 0 0 0;
     opacity: 1;
     margin-left: auto;
     cursor: pointer;
     box-sizing: border-box;
+    display: flex;
     .text{
       text-align: center;
       color: #999999;
       font-size: 14px;
       font-weight: bold;
       margin-right: 10px;
-      float: left;
     }
     .icon{
-      float: left;
       display: flex;
       align-items: center;
       img{
@@ -191,8 +185,11 @@ export default {
       }
     }
   }
+  .searchLanguage1 .active1{
+    color: #4479D9FF !important;
+  }
 }
-@media screen and (max-width:440px){
+@media screen and (max-width:768px){
   @font-face {
   font-family: Jost-Regular;
   src: url('./assets/Jost-Regular.ttf');
@@ -227,8 +224,10 @@ export default {
   }
   .comeFrom {
     width: 100%;
+    height: 7%;
     display: flex;
     justify-content: center;
+    align-items: center;
     background: #fff ;
     margin: 0;
     // padding: 0.21rem 0;

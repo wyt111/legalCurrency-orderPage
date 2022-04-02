@@ -2,7 +2,7 @@
   <div class="overPaymentEmail-container">
     <div class="title">On-chain transfers will be charged a handling fee of 1USDT, and the estimated amount you will receive is 1USDT.</div>
       <div class="email-centent">
-          <div class="email">{{ overPaymentData.email }}dsadsad</div>
+          <div class="email">{{ overPaymentData.email }}</div>
           <!-- overPayment -->
           <p v-if="overPaymentData.status===2">You paid with cryptocurrency at <span>( {{ overPaymentData.merchantCode }} ) </span>
           at {{ overPaymentData.payCompleteTime }}. Since your payment amount is greater than the amount due,
@@ -211,7 +211,7 @@ export default{
     }
   }
 }
-@media screen and(max-width:440px) {
+@media screen and(max-width:768px) {
   .overPaymentEmail-container{
   width: 100%;
   font-family: Jost-Regular, Jost;

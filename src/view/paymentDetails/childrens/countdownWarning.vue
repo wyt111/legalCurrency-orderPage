@@ -38,6 +38,73 @@ export default {
 
 <style lang="scss" scoped>
 #countdownWarning{
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+  .title{
+    font-size: 24px;
+    font-family: Jost-Medium, Jost;
+    font-weight: 500;
+    color: #000000;
+    text-align: center;
+    img{
+      width: 20px;
+    }
+  }
+  .countDown-amount{
+    margin-top: 10px;
+    font-size: 48px;
+    font-family: Jost-Medium, Jost;
+    font-weight: 500;
+    color: #FF0000;
+    text-align: center;
+  }
+  .warning-content{
+    width: 90%;
+    margin: 40px auto;
+    background: #FFFFFF;
+    border-radius: 15px;
+    .title{
+      border-radius: 15px 15px 0 0;
+      display: flex;
+      font-size: 16px;
+      font-family: Jost-Medium, Jost;
+      font-weight: 500;
+      color: #000000;
+      padding: 12px 20px;
+      background: #F6F6F6;
+      &>div:last-child{
+        margin-left: 10px;
+      }
+    }
+    .text{
+      font-size: 14px;
+      font-family: Jost-Regular, Jost;
+      font-weight: 400;
+      color: #000000;
+      padding: 18px 20px 43px 20px;
+    }
+    .options{
+      height: 60px;
+      line-height: 60px;
+      text-align: center;
+      font-size: 16px;
+      font-family: PingFangSC-Medium, PingFang SC;
+      font-weight: 500;
+      color: #4479D9;
+      border-top: 1px solid #F6F6F6;
+      cursor: pointer;
+    }
+  }
+}
+@media screen and(max-width:768px) {
+  #countdownWarning{
   background: rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(14px);
   display: flex;
@@ -97,5 +164,6 @@ export default {
       cursor: pointer;
     }
   }
+}
 }
 </style>

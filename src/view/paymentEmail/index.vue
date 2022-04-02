@@ -142,7 +142,7 @@ export default{
     cursor: pointer;
   }
 }
-@media screen and (max-width:440px) {
+@media screen and (max-width:768px) {
   .paymentEmail-container{
   width: 100%;
   border-radius: 0;

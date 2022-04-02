@@ -117,7 +117,7 @@ export default{
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12);
   font-family: Jost-Regular, Jost;
   border-radius: 15px;
-  padding-top: 40px;
+  padding: 40px 0 30px 0;
   box-sizing: border-box;
   margin: auto;
   
@@ -175,6 +175,7 @@ export default{
       justify-content: space-between;
       align-items: center;
       margin-top: 20px;
+      cursor: pointer;
       .left{
        height: 100%;
        font-size: 14px;
@@ -197,7 +198,7 @@ export default{
     }
   }
 }
-@media screen and (max-width:440px){
+@media screen and (max-width:768px){
  .select-container{
   width: 100%;
   font-size: .2rem;
@@ -263,6 +264,7 @@ export default{
       justify-content: space-between;
       align-items: center;
       margin-top: .2rem;
+      cursor: pointer;
       .left{
        height: 100%;
        font-size: .14rem;

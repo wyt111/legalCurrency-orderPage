@@ -200,8 +200,7 @@ export default {
 
 <style lang="scss" scoped>
 html,
-body,
-#index {
+body {
   width: 100%;
   height: 100%;
 }
@@ -349,7 +348,7 @@ opacity: 0;
   height: 130px !important;
   width: 130px !important;
 }
-@media screen and (max-width:440px) {
+@media screen and (max-width:768px) {
   html,
 body,
 #index {

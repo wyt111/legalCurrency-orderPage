@@ -42,7 +42,7 @@
     </div>
 
     <!-- view details -->
-    <van-popup v-model="details_state" round position="bottom" :style="{ height: '25%' }">
+    <van-popup v-model="details_state" round :position="bottom_top()" :style="{ height: '25%' }">
       <div class="mask-header">
         <span v-if="$store.state.languageValue === 'en'">{{ $t('nav.paymentDetails_detailsTitle') }} {{ timeText }}</span>
         <span v-else-if="$store.state.languageValue === 'zh-CN'">请在{{ timeText }}内完成支付</span>
@@ -245,6 +245,48 @@ export default {
         this.timeValue > 100 ? this.timeValue = 100 : '';
       }
     },
+    bottom_top(){
+      let _width = document.documentElement.clientWidth || document.body.clientWidth
+      return _width>768?'top':'bottom'
+    }
+  },
+  watch:{
+    details_state(newVal){
+      let box = document.querySelector('#paymentDetails')
+      let _width = document.documentElement.clientWidth || document.body.clientWidth
+      
+      if(_width<768 && newVal){
+        box.scrollTop = 0
+        box.style = 'overflow-y:hidden'
+        return 
+      }else if(_width<768 && newVal===false){
+        box.style = 'overflow-y:scroll'
+        return 
+      }else if(_width>768 && newVal){
+        box.scrollTop = 0
+        document.body.style = 'overflow-y:scroll !important'
+        box.style = 'overflow-y:hidden'
+        return
+      }else{
+        box.style = 'overflow-y:scroll'
+      }
+    },
+    springFrame_state:{
+      immediate:true,
+      handler(newVal){
+        if(newVal){
+          this.$nextTick(()=>{
+             document.querySelector('#paymentDetails').style = 'overflow:hidden'
+          })
+         
+        }else{
+          this.$nextTick(()=>{
+             document.querySelector('#paymentDetails').style = 'overflow-y:scroll'
+          })
+        }
+        
+      }
+    }
   }
 }
 </script>
@@ -252,7 +294,7 @@ export default {
 <style lang="scss" scoped>
 #paymentDetails{
   width: 440px;
-  height: 100%;
+  height: 700px;
   border-radius: 15px;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12);
   margin: 0 auto;
@@ -376,6 +418,7 @@ export default {
   }
 
   .mask-header{
+    width: 100%;
     height: 46px;
     background: #F6F6F6;
     font-size: 16px;
@@ -384,6 +427,8 @@ export default {
     color: #000000;
     text-align: center;
     line-height: 46px;
+    position: absolute;
+    bottom: 0;
   }
   .mask-line{
     padding: 20px 20px 0 20px;
@@ -432,7 +477,9 @@ export default {
   }
 
   .springFrameView{
-    position: fixed;
+    padding: 40px 0 0 0;
+    overflow: hidden;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -469,15 +516,16 @@ export default {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.2) !important;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
+
 #paymentDetails ::v-deep .van-popup--round{
   width: 440px !important;
-  left: 50%;
-  bottom: 0;
-  transform: translate(-50%,0);
-  // transition: 1s;
+  position: absolute;
 }
-@media screen and (max-width:440px) {
+@media screen and (max-width:768px) {
   #paymentDetails{
   width: 100%;
   height: 100%;
@@ -610,6 +658,8 @@ export default {
     color: #000000;
     text-align: center;
     line-height: 0.46rem;
+    position: relative;
+    top: 0;
   }
   .mask-line{
     padding: 0.2rem 0.2rem 0 0.2rem;
@@ -697,5 +747,6 @@ export default {
 #paymentDetails ::v-deep .van-popup--round{
   width: 100% !important;
 }
+
 }
 </style>

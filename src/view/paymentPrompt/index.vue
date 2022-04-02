@@ -103,7 +103,7 @@
     }
   }
 }
-@media screen and (max-width:440px) {
+@media screen and (max-width:768px) {
   .paymentPrompt-container{
   width: 100%;
   font-family: Jost-Regular, Jost;
