@@ -164,18 +164,16 @@ export default {
     }
   }
   .searchLanguage1{
-    // padding: 15px 0 0 0;
-    opacity: 1;
     margin-left: auto;
     cursor: pointer;
     box-sizing: border-box;
-    display: flex;
     .text{
       text-align: center;
       color: #999999;
       font-size: 14px;
       font-weight: bold;
       margin-right: 10px;
+      float: left;
     }
     .icon{
       display: flex;

@@ -43,7 +43,7 @@
                   <p>{{ overData.payMent==='w1'?overData.fiatToUsdtRate:overData.fiatToCoinRate }}&nbsp;{{ overData.fiat }}/{{ overData.coin }}</p>
                 </div>
       </div>
-      <div class="sessButton" :style="{marginTop:_clientWidth()}"  @click="_returnCan"></div>
+      <div class="sessButton" :style="{marginTop:widthTop==''?_clientWidth():widthTop}"  @click="_returnCan"></div>
   </div>
 </template>
 <script>
@@ -51,7 +51,8 @@
     name:'overpayment',
     data(){
       return {
-       overData:''
+       overData:'',
+       widthTop:''
       }
     },
     methods:{
@@ -60,26 +61,28 @@
       },
       _clientWidth(){
         let _width = document.documentElement.clientWidth || document.body.clientWidth
-        console.log(_width);
         let arr = [1,2,3]
         let top = ''
         if(_width < 768 && arr.includes(this.overData.payStatus)){
           top = '.6rem'
             return top
         }else if(_width < 768 && arr.includes(this.overData.payStatus)===false){
-          top = '.9rem'
+          top = '1.2rem'
             return top
         }else if(_width > 768 && arr.includes(this.overData.payStatus)){
           top = '120px'
             return top
         }else{
-          top = '240px'
+          top = '200px'
             return top
         }
       }
     },
     mounted(){
       this.overData = this.$store.state.resultData
+      window.addEventListener('resize',()=>{
+          this.widthTop = this._clientWidth()
+        })
     }
   }
 </script>
@@ -311,11 +314,11 @@
        }
      }
      .sessButton{
-       width: 90%;
+       
        height: .44rem;
        background:url('../../assets/successButton.png') no-repeat;
        background-size: 100% 100%;
-        position: absolute;
+        // position: absolute;
         bottom: 10%;
         cursor: pointer;
      }
