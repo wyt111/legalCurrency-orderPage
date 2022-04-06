@@ -105,7 +105,7 @@
     text-align: center;
     position: absolute;
     left: 0;
-    top: 180px;
+    top: 110px;
     overflow: hidden;
   }
   .title{

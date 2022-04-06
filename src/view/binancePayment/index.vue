@@ -205,8 +205,8 @@ body {
   height: 100%;
 }
 #index {
-  width: 440px;
-  height: 700px;
+  width: 400px;
+  height: 650px;
   border-radius: 15px;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
   margin: 0 auto;

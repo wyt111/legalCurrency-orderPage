@@ -12,6 +12,7 @@ export default {
       "sysOrderNum": localStorage.getItem("sysOrderNum") //API148660202748314009 API149637939023643033
     }
     this.$axios.post(this.$api.post_info, params).then(res=>{
+      console.log(res);
       if(res && res.data){
         this.$store.state.resultData = res.data
         this.$store.state.merchantCode = res.data.merchantCode;
@@ -55,14 +56,15 @@ export default {
 
 <style lang="scss" scoped>
 #loadingStatus{
-  width: 440px;
-  height: 700px;
+  width: 400px;
+  height: 650px;
   border-radius: 15px;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12);
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 40px;
   img{
     width: 150px;
     height: 150px;

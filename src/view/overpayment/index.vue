@@ -89,8 +89,8 @@
 <style lang="scss" scoped>
 
 .over-container{
-  width: 440px;
-  height: 700px;
+  width: 400px;
+  height: 650px;
   padding: 70px 20px 0 20px;
   box-sizing: border-box;
   position: relative;

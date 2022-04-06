@@ -109,7 +109,7 @@ export default{
 .overPaymentEmail-container{
   width: 55%;
   height: 100%;
-  padding: 100px 0 0 0;
+  padding: 150px 0 0 0;
   margin: 0 auto;
   font-family: Jost-Regular, Jost;
   // position: relative;
@@ -123,7 +123,7 @@ export default{
       color: #566E9AFF;
       position: absolute;
       left: 0;
-      top: 180px;
+      top: 150px;
       overflow: hidden;
     }
   .email-centent{
@@ -192,7 +192,7 @@ export default{
     >p:nth-of-type(4){
       color: #4479D9;
       font-size: 12px;
-      line-height: 18px;
+      line-height: .18rem;
       text-align: justify;
       margin-top: 10px;
       display: none;
@@ -211,7 +211,7 @@ export default{
     }
   }
 }
-@media screen and(max-width:768px) {
+@media screen and(max-width:769px) {
   .overPaymentEmail-container{
   width: 100%;
   font-family: Jost-Regular, Jost;
@@ -260,6 +260,12 @@ export default{
       margin-top: .1rem;
       font-size: .14rem;
       text-indent: .2rem;
+    }
+    .isAddr{
+      display: block;
+      color: #FF0000FF;
+      font-size: .14rem;
+      margin: 10px 0 0 20px;
     }
     .payment{
       width: 100%;

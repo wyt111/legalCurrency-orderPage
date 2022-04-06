@@ -255,7 +255,7 @@ export default {
       let box = document.querySelector('#paymentDetails')
       let _width = document.documentElement.clientWidth || document.body.clientWidth
       
-      if(_width<768 && newVal){
+      if(_width<769 && newVal){
         box.scrollTop = 0
         box.style = 'overflow-y:hidden'
         return 
@@ -293,8 +293,8 @@ export default {
 
 <style lang="scss" scoped>
 #paymentDetails{
-  width: 440px;
-  height: 700px;
+  width: 400px;
+  height: 650px;
   border-radius: 15px;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12);
   margin: 0 auto;

@@ -11,14 +11,13 @@ import './utils/rem_size.js';
 import i18n from './utils/i18n'
 
 import "./utils/uiClassLibrary";
-
 // import Vconsole from 'vconsole'
 // const vConsole = new Vconsole()
 // export default vConsole
 
 //id - Order ID   locale - The language can be set on the currency security payment page of the order with payment method
 router.beforeEach((to,from,next)=>{
-  to.query.id = 'API151018662540411289'
+  to.query.id = 'API151163214913090764'
   if(to.path === '/loadingStatus'){
     to.query.id ? localStorage.setItem("sysOrderNum",to.query.id) : '';
     to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' ? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';

@@ -47,10 +47,10 @@ export default{
          let n = [
           {
             id:1,
-            payList:this.selectData[0].payList.slice(11)
+            payList:this.selectData[0].payList.slice(this.selectData[0].payList.length-1)
           },
           {id:2,
-              payList:this.selectData[0].payList.slice(0,11)
+              payList:this.selectData[0].payList.slice(0,this.selectData[0].payList.length-1)
           }
         ]
         if(n[0].payList.length===0){
@@ -111,15 +111,15 @@ export default{
 </script>
 <style lang="scss" scoped>
 .select-container{
-  width: 440px;
-  height: 700px;
+  width: 400px;
+  height: 650px;
   background: #FFFFFF;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12);
   font-family: Jost-Regular, Jost;
   border-radius: 15px;
   padding: 40px 0 30px 0;
   box-sizing: border-box;
-  margin: auto;
+  margin:0 auto;
   
   .select-search{
     width: 100%;
@@ -198,9 +198,22 @@ export default{
     }
   }
 }
+// @media screen and(max-width:1280px) {
+//   .select-container{
+//   width: 380px;
+//   height: 430px;
+//   background: #FFFFFF;
+//   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12);
+//   font-family: Jost-Regular, Jost;
+//   border-radius: 15px;
+//   padding: 40px 0 30px 0;
+//   box-sizing: border-box;
+//   margin:0 auto;}
+// }
 @media screen and (max-width:768px){
  .select-container{
   width: 100%;
+  height: 100%;
   font-size: .2rem;
   height: 100%;
   font-family: Jost-Regular, Jost;

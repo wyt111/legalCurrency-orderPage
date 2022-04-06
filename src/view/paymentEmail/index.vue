@@ -81,8 +81,8 @@ export default{
 </script>
 <style lang="scss" scoped>
 .paymentEmail-container{
-  width: 440px;
-  height: 700px;
+  width: 400px;
+  height: 650px;
   background: #FFFFFF;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12);
   border-radius: 15px;
