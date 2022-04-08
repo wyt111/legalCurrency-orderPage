@@ -56,7 +56,7 @@ export default {
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12);
   display: block;
   position: absolute;
-  right: 29%;
+  right: 31%;
   border-radius: 15px;
   z-index: 999;
   .language-line{
@@ -96,13 +96,13 @@ export default {
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12);
   display: block;
   position: absolute;
-  right: 15%;
+  right: 20%;
   border-radius: 15px;
   z-index: 999;
   
 }
 }
-@media screen and (min-width:769px) and (max-width:1024px){
+@media screen and (max-width:1024px){
     #selectLanguage{
   width: 130px;
   height: 650px;
@@ -113,7 +113,7 @@ export default {
   display: block;
   position: absolute;
   // top: 0;
-  right: 5%;
+  right: 15%;
   // transform: translate(80%,50%);
   border-radius: 15px;
   z-index: 999;

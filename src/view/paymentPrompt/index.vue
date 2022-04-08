@@ -10,6 +10,8 @@
       <div class="content">
         <p>
            {{ $t('nav.paymentPrompt_high') }}
+           <span>{{ $t('nav.paymentPrompt_High') }}</span>
+           {{ $t('nav.paymentPrompt_High1') }}
         </p>
       </div>
       <div class="goPayment" @click="goPayment">
@@ -34,8 +36,8 @@
 </script>
 <style lang="scss" scoped>
 .paymentPrompt-container{
-  width: 440px;
-  height: 700px;
+ width: 400px;
+  height: 650px;
   font-family: Jost-Regular, Jost;
   padding: 0 20px 0 20px;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12);
@@ -68,6 +70,9 @@
       font-size: 14px;
       color: #666666;
       margin-left: 30px;
+      span{
+        color:#4479D9FF;
+      }
     }
   }
   .content::after{
@@ -88,7 +93,7 @@
     border-radius: 4px;
     display: flex;
     align-items: center;
-    margin-top:250px;
+    margin-top:210px;
     cursor: pointer;
     img{
       width: 25px;

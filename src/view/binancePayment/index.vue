@@ -10,12 +10,23 @@
           <img v-if="orderStatus === 'success'" src="@/assets/successIcon.png"/>
           <img v-if="orderStatus === 'error'" src="@/assets/errorIcon.png" />
         </div>
+        
         <div class="orderStatus_text" v-if="infoObject.isPrePay !== 0">
           <span v-if="orderStatus === 'success'">{{ infoObject.payDesc }}</span>
           <span v-else-if="orderStatus === 'error'">{{$t('nav.binancePayment_orderTimeoutText')}}</span>
           <span v-else>{{$t('nav.binancePayment_advancePayment')}}</span>
         </div>
       </div>
+      <div class="content1">
+            <div class="amountMoney1">{{ infoObject.orderAmount }} USDT</div>
+            <div class="qrcodeLogo" ref="qrCodeUrl">
+              <div class="row">
+                <img :src="this.$store.state.resultData.qrIcon" alt="">
+              </div>
+            </div>
+            <div class="con-title">{{ $t('nav.binancePayment_will') }}</div>
+            <div class="con-title" style="margin-top:20px">{{ $t('nav.binancePayment_App') }}</div>
+        </div>
       <div class="loading_text" v-if="orderStatus === 'loading' && infoObject.isPrePay !== 0">{{ $t('nav.binancePayment_completeReturn') }}</div>
       <div
         class="informationBar"
@@ -49,7 +60,7 @@
 
 <script>
 import i18n from "@/utils/i18n";
-
+import QRCode from 'qrcodejs2';
 export default {
   name: "binancePayment",
   data() {
@@ -62,6 +73,7 @@ export default {
       ],
       infoObject: {},
       countDown: null,
+      AddrImg:''
     };
   },
   mounted() {
@@ -141,6 +153,7 @@ export default {
       this.$axios.post(methodsName, overParams).then(res=>{
         if(res.data){
           this.infoObject = res.data
+          this.addrImg(res.data)
           //Hide the title bar when there are payment results - this.$parent.navigationBarState
           if(this.infoObject.payStatus === 0){
             this.orderStatus = 'loading';
@@ -190,9 +203,20 @@ export default {
         window.location.href = this.infoObject.deeplink;
       }
     },
-    widthChilt(){
-      let w = document.documentElement.clientWidth || document.body.clientWidth
-      console.log(w);
+    addrImg(n){
+      if(n.qrAddress === this.AddrImg){
+        return false
+      }
+      this.AddrImg = n.qrAddress
+      new QRCode(this.$refs.qrCodeUrl, {
+        text: n.qrAddress,
+        width: 140,
+        height: 140,
+        colorDark: '#000000',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      })
+      
     }
   },
 };
@@ -241,8 +265,8 @@ body {
     align-items: center;
     margin-top: 30px;
     .el-progress-circle{
-      width: 95px;
-      height: 95px;
+      width: 92px;
+      height: 92px;
     }
     &>div{
       display: flex;
@@ -257,6 +281,7 @@ body {
     color: #02af38;
     text-align: center;
   }
+  
   .orderStatus_text_error {
     margin-top: 10px;
     font-weight: 600;
@@ -294,7 +319,7 @@ body {
   }
 }
 .informationBar_success {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 .errorText {
   font-size:16px;
@@ -305,10 +330,11 @@ body {
   margin: 20px 18px 0 18px;
 }
 footer{
+  opacity: 0;
   margin-top: 40px;
 }
 .goButton {
-opacity: 0;
+  
   margin: 0 0.2rem;
   display: flex;
   .returnButton{
@@ -345,9 +371,56 @@ opacity: 0;
   color: #4479D9;
 }
 .orderStatus_img ::v-deep .el-progress-circle{
-  height: 130px !important;
-  width: 130px !important;
+  height: 92px !important;
+  width: 92px !important;
 }
+.content1{
+    width: 100%;
+    padding: 0 20px 0 20px;
+    .amountMoney1{
+      font-size: 24px;
+      font-weight: 600;
+      text-align: center;
+      font-family:Jost-Regular, Jost;
+      margin-top: 20px;
+    }
+    .qrcodeLogo{
+      width: 140px;
+      height: 140px;
+      position: relative;
+      text-align: center;
+      margin: 10px auto;
+      .row{
+        width: 45px;
+        height: 45px;
+        background: #fff;
+        border-radius: 50%;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+      }
+      img:nth-of-type(1){
+        width: 30px;
+        height: 30px;
+        border-radius: 30%;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+      }
+      
+    }
+    .con-title{
+      font-size: 16px;
+      font-family: Jost-Regular, Jost;
+      font-weight: 400;
+      color: #666666;
+      line-height: 23px;
+      text-align: center;
+      // margin-bottom: 10px;
+    }
+  }
 @media screen and (max-width:768px) {
   html,
 body,
@@ -360,6 +433,9 @@ body,
   box-shadow: 0px 0px 0px 0px #fff;
   display: flex;
   flex-direction: column;
+  .content1{
+    display: none;
+  }
   .content {
     flex: 1;
     overflow: auto;
@@ -367,7 +443,7 @@ body,
 }
 .amountMoney {
   font-size: 0.24rem;
-  font-family: Jost-SemiBold, Jost;
+  font-family: Jost-Regular, Jost;
   font-weight: 600;
   color: #000000;
   text-align: center;
@@ -449,9 +525,11 @@ body,
   margin: 0.2rem 0.18rem 0 0.18rem;
 }
 footer{
+  opacity: 1;
   margin-top: 0.4rem;
 }
 .goButton {
+  
   margin: 0 0.2rem;
   display: flex;
   .returnButton{

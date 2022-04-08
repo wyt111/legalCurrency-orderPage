@@ -34,7 +34,8 @@ export const constantRoutes = [
     component: () => import("../view/binancePayment/index"),
     meta:{
       isShow:true,
-      isTitle:true
+      isTitle:true,
+      title: 'Pay with',
     }
   },
   {

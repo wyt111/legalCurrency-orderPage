@@ -4,7 +4,7 @@
       <h2>{{ $t('nav.payment_email') }}</h2>
       <p>{{ $t('nav.paymentemail_addr') }}</p>
         <input class="email" type="text" v-model="email" :placeholder="$t('nav.paymentemail_Email')" @blur="changeFn">
-        <div id="hint">{{hint}}</div>
+        <div id="hint" style="margin-top:10px">{{hint}}</div>
         <div class="centent">
           <input type="checkbox" v-model="checked">
           <p>{{$t('nav.paymentemail_consent')}}</p>
@@ -35,8 +35,7 @@ export default{
         hint.style.color = 'red'
         return false
       }
-      this.hint = '*Correct email address'
-      hint.style.color = '#6ABF86'
+      this.hint = ''
       return true
     },
     submitSend(){
@@ -91,7 +90,7 @@ export default{
   text-align: center;
   padding: 60px 20px 0 20px;
   box-sizing: border-box;
-  // position: relative;
+  position: relative;
   .logo{
     width: 60px;
     height: 60px;
@@ -108,7 +107,7 @@ export default{
    line-height: 24px;
   }
   .email{
-    width: 380px;
+    width: 360px;
     height: 44px;
     border-radius: 4px;
     background: #F3F4F5FF;
@@ -136,15 +135,19 @@ export default{
     }
   }
   .submit{
-    width: 380px;
+    width: 360px;
     height:44px;
-    margin-top: 205px;
+    // margin-top: 150px;
     cursor: pointer;
+    position: absolute;
+    left: 50%;
+    bottom: 7%;
+    transform: translate(-50%,7%);
   }
 }
 @media screen and (max-width:768px) {
   .paymentEmail-container{
-  width: 100%;
+  width: 90%;
   border-radius: 0;
   font-family: Jost-Regular, Jost;
   text-align: center;
@@ -180,6 +183,7 @@ export default{
   }
   #hint{
     text-align: left;
+
   }
   .centent{
     display: flex;

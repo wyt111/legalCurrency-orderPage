@@ -10,7 +10,7 @@
         <div class="select-content" v-for="item in selectSearch()" :key="item.id">
         <h2 v-if="(item.id === 1&& search === '')" v-show="isHide">{{ $t("nav.selectPayment") }}</h2>
         <h2 v-else-if="search === ''">{{ $t("nav.selectPayment_wall") }}</h2>
-          <div class="sele-con" v-for="i in item.payList " :key="i.coinSort" @click="payment(i,item)">
+          <div class="sele-con" v-for="i in item.payList " :key="i.id" @click="payment(i,item)">
           <div class="left" >
             <img :src="i.imageAddress" alt="">
             <p>{{ i.currencyCode }} <span>- {{ i.currencyFullName }}</span></p>
@@ -78,7 +78,7 @@ export default{
       this.$store.state.paymentType = payment
       this.$store.state.binancePayment = 'payList';
       this.$store.state.isTips = this.selectData[0].isTips
-      if(this.selectData[0].isEmail === 1){
+      if(this.selectData[0].isEmail === 1 && payment.payType !== 'w1' && this.$store.state.paymentEmail===''){
           this.$router.push({
             path:'/paymentEmail',
           })
@@ -143,14 +143,14 @@ export default{
       font-size: 12px;
       position: absolute;
       left:0;
-      top: 10%;
+      top: 2%;
       display: flex;
       justify-content: center;
       align-items: center;
       img{
-        width: 15px;
-        height: 15px;
-        margin-right: 10px;
+        width: 14px;
+        height: 14px;
+        margin-right: 6px;
       }
     }
   }

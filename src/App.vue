@@ -1,12 +1,14 @@
 <template>
-  <div id="App">
+  <div id="App" v-title data-title="Alchemy Pay">
     <Header class="none" ref="headerRef" v-if="navigationBarState"/>
     <div class="title1" v-if="this.$route.meta.isTitle">
         <div>
-          <img :src="this.$store.state.resultData.qrIcon" alt="">
-          <p>{{ this.$store.state.resultData.mchName }}</p>
+          <img :src="logoDta.logo" alt=""/>
+          <p>{{ logoDta.merchantName }}</p>
         </div>
-        <h2>{{ this.$route.meta.title }}</h2>
+        <div style="display:flex;">
+          <h2>{{ this.$route.meta.title }}</h2><img v-show="this.$route.path==='/binancePayment'" src="./assets/Binance.svg" alt="" style="width:130px;height:25px;margin:0 10px 0 10px"/><h2 v-show="this.$route.path==='/binancePayment'">PAY</h2>
+        </div>
         <img src="./assets/goBack.png" alt="" class="goBack" @click="goBack" v-show="['binancePayment','paymentDetails','paymentEmail','paymentPrompt'].includes(this.$route.name)">
     </div>
     <div class="title2" v-else >
@@ -41,7 +43,8 @@ export default {
       navigationBarState: true,
       ImgSrc1:require('@/assets/rightJ.png'),
       ImgSrc2:require('@/assets/downIcon.png'),
-      isShow2:true
+      isShow2:true,
+      logoDta:''
     }
   },
   methods:{
@@ -85,6 +88,7 @@ export default {
     }
   },
   mounted(){
+    
     //Vuex store data
     if (sessionStorage.getItem("store")) {
       this.$store.replaceState(Object.assign({},this.$store.state,JSON.parse(sessionStorage.getItem("store"))))
@@ -103,6 +107,16 @@ export default {
         this.languageView = false
       }
     })
+    setTimeout(()=>{
+       let params = {
+        "merchantCode":this.$store.state.merchantCode
+      }
+      this.$axios.post(this.$api.post_payList,params).then(res=>{
+        if(res && res.data){
+          this.logoDta = res.data
+        }
+      })
+    },300)
   },
 }
 </script>
@@ -118,7 +132,7 @@ export default {
   box-sizing: border-box;
 }
  #App{
-  padding-top: 20px;
+  padding-top: 10px;
   padding-bottom: 40px;
   font-size: 16px;
   position: relative;
@@ -134,18 +148,21 @@ export default {
     }
   }
   .title1{
-    // width: 400px;
+    width: 400px;
     text-align: center;
     margin: 0 auto;
-
+    position: relative;
+    font-family: Jost-Regular, Jost;
     div{
       display: flex;
      align-items: center;
      justify-content: center;
+     
       img{
       width: 40px;
       height: 40px;
       margin-right: 40px;
+      
     }
     p{
       font-size: 20px;
@@ -157,13 +174,13 @@ export default {
       height: 30px;
       position: absolute;
       left: -150px;
-      bottom: 0;
+      top: 40px;
       cursor: pointer;
     }
     h2{
       font-size: 18px;
-      font-family: Jost-SemiBold, Jost;
-      font-weight: 400;
+      font-family: Jost-Regular, Jost;
+      font-weight: 600;
       color: #0c0707;
       line-height: 35px;
       margin:10px 0 10px 0;
@@ -237,127 +254,127 @@ export default {
     color: #4479D9FF !important;
   }
 }
-@media screen and (max-width:1280px) {
-  #App{
-  // padding-top: 100px;
-  padding-bottom: 10px;
-  font-size: 16px;
-  position: relative;
-  .none{
-    display: none;
-  }
-  .title2{
-    width: 100%;
-    text-align: center;
-    img{
-      width: 250px;
-      height: 50px;
-    }
-  }
-  .title1{
-    // width: 400px;
-    text-align: center;
-    margin: 0 auto;
+// @media screen and (max-width:1280px) {
+//   #App{
+//   // padding-top: 100px;
+//   padding-bottom: 10px;
+//   font-size: 16px;
+//   position: relative;
+//   .none{
+//     display: none;
+//   }
+//   .title2{
+//     width: 100%;
+//     text-align: center;
+//     img{
+//       width: 250px;
+//       height: 50px;
+//     }
+//   }
+//   .title1{
+//     // width: 400px;
+//     text-align: center;
+//     margin: 0 auto;
 
-    div{
-      display: flex;
-     align-items: center;
-     justify-content: center;
-      img{
-      width: 40px;
-      height: 40px;
-      margin-right: 40px;
-    }
-    p{
-      font-size: 20px;
-      margin-left: -20px;
-    }
-    }
-    >img:nth-of-type(1){
-      width: 80px;
-      height: 30px;
-      position: absolute;
-      left: -150px;
-      bottom: 0;
-      cursor: pointer;
-    }
-    h2{
-      font-size: 18px;
-      font-family: Jost-SemiBold, Jost;
-      font-weight: 400;
-      color: #000000;
-      line-height: 35px;
-      margin:10px 0 10px 0;
-    }
-  }
-  .content{
-    flex: 1;
-    overflow: auto;
-  }
-  .content::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
-    overflow-y: scroll;
-}
-.content::-webkit-scrollbar-thumb {
-    background: #fff;
-    border-radius: 15px;
-}
-.content::-webkit-scrollbar-track {
-    background: #F3F4F5FF ;
-}
-  .comeFrom {
-    width: 400px;
-    margin:10px auto 0;
-    padding: 0 30px 0 40px;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    .comeFrom_text {
-      line-height: 40px;
-      font-size: 20px;
-      font-family: Jost-Regular, Jost;
-      font-weight: 400;
-      color: #000000;
-    }
-    .comeFrom_logo {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      margin-left: 10px;
-      img {
-        width: 130px;
-        height: 24px;
-      }
-    }
-  }
-  .searchLanguage1{
-    margin-left: auto;
-    cursor: pointer;
-    box-sizing: border-box;
+//     div{
+//       display: flex;
+//      align-items: center;
+//      justify-content: center;
+//       img{
+//       width: 40px;
+//       height: 40px;
+//       margin-right: 40px;
+//     }
+//     p{
+//       font-size: 20px;
+//       margin-left: -20px;
+//     }
+//     }
+//     >img:nth-of-type(1){
+//       width: 80px;
+//       height: 30px;
+//       position: absolute;
+//       left: -150px;
+//       bottom: 0;
+//       cursor: pointer;
+//     }
+//     h2{
+//       font-size: 18px;
+//       font-family: Jost-SemiBold, Jost;
+//       font-weight: 400;
+//       color: #000000;
+//       line-height: 35px;
+//       margin:10px 0 10px 0;
+//     }
+//   }
+//   .content{
+//     flex: 1;
+//     overflow: auto;
+//   }
+//   .content::-webkit-scrollbar {
+//     width: 4px;
+//     height: 4px;
+//     overflow-y: scroll;
+// }
+// .content::-webkit-scrollbar-thumb {
+//     background: #fff;
+//     border-radius: 15px;
+// }
+// .content::-webkit-scrollbar-track {
+//     background: #F3F4F5FF ;
+// }
+//   .comeFrom {
+//     width: 400px;
+//     margin:10px auto 0;
+//     padding: 0 30px 0 40px;
+//     box-sizing: border-box;
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     .comeFrom_text {
+//       line-height: 40px;
+//       font-size: 20px;
+//       font-family: Jost-Regular, Jost;
+//       font-weight: 400;
+//       color: #000000;
+//     }
+//     .comeFrom_logo {
+//       display: flex;
+//       justify-content: space-around;
+//       align-items: center;
+//       margin-left: 10px;
+//       img {
+//         width: 130px;
+//         height: 24px;
+//       }
+//     }
+//   }
+//   .searchLanguage1{
+//     margin-left: auto;
+//     cursor: pointer;
+//     box-sizing: border-box;
    
-    .text{
-      text-align: center;
-      color: #999999;
-      font-size: 14px;
-      font-weight: bold;
-      margin-right: 10px;
-      float: left;
-    }
-    .icon{
-      float: left;
-      padding-top: 2px;
-      img{
-        width: 14px;
-      }
-    }
-  }
-  .searchLanguage1 .active1{
-    color: #4479D9FF !important;
-  }
-}
-}
+//     .text{
+//       text-align: center;
+//       color: #999999;
+//       font-size: 14px;
+//       font-weight: bold;
+//       margin-right: 10px;
+//       float: left;
+//     }
+//     .icon{
+//       float: left;
+//       padding-top: 2px;
+//       img{
+//         width: 14px;
+//       }
+//     }
+//   }
+//   .searchLanguage1 .active1{
+//     color: #4479D9FF !important;
+//   }
+// }
+// }
 
 @media screen and (max-width:768px){
   @font-face {

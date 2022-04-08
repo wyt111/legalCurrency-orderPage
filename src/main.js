@@ -17,7 +17,7 @@ import "./utils/uiClassLibrary";
 
 //id - Order ID   locale - The language can be set on the currency security payment page of the order with payment method
 router.beforeEach((to,from,next)=>{
-  to.query.id = 'API151163214913090764'
+  to.query.id = 'API151224832625331814'
   if(to.path === '/loadingStatus'){
     to.query.id ? localStorage.setItem("sysOrderNum",to.query.id) : '';
     to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' ? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
@@ -28,7 +28,11 @@ router.beforeEach((to,from,next)=>{
 Vue.prototype.$api = api;
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false
-
+Vue.directive('title',{
+  inserted:function(el){
+    document.title = el.dataset.title
+  }
+})
 new Vue({
   router,
   store,

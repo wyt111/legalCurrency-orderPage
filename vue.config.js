@@ -17,7 +17,8 @@ module.exports = {
                 // to ignore runtime.js
                 // https://github.com/vuejs/vue-cli/blob/dev/packages/@vue/cli-service/lib/config/app.js#L171
                 fileBlacklist: [/\.map$/, /hot-update\.js$/, /runtime\..*\.js$/],
-                include: 'initial'
+                include: 'initial',
+                
             }
         ])
 
@@ -37,7 +38,8 @@ module.exports = {
             .use('svg-sprite-loader')
             .loader('svg-sprite-loader')
             .options({
-                symbolId: 'icon-[name]'
+                symbolId: 'icon-[name]',
+                title:'Alchemy Pay'
             })
             .end()
     },
@@ -45,7 +47,7 @@ module.exports = {
     //   config
     //     .plugin('html')
     //     .tap(args => {
-    //       args[0].title= 'History'
+    //       args[0].title= 'Alchemy Pay'
     //       return args
     //     })
     // }

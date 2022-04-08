@@ -12,7 +12,6 @@ export default {
       "sysOrderNum": localStorage.getItem("sysOrderNum") //API148660202748314009 API149637939023643033
     }
     this.$axios.post(this.$api.post_info, params).then(res=>{
-      console.log(res);
       if(res && res.data){
         this.$store.state.resultData = res.data
         this.$store.state.merchantCode = res.data.merchantCode;
@@ -50,6 +49,7 @@ export default {
           this.$store.state.paymentType.chainName = res.data.chainName;
       }
     })
+    
   }
 }
 </script>
@@ -83,6 +83,7 @@ export default {
     width: 1.5rem;
     height: 1.5rem;
   }
+  
 }
 }
 </style>

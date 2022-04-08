@@ -5,7 +5,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     //Page overall language
-    languageName: "en",
+    languageName: "EN",
     languageValue: "en",
     //Currency security payment page language
     binancePayment_locale: 'en',
@@ -27,7 +27,7 @@ const store = new Vuex.Store({
     overDataEmail:'',
   },
   getters: {},
-  mutations: {}
+  mutations: {},
 })
 
 export default store

@@ -20,7 +20,7 @@
     <div class="payForm">
       <div class="payFormLine">
         <div class="title">{{ $t('nav.paymentDetails_network') }}</div>
-        <div class="formItem" @click="networkView === true ? network_state = true : network_state = false">
+        <div class="formItem" @click="networkShow">
           <div class="text">{{ networkName }}</div>
           <div class="icon"><img src="@/assets/rightIcon2.png"></div>
         </div>
@@ -42,7 +42,7 @@
     </div>
 
     <!-- view details -->
-    <van-popup v-model="details_state" round :position="bottom_top()" :style="{ height: '25%' }">
+    <van-popup v-model="details_state" round :position="bottom_top()" :style="{ height: bottom_top()==='top'?'29%':'25%' }">
       <div class="mask-header">
         <span v-if="$store.state.languageValue === 'en'">{{ $t('nav.paymentDetails_detailsTitle') }} {{ timeText }}</span>
         <span v-else-if="$store.state.languageValue === 'zh-CN'">请在{{ timeText }}内完成支付</span>
@@ -60,7 +60,10 @@
         <div class="value">{{ infoObject.coinCount }} {{ infoObject.coin }}</div>
       </div>
     </van-popup>
+    <!-- select nextwork -->
+      <div class="nextwork-select">
 
+      </div>
     <!-- select nextwork -->
     <van-popup v-model="network_state" round position="bottom" :style="{ height: '25%' }">
       <div class="network-title">{{ $t('nav.paymentDetails_network') }}</div>
@@ -103,7 +106,7 @@ export default {
       networkCode: '',
       networkList: [],
       networkView: false,
-
+      network:false,
       springFrame_state: false,
 
       infoObject: {},
@@ -248,13 +251,24 @@ export default {
     bottom_top(){
       let _width = document.documentElement.clientWidth || document.body.clientWidth
       return _width>768?'top':'bottom'
+    },
+    //network hide show
+    networkShow(){
+      let _width = document.documentElement.clientWidth || document.body.clientWidth
+      // let box = document.querySelector('#paymentDetails')
+      if(_width<768){
+         this.networkView === true ? this.network_state = true : this.network_state = false
+         return 
+      }else{
+        this.networkView === true ? this.network_state = true : this.network_state = false
+      }
+     
     }
   },
   watch:{
     details_state(newVal){
       let box = document.querySelector('#paymentDetails')
       let _width = document.documentElement.clientWidth || document.body.clientWidth
-      
       if(_width<769 && newVal){
         box.scrollTop = 0
         box.style = 'overflow-y:hidden'
@@ -285,6 +299,23 @@ export default {
           })
         }
         
+      }
+    },
+    network_state(newVal){
+      let _width = document.documentElement.clientWidth || document.body.clientWidth
+      let box =  document.querySelector('#paymentDetails')
+      if(newVal&&_width<768){
+        box.scrollTop = 0
+        box.style.overflow = 'hidden'
+      }else if(!newVal&&_width<768){
+        box.style = 'overflow-y:scroll'
+      }else if(newVal&&_width>768){
+        box.scrollTop = 0
+        box.style.overflow = 'hidden'
+        document.body.style = 'overflow-y:scroll !important'
+      }else{
+        box.style.overflow = 'scroll'
+        document.body.style = 'overflow-y:scroll !important'
       }
     }
   }
@@ -362,6 +393,7 @@ export default {
   .QRCodeOptions{
     width: 200px;
     margin: 10px auto;
+    font-family: Jost-Regular, Jost;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -385,7 +417,7 @@ export default {
       cursor: pointer;
       .title{
         font-size: 16px;
-        font-family: Jost-Medium, Jost;
+        font-family: Jost-Regular, Jost;
         font-weight: 500;
         color: #000000;
       }
@@ -399,8 +431,9 @@ export default {
         display: flex;
         align-items: center;
         .text{
+          width: 90%;
           font-size: 14px;
-          font-family: Jost-Medium, Jost;
+          font-family: Jost-Regular, Jost;
           font-weight: 500;
           color: #000000;
           overflow: hidden;
@@ -421,9 +454,9 @@ export default {
     width: 100%;
     height: 46px;
     background: #F6F6F6;
-    font-size: 16px;
-    font-family: Jost-Medium, Jost;
-    font-weight: 500;
+    font-size: 14px;
+    font-family: Jost-Regular, Jost;
+    font-weight: 600;
     color: #000000;
     text-align: center;
     line-height: 46px;
@@ -434,8 +467,8 @@ export default {
     padding: 20px 20px 0 20px;
     display: flex;
     align-items: center;
-    font-size: 14px;
-    font-family: Jost-Medium, Jost;
+    font-size: 14px; 
+    font-family: Jost-Regular, Jost;
     font-weight: 500;
     color: #000000;
     .value{
@@ -445,7 +478,7 @@ export default {
 
   .network-title{
     font-size: 18px;
-    font-family: Jost-Medium, Jost;
+    font-family: Jost-Regular, Jost;
     font-weight: 500;
     color: #000000;
     padding: 10px 0;
@@ -522,7 +555,7 @@ export default {
 }
 
 #paymentDetails ::v-deep .van-popup--round{
-  width: 440px !important;
+  width: 400px !important;
   position: absolute;
 }
 @media screen and (max-width:768px) {
@@ -532,6 +565,7 @@ export default {
   border-radius: 0;
   box-shadow: 0 0 0 0 #FFFFFF;
   padding: 0;
+  font-family: Jost-Medium, Jost;
   .countDown {
     display: flex;
     justify-content: center;
@@ -558,7 +592,7 @@ export default {
   }
   .payAmount{
     font-size: 0.18rem;
-    font-family: Jost-SemiBold, Jost;
+    font-family: Jost-Regular, Jost;
     font-weight: 600;
     color: #000000;
     text-align: center;
@@ -597,6 +631,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: Jost-Regular, Jost;
     p:nth-of-type(2){
       margin-left: auto;
     }
@@ -617,7 +652,7 @@ export default {
       cursor: pointer;
       .title{
         font-size: 0.16rem;
-        font-family: Jost-Medium, Jost;
+        font-family: Jost-Regular, Jost;
         font-weight: 500;
         color: #000000;
       }
@@ -632,7 +667,7 @@ export default {
         align-items: center;
         .text{
           font-size: 0.14rem;
-          font-family: Jost-Medium, Jost;
+          font-family: Jost-Regular, Jost;
           font-weight: 500;
           color: #000000;
           overflow: hidden;
@@ -652,9 +687,9 @@ export default {
   .mask-header{
     height: 0.46rem;
     background: #F6F6F6;
-    font-size: 0.16rem;
-    font-family: Jost-Medium, Jost;
-    font-weight: 500;
+    font-size: 0.14rem;
+    font-family: Jost-Regular, Jost;
+    font-weight: 600;
     color: #000000;
     text-align: center;
     line-height: 0.46rem;
@@ -666,7 +701,6 @@ export default {
     display: flex;
     align-items: center;
     font-size: 0.14rem;
-    font-family: Jost-Medium, Jost;
     font-weight: 500;
     color: #000000;
     .value{
@@ -676,7 +710,7 @@ export default {
 
   .network-title{
     font-size: 0.18rem;
-    font-family: Jost-Medium, Jost;
+    font-family: Jost-Regular, Jost;
     font-weight: 500;
     color: #000000;
     padding: 0.1rem 0;
@@ -690,7 +724,7 @@ export default {
     align-items: center;
     .name{
       font-size: 0.16rem;
-      font-family: Jost-Medium, Jost;
+      font-family: Jost-Regular, Jost;
       font-weight: 500;
       color: #000000;
     }
@@ -742,6 +776,7 @@ export default {
 
 //vant Mask
 #paymentDetails ::v-deep .van-overlay{
+  width: 100%;
   background: rgba(0, 0, 0, 0.2) !important;
 }
 #paymentDetails ::v-deep .van-popup--round{

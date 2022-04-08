@@ -43,14 +43,15 @@ export default {
   background: rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(14px);
   display: flex;
+  font-family: Jost-Regular, Jost;
   align-items: center;
   position: absolute;
   left: 0;
   top: 0;
   .title{
     font-size: 24px;
-    font-family: Jost-Medium, Jost;
-    font-weight: 500;
+    // font-family: Jost-Medium, Jost;
+    font-weight: 600;
     color: #000000;
     text-align: center;
     img{
@@ -60,7 +61,7 @@ export default {
   .countDown-amount{
     margin-top: 10px;
     font-size: 48px;
-    font-family: Jost-Medium, Jost;
+    // font-family: Jost-Medium, Jost;
     font-weight: 500;
     color: #FF0000;
     text-align: center;
@@ -74,8 +75,8 @@ export default {
       border-radius: 15px 15px 0 0;
       display: flex;
       font-size: 16px;
-      font-family: Jost-Medium, Jost;
-      font-weight: 500;
+      // font-family: Jost-Medium, Jost;
+      font-weight: 600;
       color: #000000;
       padding: 12px 20px;
       background: #F6F6F6;
@@ -95,7 +96,7 @@ export default {
       line-height: 60px;
       text-align: center;
       font-size: 16px;
-      font-family: PingFangSC-Medium, PingFang SC;
+      // font-family: PingFangSC-Medium, PingFang SC;
       font-weight: 500;
       color: #4479D9;
       border-top: 1px solid #F6F6F6;
@@ -112,7 +113,7 @@ export default {
   .title{
     font-size: 0.24rem;
     font-family: Jost-Medium, Jost;
-    font-weight: 500;
+    font-weight: 600;
     color: #000000;
     text-align: center;
     img{
@@ -137,7 +138,7 @@ export default {
       display: flex;
       font-size: 0.16rem;
       font-family: Jost-Medium, Jost;
-      font-weight: 500;
+      font-weight: 600;
       color: #000000;
       padding: 0.12rem 0.2rem;
       background: #F6F6F6;

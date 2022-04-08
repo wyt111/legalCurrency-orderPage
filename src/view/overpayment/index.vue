@@ -3,9 +3,9 @@
     <!-- succeed -->
       <div class="sessIcon1" v-if="overData.payStatus===1">
         <img src="../../assets/successIcon.png" alt="">
-        <p>{{ $t('nav.overpayment_Stitle') }}</p>
+        <p>{{ $t('nav.overpayment_over') }}</p>
         <p>{{ overData.coinCount }}&nbsp;{{ overData.coin }}</p>
-        <!-- <p>{{ $t('nav.overpayment_part') }}</p> -->
+        <p>{{ $t('nav.overpayment_part1') }}</p>
       </div>
       <!-- overPayment -->
       <div class="sessIcon1" v-else-if="overData.payStatus===2">
@@ -43,7 +43,7 @@
                   <p>{{ overData.payMent==='w1'?overData.fiatToUsdtRate:overData.fiatToCoinRate }}&nbsp;{{ overData.fiat }}/{{ overData.coin }}</p>
                 </div>
       </div>
-      <div class="sessButton" :style="{marginTop:widthTop==''?_clientWidth():widthTop}"  @click="_returnCan"></div>
+      <div class="sessButton"   @click="_returnCan"></div>
   </div>
 </template>
 <script>
@@ -59,24 +59,24 @@
       _returnCan(){
         window.open(this.$store.state.returnTo);
       },
-      _clientWidth(){
-        let _width = document.documentElement.clientWidth || document.body.clientWidth
-        let arr = [1,2,3]
-        let top = ''
-        if(_width < 768 && arr.includes(this.overData.payStatus)){
-          top = '.6rem'
-            return top
-        }else if(_width < 768 && arr.includes(this.overData.payStatus)===false){
-          top = '1.2rem'
-            return top
-        }else if(_width > 768 && arr.includes(this.overData.payStatus)){
-          top = '120px'
-            return top
-        }else{
-          top = '200px'
-            return top
-        }
-      }
+      // _clientWidth(){
+      //   let _width = document.documentElement.clientWidth || document.body.clientWidth
+      //   let arr = [1,2,3]
+      //   let top = ''
+      //   if(_width < 768 && arr.includes(this.overData.payStatus)){
+      //     top = '.6rem'
+      //       return top
+      //   }else if(_width < 768 && arr.includes(this.overData.payStatus)===false){
+      //     top = '1.2rem'
+      //       return top
+      //   }else if(_width > 768 && arr.includes(this.overData.payStatus)){
+      //     top = '120px'
+      //       return top
+      //   }else{
+      //     top = '200px'
+      //       return top
+      //   }
+      // }
     },
     mounted(){
       this.overData = this.$store.state.resultData
@@ -109,6 +109,7 @@
       font-family: Jost-Regular, Jost;
       color: #02AF38;
       font-weight: 600;
+      margin-top: 10px;
     }
      p:nth-of-type(2){
       font-size: 24px;
@@ -138,6 +139,7 @@
       font-family: Jost-Regular, Jost;
       color: #FF0000;
       font-weight: 600;
+      margin-top: 10px;
     }
      p:nth-of-type(2){
       font-size: 24px;
@@ -198,11 +200,13 @@
        }
      }
      .sessButton{
-       width: 100%;
+       width: 90%;
        height: 44px;
        background:url('../../assets/successButton.png') no-repeat;
        background-size: 100% 100%;
        cursor: pointer;
+       position: absolute;
+       bottom: 10%;
      }
 }
 @media screen and (max-width:768px) {
@@ -318,7 +322,7 @@
        height: .44rem;
        background:url('../../assets/successButton.png') no-repeat;
        background-size: 100% 100%;
-        // position: absolute;
+        position: fixed;
         bottom: 10%;
         cursor: pointer;
      }

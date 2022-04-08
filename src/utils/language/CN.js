@@ -8,6 +8,8 @@ module.exports = {
         binancePayment_orderTimeout: '订单只有60分钟有效时间，若想重新支付请返回商户',
         binancePayment_orderTimeoutText: '订单超时',
         binancePayment_returnTo: '返回',
+        binancePayment_will:'使用费用后的余额将退回您的币安账户.',
+        binancePayment_App:'币安APP扫描二维码',
         //binancePayment details
         paymentDetails_viewDetails1: '查看',
         paymentDetails_viewDetails2: '明细',
@@ -20,6 +22,7 @@ module.exports = {
         paymentDetails_transactionAmount: '订单金额',
         paymentDetails_exchangeRate: '汇率',
         overpayment_succeed:'您的付款数量小于应付数量，订单未支付成功。您可以联系xxx发起退款',
+        overpayment_part1:'您的付款金额大于到期金额，付款成功。由于您的多付金额小于1USDT，系统将不会给您退款。',
         overpayment_part:'您的付款数量大于应付数量，订单已支付成功。您可以联系xxx对多付部分发起退款',
         overpayment_unpaid:'未付款（少付）',
         overpayment_Stitle:'付款成功',
@@ -39,6 +42,8 @@ module.exports = {
         paymentemail_consent:'通过提供我的电子邮件地址，我同意炼金术师支付使用它支付相关的问题.',
         paymentPrompt_tips:'付款提示',
         paymentPrompt_succe:'请输入准确的金额，以支付加密货币 确保成功付款.',
-        paymentPrompt_high:'选择您钱包上的“高”或“最快”网络费用，以确保及时确认.'
+        paymentPrompt_high:'选择您钱包上的',
+        paymentPrompt_High:'“高”或“最快”',
+        paymentPrompt_High1:'网络费用，以确保及时确认.'
     }
 }
