@@ -25,6 +25,7 @@ const store = new Vuex.Store({
     //email drrs
     paymentEmail:'',
     overDataEmail:'',
+    payentAmite:''
   },
   getters: {},
   mutations: {},

@@ -77,7 +77,7 @@ export default{
     payment(payment){
       this.$store.state.paymentType = payment
       this.$store.state.binancePayment = 'payList';
-      this.$store.state.isTips = this.selectData[0].isTips
+      this.$store.state.isTips = this.selectData[0]
       if(this.selectData[0].isEmail === 1 && payment.payType !== 'w1' && this.$store.state.paymentEmail===''){
           this.$router.push({
             path:'/paymentEmail',

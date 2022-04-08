@@ -41,7 +41,7 @@ export default{
     submitSend(){
       if(this.checked && this.changeFn()){
         this.$store.state.paymentEmail = this.email
-        if(this.$store.state.isTips === 1){
+        if(this.$store.state.isTips.isTips === 1){
           this.$router.push('/paymentPrompt')
         }else{
             if(this.$store.state.paymentType.payType === 'w1'){

@@ -173,6 +173,7 @@ export default {
       this.$axios.post(this.$api.post_qrPay, params).then(res => {
         if(res && res.data){
           this.infoObject = res.data;
+          this.$store.state.payentAmite = this.infoObject.coin
           res.data.chainName !== null && res.data.chainName !== '' ? this.networkName = res.data.chainName : '';
           //QR code processing
           if(this.oldPayAddress !== this.infoObject.qrAddress){
@@ -195,7 +196,16 @@ export default {
           }
           this.infoObject.remainingPaymentTime === 600 ? this.springFrame_state = true : '';
           //to result
-          this.infoObject.payStatus !== 0 ? (clearInterval(this.countDown),this.$router.push('/overpayment'),this.$store.state.resultData = res.data) : '';
+          if(this.infoObject.remainingPaymentTime<=0){
+            clearInterval(this.countDown)
+            this.$store.state.resultData = res.data
+            this.$store.state.resultData.payStatus = 4;
+            this.$router.push('/overpayment')
+            clearInterval(this.countDown)
+          }else{
+            return false
+          }
+          
         }
       })
     },

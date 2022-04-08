@@ -1,15 +1,15 @@
 <template>
   <div id="countdownWarning">
-    <div class="warningView">
-      <div class="title">Complete Payment By:</div>
+    <div class="warningView" style="margin:auto">
+      <div class="title">{{ $t('nav.Warning_payment') }}</div>
       <div class="countDown-amount">{{ timeNum }}</div>
       <div class="warning-content">
         <div class="title">
           <div><img src="@/assets/timeIcon.png"></div>
-          <div>Awaiting Payment</div>
+          <div>{{ $t('nav.Warning_Awaiting') }}</div>
         </div>
-        <div class="text">This invoice will expire soon. Please ensure payment is completed within the remaining time.</div>
-        <div class="options" @click="closeWarming">GOT IT</div>
+        <div class="text">{{ $t('nav.Warning_Time') }}</div>
+        <div class="options" @click="closeWarming">{{ $t('nav.Warning_Got') }}</div>
       </div>
     </div>
   </div>
@@ -45,6 +45,8 @@ export default {
   display: flex;
   font-family: Jost-Regular, Jost;
   align-items: center;
+  padding: 0 0 0 5%;
+  box-sizing: border-box;
   position: absolute;
   left: 0;
   top: 0;

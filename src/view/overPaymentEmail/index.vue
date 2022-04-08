@@ -52,17 +52,16 @@ export default{
     }
   },
   methods:{
-    //验证地址
+    //addrss
     AddrssIs(){
       if(this.Input!==''){
         this.isAddrss = ''
         return true  
       }else{
-        this.isAddrss = 'Address is ont corre'
         return false
       }
     },
-    //确定下一步
+    //next
     refundFn(){
       this.AddrssIs()
       if(this.AddrssIs()){
@@ -82,19 +81,18 @@ export default{
               }
             })
           }else{
-             this.$toast('Address is ont corre')
+             this.$toast('Incorrect address')
           }
           }else{
             this.$toast('Network error')
           }
         })
       }else{
-        this.$toast('Address is ont corre')
+        this.$toast('The address cannot be empty')
       }
-    }
-  },
-  mounted(){
-    let params = {
+    },
+    _axiosData(){
+       let params = {
         "sysOrderNum":this.$route.query.id
       }
       this.$axios.post(this.$api.post_Addrss,params).then(res=>{
@@ -102,6 +100,11 @@ export default{
           this.overPaymentData = res.data
         }
       })
+    }
+
+  },
+  mounted(){
+   this._axiosData()
   }
 }
 </script>

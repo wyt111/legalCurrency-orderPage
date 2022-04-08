@@ -29,19 +29,22 @@ export default {
           this.$store.state.paymentType.chainName = '';
           return;
         }
-        let params = {
-          "merchantCode":res.data.merchantCode
-        }
-       this.$axios.post(this.$api.post_payList,params).then(res=>{
-         if(res && res.data){
-            if(res.data.isEmail===1){
-              this.$store.state.isTips = res.data.isTips
-              this.$router.replace("/paymentEmail");
-            }else{
-                this.$router.replace("/paymentDetails");
-            }
-         }
-       })
+        if(this.$store.state.resultData.payStatus!==0){
+          this.$router.replace("/paymentDetails");
+        }else{
+              let params = {
+                "merchantCode":res.data.merchantCode
+              }
+            this.$axios.post(this.$api.post_payList,params).then(res=>{
+              if(res && res.data){
+                  if(res.data.isEmail===1){
+                    this.$store.state.isTips = res.data
+                    this.$router.replace("/paymentEmail");
+                  }
+              }
+            })
+          }
+        
         this.$store.state.binancePayment = 'initialPag';
           this.$store.state.paymentType.payType = res.data.payMent;
           this.$store.state.paymentType.currencyCode = res.data.coin;

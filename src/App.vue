@@ -7,7 +7,7 @@
           <p>{{ logoDta.merchantName }}</p>
         </div>
         <div style="display:flex;">
-          <h2>{{ this.$route.meta.title }}</h2><img v-show="this.$route.path==='/binancePayment'" src="./assets/Binance.svg" alt="" style="width:130px;height:25px;margin:0 10px 0 10px"/><h2 v-show="this.$route.path==='/binancePayment'">PAY</h2>
+          <h2>{{ this.$route.meta.title }}<span style="margin-left:6px" v-if="this.$route.path==='/paymentDetails'">{{ this.$store.state.payentAmite }}</span></h2><img v-show="this.$route.path==='/binancePayment'" src="./assets/Binance.svg" alt="" style="width:130px;height:25px;margin:0 10px 0 10px"/><h2 v-show="this.$route.path==='/binancePayment'">PAY</h2>
         </div>
         <img src="./assets/goBack.png" alt="" class="goBack" @click="goBack" v-show="['binancePayment','paymentDetails','paymentEmail','paymentPrompt'].includes(this.$route.name)">
     </div>
@@ -51,9 +51,20 @@ export default {
     goBack(){
       if(this.languageView === false && (this.$route.path === '/paymentDetails' && this.$store.state.binancePayment === 'payList')||
           (this.$route.path === '/binancePayment' && this.$store.state.binancePayment === 'payList')){
-        this.$router.go(-1);
-        return;
+            console.log(this.$route.path === '/paymentDetails');
+            if(this.$route.path === '/paymentDetails'&&this.$store.state.paymentEmail!==''){
+              this.$router.replace('/paymentSelect')
+              return
+            }
+           this.$router.go(-1);
+          return;
       }
+      if((this.$route.path==='/paymentEmail'&&this.$store.state.paymentEmail==='')){
+           console.log(this.$route.path === '/paymentDetails');
+           this.$router.replace('/paymentSelect')
+            return
+          }
+      
       if(this.languageView === true){
         this.languageView = false;
         return;
@@ -191,13 +202,13 @@ export default {
     overflow: auto;
   }
   .content::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
+    width: 0px;
+    height: 0px;
     overflow-y: scroll;
 }
 .content::-webkit-scrollbar-thumb {
     background: #fff;
-    border-radius: 15px;
+    border-radius:0 15px 15px 0;
 }
 .content::-webkit-scrollbar-track {
     background: #F3F4F5FF ;
@@ -254,127 +265,127 @@ export default {
     color: #4479D9FF !important;
   }
 }
-// @media screen and (max-width:1280px) {
-//   #App{
-//   // padding-top: 100px;
-//   padding-bottom: 10px;
-//   font-size: 16px;
-//   position: relative;
-//   .none{
-//     display: none;
-//   }
-//   .title2{
-//     width: 100%;
-//     text-align: center;
-//     img{
-//       width: 250px;
-//       height: 50px;
-//     }
-//   }
-//   .title1{
-//     // width: 400px;
-//     text-align: center;
-//     margin: 0 auto;
+@media screen and (max-width:1280px) {
+  #App{
+  // padding-top: 100px;
+  padding-bottom: 10px;
+  font-size: 16px;
+  position: relative;
+  .content::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    overflow-y: scroll;
+}
+.content::-webkit-scrollbar-thumb {
+    background: #fff;
+    border-radius:0 15px 15px 0;
+}
+.content::-webkit-scrollbar-track {
+    background: #F3F4F5FF ;
+}
+  .none{
+    display: none;
+  }
+  .title2{
+    width: 100%;
+    text-align: center;
+    img{
+      width: 250px;
+      height: 50px;
+    }
+  }
+  .title1{
+    // width: 400px;
+    text-align: center;
+    margin: 0 auto;
 
-//     div{
-//       display: flex;
-//      align-items: center;
-//      justify-content: center;
-//       img{
-//       width: 40px;
-//       height: 40px;
-//       margin-right: 40px;
-//     }
-//     p{
-//       font-size: 20px;
-//       margin-left: -20px;
-//     }
-//     }
-//     >img:nth-of-type(1){
-//       width: 80px;
-//       height: 30px;
-//       position: absolute;
-//       left: -150px;
-//       bottom: 0;
-//       cursor: pointer;
-//     }
-//     h2{
-//       font-size: 18px;
-//       font-family: Jost-SemiBold, Jost;
-//       font-weight: 400;
-//       color: #000000;
-//       line-height: 35px;
-//       margin:10px 0 10px 0;
-//     }
-//   }
-//   .content{
-//     flex: 1;
-//     overflow: auto;
-//   }
-//   .content::-webkit-scrollbar {
-//     width: 4px;
-//     height: 4px;
-//     overflow-y: scroll;
-// }
-// .content::-webkit-scrollbar-thumb {
-//     background: #fff;
-//     border-radius: 15px;
-// }
-// .content::-webkit-scrollbar-track {
-//     background: #F3F4F5FF ;
-// }
-//   .comeFrom {
-//     width: 400px;
-//     margin:10px auto 0;
-//     padding: 0 30px 0 40px;
-//     box-sizing: border-box;
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-//     .comeFrom_text {
-//       line-height: 40px;
-//       font-size: 20px;
-//       font-family: Jost-Regular, Jost;
-//       font-weight: 400;
-//       color: #000000;
-//     }
-//     .comeFrom_logo {
-//       display: flex;
-//       justify-content: space-around;
-//       align-items: center;
-//       margin-left: 10px;
-//       img {
-//         width: 130px;
-//         height: 24px;
-//       }
-//     }
-//   }
-//   .searchLanguage1{
-//     margin-left: auto;
-//     cursor: pointer;
-//     box-sizing: border-box;
+    div{
+      display: flex;
+     align-items: center;
+     justify-content: center;
+      img{
+      width: 40px;
+      height: 40px;
+      margin-right: 40px;
+    }
+    p{
+      font-size: 20px;
+      margin-left: -20px;
+    }
+    }
+    >img:nth-of-type(1){
+      width: 80px;
+      height: 30px;
+      position: absolute;
+      left: -150px;
+      bottom: 0;
+      cursor: pointer;
+    }
+    h2{
+      font-size: 18px;
+      font-family: Jost-SemiBold, Jost;
+      font-weight: 400;
+      color: #000000;
+      line-height: 35px;
+      margin:10px 0 10px 0;
+    }
+  }
+  .content{
+    flex: 1;
+    overflow: auto;
+  }
+  .comeFrom {
+    width: 400px;
+    margin:10px auto 0;
+    padding: 0 30px 0 40px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .comeFrom_text {
+      line-height: 40px;
+      font-size: 20px;
+      font-family: Jost-Regular, Jost;
+      font-weight: 400;
+      color: #000000;
+    }
+    .comeFrom_logo {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-left: 10px;
+      img {
+        width: 130px;
+        height: 24px;
+      }
+    }
+  }
+  .searchLanguage1{
+    margin-left: auto;
+    cursor: pointer;
+    box-sizing: border-box;
    
-//     .text{
-//       text-align: center;
-//       color: #999999;
-//       font-size: 14px;
-//       font-weight: bold;
-//       margin-right: 10px;
-//       float: left;
-//     }
-//     .icon{
-//       float: left;
-//       padding-top: 2px;
-//       img{
-//         width: 14px;
-//       }
-//     }
-//   }
-//   .searchLanguage1 .active1{
-//     color: #4479D9FF !important;
-//   }
-// }
-// }
+    .text{
+      text-align: center;
+      color: #999999;
+      font-size: 14px;
+      font-weight: bold;
+      margin-right: 10px;
+      float: left;
+    }
+    .icon{
+      float: left;
+      padding-top: 2px;
+      img{
+        width: 14px;
+      }
+    }
+  }
+  .searchLanguage1 .active1{
+    color: #4479D9FF !important;
+  }
+}
+}
 
 @media screen and (max-width:768px){
   @font-face {
@@ -409,9 +420,21 @@ export default {
     overflow-y: none;
 
   }
+  .content::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    overflow-y: scroll;
+}
+.content::-webkit-scrollbar-thumb {
+    background: #fff;
+    border-radius:0 15px 15px 0;
+}
+.content::-webkit-scrollbar-track {
+    background: #F3F4F5FF ;
+}
   .comeFrom {
     width: 100%;
-    height: 7%;
+    height: 4%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -431,7 +454,7 @@ export default {
       margin-left: 0.1rem;
       img {
         width: .8rem;
-        height: 0.14rem;
+        height: 0.17rem;
       }
     }
   }

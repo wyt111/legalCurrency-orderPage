@@ -21,10 +21,10 @@
             <div class="amountMoney1">{{ infoObject.orderAmount }} USDT</div>
             <div class="qrcodeLogo" ref="qrCodeUrl">
               <div class="row">
-                <img :src="this.$store.state.resultData.qrIcon" alt="">
+                <img :src="infoObject.qrIcon" alt="">
               </div>
             </div>
-            <div class="con-title">{{ $t('nav.binancePayment_will') }}</div>
+            <div class="con-title" v-if="infoObject.isPrePay !== 0">{{ $t('nav.binancePayment_will') }}</div>
             <div class="con-title" style="margin-top:20px">{{ $t('nav.binancePayment_App') }}</div>
         </div>
       <div class="loading_text" v-if="orderStatus === 'loading' && infoObject.isPrePay !== 0">{{ $t('nav.binancePayment_completeReturn') }}</div>
@@ -73,7 +73,8 @@ export default {
       ],
       infoObject: {},
       countDown: null,
-      AddrImg:''
+      AddrImg:'',
+      isShow:''
     };
   },
   mounted() {
@@ -203,10 +204,12 @@ export default {
         window.location.href = this.infoObject.deeplink;
       }
     },
+    //addrss
     addrImg(n){
       if(n.qrAddress === this.AddrImg){
         return false
       }
+      this.isShow - n
       this.AddrImg = n.qrAddress
       new QRCode(this.$refs.qrCodeUrl, {
         text: n.qrAddress,

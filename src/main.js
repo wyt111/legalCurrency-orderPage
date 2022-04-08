@@ -17,7 +17,7 @@ import "./utils/uiClassLibrary";
 
 //id - Order ID   locale - The language can be set on the currency security payment page of the order with payment method
 router.beforeEach((to,from,next)=>{
-  to.query.id = 'API151224832625331814'
+  
   if(to.path === '/loadingStatus'){
     to.query.id ? localStorage.setItem("sysOrderNum",to.query.id) : '';
     to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' ? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
