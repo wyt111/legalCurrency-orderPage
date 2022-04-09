@@ -84,7 +84,22 @@ export default {
   }
 }
 }
-
+@media screen and(min-width: 1280px) and (max-width:1600px){
+   #selectLanguage{
+  width: 130px;
+  height: 650px;
+  background: #FFFFFFFF;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12);
+  display: block;
+  position: absolute;
+  right: 22%;
+  border-radius: 15px;
+  z-index: 999;
+  
+}
+}
 
 @media screen and(min-width: 1024px) and (max-width:1280px){
    #selectLanguage{

@@ -112,6 +112,11 @@ const createRouter = () => new Router({
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })
+// const createRouter = () => new Router({
+//   mode: 'history',
+//   scrollBehavior: () => ({ y: 0 }),
+//   routes: constantRoutes
+// })
 
 const router = createRouter()
 

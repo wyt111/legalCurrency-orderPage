@@ -322,7 +322,7 @@
        height: .44rem;
        background:url('../../assets/successButton.png') no-repeat;
        background-size: 100% 100%;
-        position: fixed;
+        position: absolute;
         bottom: 10%;
         cursor: pointer;
      }

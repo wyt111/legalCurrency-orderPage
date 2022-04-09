@@ -17,13 +17,19 @@ import "./utils/uiClassLibrary";
 
 //id - Order ID   locale - The language can be set on the currency security payment page of the order with payment method
 router.beforeEach((to,from,next)=>{
-  
+  //is ios and is android
+  // var u = navigator.userAgent;
+  // var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+  // var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
   if(to.path === '/loadingStatus'){
     to.query.id ? localStorage.setItem("sysOrderNum",to.query.id) : '';
     to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' ? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
+
   }
+ 
   next();
 })
+
 
 Vue.prototype.$api = api;
 Vue.prototype.$axios = axios;
