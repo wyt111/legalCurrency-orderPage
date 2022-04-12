@@ -22,9 +22,10 @@ module.exports = {
         paymentDetails_transactionAmount: '订单金额',
         paymentDetails_exchangeRate: '汇率',
         //overpayment
-        overpayment_succeed:'您的付款数量小于应付数量，订单未支付成功。您可以联系xxx发起退款',
+        overpayment_succeed1:'你的付款金额小于到期金额，付款失败。由于您的付款金额小于1USDT，系统不会给您退款。',
+        overpayment_succeed:'你的付款金额小于到期金额，付款失败。系统会给您发邮件进行收集，请您注意查看退款信息。',
         overpayment_part1:'您的付款金额大于到期金额，付款成功。由于您的多付金额小于1USDT，系统将不会给您退款。',
-        overpayment_part:'您的付款数量大于应付数量，订单已支付成功。您可以联系xxx对多付部分发起退款',
+        overpayment_part:'您的付款金额大于到期金额，付款成功。系统会给你发邮件收取多付的部分，请注意查收退款信息。',
         overpayment_unpaid:'未付款（少付）',
         overpayment_Stitle:'付款成功',
         overpayment_over:'付款成功（多付）',

@@ -175,7 +175,16 @@ export default {
             this.$store.state.resultData = res.data;
             this.$store.state.resultData.payStatus = 4;
             this.$router.push("/overpayment");
+          }else if(this.infoObject.remainingPaymentTime > 0 && this.$store.state.resultData.payStatus != 0){
+            this.$store.state.resultData = res.data;
+            this.$router.push("/overpayment");
           }
+          //if non payment 
+          //  if(this.infoObject.payStatus!== 0){
+          //   this.$store.state.resultData = res.data
+          //   this.$router.push('/overpayment')
+          //   return false
+          // }
         }
       })
     },

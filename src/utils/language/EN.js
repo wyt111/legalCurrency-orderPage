@@ -31,9 +31,10 @@ module.exports = {
         overpayment_fapiao:'Invoice Expired',
         overpayment_chao1:'If you have paid after the invoice has expired, a refund request will automatically be sent to your email. ',
         overpayment_chao:'Invoice is only valid for 60 minutes.Return to merchant if you would like to resubmit a payment.',
-        overpayment_part:'Your payment quantity is greater than the payable quantity, and the order has been paid successfully. You can contact support@alchemytech.io to initiate a refund for the overpaid part',
+        overpayment_part:'Your payment amount is greater than the amount due, and the payment is successful. The system will send you an email to collect the overpaid part, please pay attention to check the refund information. ',
         overpayment_part1:'Your payment amount is greater than the amount due, and the payment is successful. Since your overpayment amount is less than 1USDT, the system will not issue a refund to you. ',
-        overpayment_succeed:'Your payment quantity is less than the payable quantity, and the order has not been successfully paid. You can contact support@alchemytech.io to initiate a refund',
+        overpayment_succeed1:'system will send you an email to collect, please pay attention to check the refund information. ',
+        overpayment_succeed:'Your payment amount is less than the amount due and the payment was unsuccessful. The system will send you an email to collect, please pay attention to check the refund information. ',
         //paymentSelect
         selectPayment:'Payment Wallets',
         selectPayment_wall:'On-chain Crypto',

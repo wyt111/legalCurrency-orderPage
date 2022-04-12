@@ -18,22 +18,23 @@ export default {
         this.$store.state.merchantCode = res.data.merchantCode;
         this.$store.state.cancelTo = res.data.cancelTo;
         this.$store.state.returnTo = res.data.returnTo;
+        //binance
         if(res.data.payMent === "w1"){
           this.$router.replace("/binancePayment");
           this.$store.state.binancePayment = 'initialPag';
           this.$store.state.paymentType.chainName = '';
           return;
         }
+        //select to 
         if(res.data.payMent === "" || res.data.payMent === null){
           this.$router.replace("/paymentSelect");
           this.$store.state.binancePayment = '';
           this.$store.state.paymentType.chainName = '';
           return;
         }
-        if(this.$store.state.resultData.payStatus!==0){
-          this.$router.replace("/paymentDetails");
-        }else{
-              let params = {
+        
+        if(res.data.payMent !== "w1" &&  res.data.payMent!=='' && res.data.payStatus===0){
+          let params = {
                 "merchantCode":res.data.merchantCode
               }
             this.$axios.post(this.$api.post_payList,params).then(res=>{
@@ -41,11 +42,15 @@ export default {
                   if(res.data.isEmail===1){
                     this.$store.state.isTips = res.data
                     this.$router.replace("/paymentEmail");
+                  }else{
+                    this.$router.replace("/paymentDetails");
                   }
               }
             })
-          }
-        
+        }
+        if(res.data.payStatus!==0){
+           this.$router.replace("/overPayment");
+        }
         this.$store.state.binancePayment = 'initialPag';
           this.$store.state.paymentType.payType = res.data.payMent;
           this.$store.state.paymentType.currencyCode = res.data.coin;

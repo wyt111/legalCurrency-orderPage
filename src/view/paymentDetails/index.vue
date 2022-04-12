@@ -25,6 +25,12 @@
           <div class="icon"><img src="@/assets/rightIcon2.png"></div>
         </div>
       </div>
+      <div class="isShow" v-show="networt_isShow">
+          <div v-for="(item,index) in networkList" :key="item.id" @click="choiseNetwork(item,index)">
+            <p>{{item.currencyFullName}} </p>
+            <img v-if="item.state" src="@/assets/checkIcon.png" alt="">
+          </div>
+      </div>
       <div class="payFormLine" @click="copy" :data-clipboard-text="infoObject.coinCount">
         <div class="title">{{ $t('nav.paymentDetails_amountDue') }}</div>
         <div class="formItem">
@@ -60,10 +66,7 @@
         <div class="value">{{ infoObject.coinCount }} {{ infoObject.coin }}</div>
       </div>
     </van-popup>
-    <!-- select nextwork -->
-      <div class="nextwork-select">
-
-      </div>
+    
     <!-- select nextwork -->
     <van-popup v-model="network_state" round position="bottom" :style="{ height: '25%' }">
       <div class="network-title">{{ $t('nav.paymentDetails_network') }}</div>
@@ -108,6 +111,7 @@ export default {
       networkView: false,
       network:false,
       springFrame_state: false,
+      networt_isShow:false,
 
       infoObject: {},
       oldPayAddress: '',
@@ -199,13 +203,17 @@ export default {
           if(this.infoObject.remainingPaymentTime<=0){
             clearInterval(this.countDown)
             this.$store.state.resultData = res.data
-            this.$store.state.resultData.payStatus = 4;
+            if(this.$store.state.resultData.payStatus===0){
+              this.$store.state.resultData.payStatus = 4;
+              this.$router.push('/overpayment')
+            }
             this.$router.push('/overpayment')
             clearInterval(this.countDown)
-          }else{
+          }else if(this.infoObject.remainingPaymentTime>0 && this.$store.state.resultData.payStatus!==0){
+            this.$store.state.resultData = res.data
+            this.$router.push('/overpayment')
             return false
           }
-          
         }
       })
     },
@@ -223,6 +231,7 @@ export default {
       this.networkList.map(item => {
         return item.state = false;
       })
+      this.networt_isShow = false
       this.networkList[index].state = true;
       this.network_state = false;
       this.networkCode = item.currencyCode;
@@ -265,17 +274,21 @@ export default {
     //network hide show
     networkShow(){
       let _width = document.documentElement.clientWidth || document.body.clientWidth
-      // let box = document.querySelector('#paymentDetails')
-      if(_width<768){
+      let icon = document.querySelector('.formItem .icon img')
+      if(_width<769){
          this.networkView === true ? this.network_state = true : this.network_state = false
+         icon.src =require('@/assets/rightIcon2.png')
+         this.networt_isShow = false
          return 
       }else{
-        this.networkView === true ? this.network_state = true : this.network_state = false
+        this.networkView === true ? this.networt_isShow = ! this.networt_isShow: this.networt_isShow = false
+        this.networt_isShow?icon.src = require('@/assets/iconRight.png'):icon.src =require('@/assets/rightIcon2.png')
       }
      
     }
   },
   watch:{
+    // Scroll to compatible 
     details_state(newVal){
       let box = document.querySelector('#paymentDetails')
       let _width = document.documentElement.clientWidth || document.body.clientWidth
@@ -283,10 +296,10 @@ export default {
         box.scrollTop = 0
         box.style = 'overflow-y:hidden'
         return 
-      }else if(_width<768 && newVal===false){
+      }else if(_width<769 && newVal===false){
         box.style = 'overflow-y:scroll'
         return 
-      }else if(_width>768 && newVal){
+      }else if(_width>769 && newVal){
         box.scrollTop = 0
         document.body.style = 'overflow-y:scroll !important'
         box.style = 'overflow-y:hidden'
@@ -314,12 +327,12 @@ export default {
     network_state(newVal){
       let _width = document.documentElement.clientWidth || document.body.clientWidth
       let box =  document.querySelector('#paymentDetails')
-      if(newVal&&_width<768){
+      if(newVal&&_width<769){
         box.scrollTop = 0
         box.style.overflow = 'hidden'
-      }else if(!newVal&&_width<768){
+      }else if(!newVal&&_width<769){
         box.style = 'overflow-y:scroll'
-      }else if(newVal&&_width>768){
+      }else if(newVal&&_width>769){
         box.scrollTop = 0
         box.style.overflow = 'hidden'
         document.body.style = 'overflow-y:scroll !important'
@@ -327,7 +340,7 @@ export default {
         box.style.overflow = 'scroll'
         document.body.style = 'overflow-y:scroll !important'
       }
-    }
+    },
   }
 }
 </script>
@@ -339,6 +352,7 @@ export default {
   border-radius: 15px;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12);
   margin: 0 auto;
+
   padding-bottom: 50px;
   position: relative;
   .countDown {
@@ -422,6 +436,34 @@ export default {
   }
   .payForm{
     padding: 0 20px;
+    .isShow{
+      width: 100%;
+      background: #F3F4F5FF;
+      border-radius: 4px;
+      padding: 0px 0 10px 0;
+      transition: 1s;
+      position: relative;
+      left: 0;
+      top: 0;
+      div{
+        height: 44px;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #E6E6E7FF;
+        align-items: center;
+        padding: 10px 10px 0;
+        box-sizing: border-box;
+        cursor: pointer;
+        p{
+          font-size: 14px;
+          font-family: Jost-Regular, Jost;
+        }
+        img{
+          width: 15px;
+          height: 18px;
+        }
+      }
+    }
     .payFormLine{
       margin-top: 20px;
       cursor: pointer;
@@ -430,6 +472,9 @@ export default {
         font-family: Jost-Regular, Jost;
         font-weight: 500;
         color: #000000;
+      }
+      .formItem{
+        margin-bottom: 20px;
       }
       .formItem{
         height: 44px;
@@ -657,6 +702,9 @@ export default {
   }
   .payForm{
     padding: 0 0.2rem;
+    .isShow{
+      display: none;
+    }
     .payFormLine{
       margin-top: 0.2rem;
       cursor: pointer;

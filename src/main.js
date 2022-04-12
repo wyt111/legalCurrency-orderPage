@@ -18,15 +18,24 @@ import "./utils/uiClassLibrary";
 //id - Order ID   locale - The language can be set on the currency security payment page of the order with payment method
 router.beforeEach((to,from,next)=>{
   //is ios and is android
-  // var u = navigator.userAgent;
+  var u = navigator.userAgent;
   // var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-  // var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-  if(to.path === '/loadingStatus'){
-    to.query.id ? localStorage.setItem("sysOrderNum",to.query.id) : '';
-    to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' ? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
-
+  var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+  if(isiOS){
+    if(to.path === '/loadingStatus'){
+      let a = window.location.href
+      let n = a.slice(0,a.indexOf('?'))+a.slice(a.indexOf('#'),a.length-1) + a.slice(a.indexOf('?'),a.indexOf('#'))
+      window.location.href = n
+      to.query.id ? localStorage.setItem("sysOrderNum",to.query.id) : '';
+      to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' ? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
+    }
+  }else{
+    if(to.path === '/loadingStatus'){
+      to.query.id = 'API151370676774437273'
+      to.query.id ? localStorage.setItem("sysOrderNum",to.query.id) : '';
+      to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' ? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
   }
- 
+}
   next();
 })
 

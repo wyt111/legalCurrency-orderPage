@@ -8,7 +8,7 @@
     </div>
   </div>
   <div class="logo" v-else>
-        <img src="../assets/logo_top.png" alt="">
+        <img class="title" src="../assets/logo_top.png" alt="">
     </div>
     
 </template>
@@ -77,8 +77,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  img{
-    width: 110px;
+  .title{
+    // width: 250px;
     height: 23px;
   }
 }

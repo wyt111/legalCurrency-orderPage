@@ -12,14 +12,14 @@
         <img src="./assets/goBack.png" alt="" class="goBack" @click="goBack" v-show="['binancePayment','paymentDetails','paymentEmail','paymentPrompt'].includes(this.$route.name)">
     </div>
     <div class="title2" v-else >
-      <img src="./assets/logoEmail.png" alt="" v-show="this.$route.name==='loadingStatus'?false:true">
+      <img src="./assets/logoEmail.png"  alt="" v-show="this.$route.name==='loadingStatus'?false:true">
     </div>
     
     <language v-show="languageView"/>
     <router-view class="content"  ref="routerRef" v-show="isShow2"/>
     
     <div class="comeFrom" v-if="this.$route.meta.isShow">
-      <div class="comeFrom_text">Powered By</div>
+      <div class="comeFrom_text">Powered by</div>
       <div class="comeFrom_logo"><img src="@/assets/achLogo.png" /></div>
       <div class="searchLanguage1" @click="languageView=!languageView" v-show="this.$route.meta.isShow">
         <p :class="languageView?'text active1':'text'">{{ this.$store.state.languageName.toUpperCase() }}</p>
@@ -51,7 +51,6 @@ export default {
     goBack(){
       if(this.languageView === false && (this.$route.path === '/paymentDetails' && this.$store.state.binancePayment === 'payList')||
           (this.$route.path === '/binancePayment' && this.$store.state.binancePayment === 'payList')){
-            console.log(this.$route.path === '/paymentDetails');
             if(this.$route.path === '/paymentDetails'&&this.$store.state.paymentEmail!==''){
               this.$router.replace('/paymentSelect')
               return
@@ -118,16 +117,18 @@ export default {
         this.languageView = false
       }
     })
-    setTimeout(()=>{
-       let params = {
-        "merchantCode":this.$store.state.merchantCode
-      }
-      this.$axios.post(this.$api.post_payList,params).then(res=>{
-        if(res && res.data){
-          this.logoDta = res.data
-        }
-      })
-    },300)
+       if(this.$route.path!=='/loadingStatus'){
+         setTimeout(()=>{
+           let params = {
+            "merchantCode":this.$store.state.merchantCode
+          }
+          this.$axios.post(this.$api.post_payList,params).then(res=>{
+            if(res && res.data){
+              this.logoDta = res.data
+            }
+          })
+         },500)
+       }
   },
 }
 </script>
@@ -149,6 +150,7 @@ export default {
   position: relative;
   .none{
     display: none;
+    
   }
   .title2{
     width: 100%;
@@ -405,7 +407,7 @@ export default {
   display: flex;
   flex-direction: column;
   font-size: 0.14rem;
-  padding: 0;
+  padding: 0 0 .1rem 0;
   .title1{
     display: none;
   }
@@ -441,6 +443,7 @@ export default {
     background: #fff ;
     margin: 0 auto;
     .none2{
+      width: 0;
       display: none;
     }
     .comeFrom_text {
