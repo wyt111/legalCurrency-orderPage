@@ -56,7 +56,10 @@
             <p>{{ overData.payMent==='w1'?overData.fiatToUsdtRate:overData.fiatToCoinRate }}&nbsp;{{ overData.fiat }}/{{ overData.coin }}</p>
           </div>
       </div>
-      <div class="sessButton"   @click="_returnCan"></div>
+      <div class="sessButton"   @click="_returnCan">
+        <p>{{ $t('nav.overpayment_return') }}</p>
+        <img src="@/assets/rightIcon.png" alt="">
+      </div>
   </div>
 </template>
 <script>
@@ -200,11 +203,31 @@
      .sessButton{
        width: 90%;
        height: 44px;
-       background:url('../../assets/successButton.png') no-repeat;
-       background-size: 100% 100%;
+       background: #4479D9FF;
+       border-radius: 4px;
        cursor: pointer;
        position: absolute;
        bottom: 10%;
+       p{
+         width: 100%;
+         height: 100%;
+         text-align: center;
+         line-height: 44px;
+         font-family: Jost-Regular, Jost;
+         font-weight: 600;
+          color: #FFFFFF;
+          font-weight: 600;
+          font-size: 16px;
+          position: absolute;
+          left: 0;
+          top: 0;
+       }
+       img{
+         width: 26px;
+         height: 16x;
+         float: right;
+         margin: 14px 20px 0 0;
+       }
      }
 }
 @media screen and (max-width:768px) {
@@ -321,13 +344,21 @@
        }
      }
      .sessButton{
-       
+       width: 90%;
        height: .44rem;
-       background:url('../../assets/successButton.png') no-repeat;
        background-size: 100% 100%;
         position: absolute;
         bottom: 10%;
         cursor: pointer;
+        p{
+          font-size: .16rem;
+          line-height: .44rem;
+        }
+        img{
+          width: .26rem;
+          height: .16rem;
+          margin: .14rem .2rem 0 0;
+        }
      }
 }
 }

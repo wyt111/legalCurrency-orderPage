@@ -31,7 +31,7 @@ router.beforeEach((to,from,next)=>{
     }
   }else{
     if(to.path === '/loadingStatus'){
-      to.query.id = 'API151370676774437273'
+      to.query.id = 'API151442779570137088'
       to.query.id ? localStorage.setItem("sysOrderNum",to.query.id) : '';
       to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' ? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
   }

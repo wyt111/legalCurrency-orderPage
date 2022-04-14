@@ -15,7 +15,7 @@
         </p>
       </div>
       <div class="goPayment" @click="goPayment">
-        <p>Confirm</p>
+        <p>{{ $t('nav.paymentemail_Confirm') }}</p>
           <img src="@/assets/rightIcon.png" alt="">
       </div>
   </div>
@@ -87,24 +87,33 @@
     top: 10%;
   }
   .goPayment{
-    width: 100%;
+    width: 90%;
     height: 44px;
     background: #4479D9;
     border-radius: 4px;
-    display: flex;
     align-items: center;
-    margin-top:210px;
     cursor: pointer;
+    position: absolute;
+    left: 50%;
+    bottom: 10%;
+    transform: translate(-50%,-10%);
     img{
       width: 25px;
       height: 16px;
+      float: right;
+      margin: 14px 20px  0 0;
     }
     p{
+      width: 100%;
+      height: 100%;
       text-align: center;
+      line-height: 44px;
       font-size: 16px;
       color: #FFFFFF;
       font-weight: 600;
-      margin: 0  25% 0 44%;
+      position: absolute;
+      left: 0;
+      top: 0;
     }
   }
 }
@@ -154,25 +163,25 @@
     top: 10%;
   }
   .goPayment{
-    width: 100%;
+    width: 90%;
     height: .44rem;
     background: #4479D9;
     border-radius: .04rem;
-    display: flex;
     align-items: center;
-    margin-top: 2rem;
     cursor: pointer;
-    // justify-content: space-around;
+    position: absolute;
     img{
       width: .25rem;
       height: .16rem;
+      float: right;
+      margin: .14rem .2rem 0 0;
     }
     p{
       text-align: center;
+      line-height: .44rem;
       font-size: .16rem;
       color: #FFFFFF;
       font-weight: 600;
-      margin: 0  25% 0 44%;
     }
   }
 }

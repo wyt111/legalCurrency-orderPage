@@ -1,11 +1,11 @@
 <template>
-  <div id="index">
-    <div class="content">
+  <div id="index" >
+    <div class="content" v-if="binanData">
       <div class="amountMoney">{{ infoObject.orderAmount }} USDT</div>
       <div class="orderStatus">
         <div class="orderStatus_img">
           <div v-if="orderStatus === 'loading'">
-            <el-progress type="circle" :width="130" :stroke-width=10 :percentage="timeValue" :color="colors"></el-progress>
+            <el-progress  type="circle" :width="130" :stroke-width=10 :percentage="timeValue" :color="colors"></el-progress>
           </div>
           <img v-if="orderStatus === 'success'" src="@/assets/successIcon.png"/>
           <img v-if="orderStatus === 'error'" src="@/assets/errorIcon.png" />
@@ -55,7 +55,9 @@
         </div>
       </footer>
     </div>
+    <div v-else></div>
   </div>
+  
 </template>
 
 <script>
@@ -74,20 +76,22 @@ export default {
       infoObject: {},
       countDown: null,
       AddrImg:'',
-      isShow:''
+      isShow:'',
+      binanData:false,
+      isShow1:false
     };
   },
-  mounted() {
-    document.getElementsByClassName('el-progress__text')[0].innerText = '00:00';
+  mounted() { 
     if(this.$route.path === '/binancePayment'){
-      this.$store.state.binancePayment_locale === '' ? this.$store.state.binancePayment_locale = 'en' : '';
+      this.$store.state.binancePayment_locale === ''? this.$store.state.binancePayment_locale = 'en' : '';
       //Case insensitive recognition string
       this.recognitionLanguage(this.$store.state.binancePayment_locale);
     }
     this.queryInfo();
     this.countDown = setInterval(()=>{
       this.queryInfo();
-    },1000);
+    },1000)
+    
   },
   destroyed(){
     i18n.locale = this.$store.state.languageValue;
@@ -154,7 +158,8 @@ export default {
       this.$axios.post(methodsName, overParams).then(res=>{
         if(res.data){
           this.infoObject = res.data
-          this.addrImg(res.data)
+          this.$store.state.binanData = res.data
+          this.binanData = true
           //Hide the title bar when there are payment results - this.$parent.navigationBarState
           if(this.infoObject.payStatus === 0){
             this.orderStatus = 'loading';
@@ -168,8 +173,10 @@ export default {
           }
           this.infoObject.remainingPaymentTime -= 1;
           this.turnMinute(this.infoObject.remainingPaymentTime)
-          document.getElementsByClassName('el-progress__text')[0] ?
+              this.$nextTick(()=>{
+                document.getElementsByClassName('el-progress__text')[0] ?
               document.getElementsByClassName('el-progress__text')[0].innerText = this.timeText : '';
+              })
           if(this.infoObject.remainingPaymentTime <= 0){
             clearInterval(this.countDown);
             this.$store.state.resultData = res.data;
@@ -179,12 +186,6 @@ export default {
             this.$store.state.resultData = res.data;
             this.$router.push("/overpayment");
           }
-          //if non payment 
-          //  if(this.infoObject.payStatus!== 0){
-          //   this.$store.state.resultData = res.data
-          //   this.$router.push('/overpayment')
-          //   return false
-          // }
         }
       })
     },
@@ -214,14 +215,9 @@ export default {
       }
     },
     //addrss
-    addrImg(n){
-      if(n.qrAddress === this.AddrImg){
-        return false
-      }
-      this.isShow - n
-      this.AddrImg = n.qrAddress
+    addrImg(){
       new QRCode(this.$refs.qrCodeUrl, {
-        text: n.qrAddress,
+        text: this.$store.state.binanData.qrAddress,
         width: 140,
         height: 140,
         colorDark: '#000000',
@@ -231,6 +227,18 @@ export default {
       
     }
   },
+  watch:{
+    //Listen for data on the page and render the page
+    binanData:{
+      immediate:true,
+      handler(newVal){
+       this.$nextTick(()=>{
+         this.queryInfo()
+          newVal?document.getElementsByClassName('el-progress__text')[0].innerText = '00:00'&&this.addrImg():''
+       })
+      }
+    }
+  }
 };
 </script>
 

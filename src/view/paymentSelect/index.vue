@@ -117,19 +117,25 @@ export default{
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12);
   font-family: Jost-Regular, Jost;
   border-radius: 15px;
-  padding: 40px 0 30px 0;
+  padding: 0px 0 30px 0;
   box-sizing: border-box;
   margin:0 auto;
   
   .select-search{
     width: 100%;
-    height: 44px;
-    padding: 0 20px 0 20px;
+    height: 90px;
+    background: #FFFFFF;
+    padding: 20px 20px 0 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     box-sizing: border-box;
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 999;
     input{
       width: 99%;
-      height: 100%;
+      height: 44px;
       border-radius: 4px;
       background: #F3F4F5;
       border: none;
@@ -138,12 +144,12 @@ export default{
     }
     div{
       width: 100%;
-      height: 100%;
+      // height: 100%;
       color: #999999;
       font-size: 12px;
       position: absolute;
       left:0;
-      top: 2%;
+      top: 53%;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -192,24 +198,12 @@ export default{
        }
       }
       .right{
-        width: 14px;
-        height: 14px;
+        width: 15px;
+        height: 15px;
       }
     }
   }
 }
-// @media screen and(max-width:1280px) {
-//   .select-container{
-//   width: 380px;
-//   height: 430px;
-//   background: #FFFFFF;
-//   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12);
-//   font-family: Jost-Regular, Jost;
-//   border-radius: 15px;
-//   padding: 40px 0 30px 0;
-//   box-sizing: border-box;
-//   margin:0 auto;}
-// }
 @media screen and (max-width:768px){
  .select-container{
   width: 100%;
@@ -217,20 +211,24 @@ export default{
   font-size: .2rem;
   height: 100%;
   font-family: Jost-Regular, Jost;
-  padding-top: .09rem;
   border-radius: 0;
    box-shadow: 0 0 0 0 #fff;
   z-index: 0;
   .select-search{
     width: 100%;
-    height: .44rem;
+    height: .8rem;
+    background: #fff;
     padding: 0 .2rem 0 .2rem;
-    // font-family: Jost-Regular, Jost;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     box-sizing: border-box;
-    position: relative;
+    position: sticky;
+    top: 0px;
+    z-index: 999;
     input{
       width: 99%;
-      height: 100%;
+      height: .44rem;
       border-radius: .04rem;
       background: #F3F4F5;
       border: none;
@@ -294,8 +292,8 @@ export default{
        }
       }
       .right{
-        width: .14rem;
-        height: .14rem;
+        width: .15rem;
+        height: .15rem;
       }
     }
   }

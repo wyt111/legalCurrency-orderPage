@@ -14,7 +14,7 @@ module.exports = {
         paymentDetails_viewDetails1: 'View',
         paymentDetails_viewDetails2: 'Details',
         paymentDetails_qrCodeAmount: 'With Amount',
-        paymentDetails_qrCodeExplain: 'Scan the QR code or copy and paste the binancePayment details into your wallet.',
+        paymentDetails_qrCodeExplain: 'Scan the QR code or copy and paste the payment details into your wallet.',
         paymentDetails_network: 'Network',
         paymentDetails_amountDue: 'Amount Due',
         paymentDetails_address: 'Address',
@@ -35,6 +35,7 @@ module.exports = {
         overpayment_part1:'Your payment amount is greater than the amount due, and the payment is successful. Since your overpayment amount is less than 1USDT, the system will not issue a refund to you. ',
         overpayment_succeed1:'system will send you an email to collect, please pay attention to check the refund information. ',
         overpayment_succeed:'Your payment amount is less than the amount due and the payment was unsuccessful. The system will send you an email to collect, please pay attention to check the refund information. ',
+        overpayment_return:'Return to merchants',
         //paymentSelect
         selectPayment:'Payment Wallets',
         selectPayment_wall:'On-chain Crypto',
@@ -44,6 +45,8 @@ module.exports = {
         paymentemail_addr:'Please provide your email to receive payment notification',
         paymentemail_Email:'Email Address',
         paymentemail_consent :'By giving my email address, I consent to Alchemy Pay to use it for payment related issues.',
+        paymentemail_submit:'submit',
+        paymentemail_Confirm:'Confirm',
         //paymentPrompt
         paymentPrompt_tips:'Payment Tips ',
         paymentPrompt_succe:'Please key in the exact amount to be paid in crypto to ensure successful payment.',

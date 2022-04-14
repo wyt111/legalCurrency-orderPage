@@ -2,7 +2,7 @@
   <div id="App" v-title data-title="Alchemy Pay">
     <Header class="none" ref="headerRef" v-if="navigationBarState"/>
     <div class="title1" v-if="this.$route.meta.isTitle">
-        <div>
+        <div v-show="logoDta.logo">
           <img :src="logoDta.logo" alt=""/>
           <p>{{ logoDta.merchantName }}</p>
         </div>
@@ -17,6 +17,7 @@
     
     <language v-show="languageView"/>
     <router-view class="content"  ref="routerRef" v-show="isShow2"/>
+   
     
     <div class="comeFrom" v-if="this.$route.meta.isShow">
       <div class="comeFrom_text">Powered by</div>
@@ -117,17 +118,32 @@ export default {
         this.languageView = false
       }
     })
+   //Merchants logo
        if(this.$route.path!=='/loadingStatus'){
-         setTimeout(()=>{
-           let params = {
-            "merchantCode":this.$store.state.merchantCode
-          }
-          this.$axios.post(this.$api.post_payList,params).then(res=>{
-            if(res && res.data){
-              this.logoDta = res.data
+        if(this.$store.state.merchantCode===''){
+          let n = setInterval(()=>{
+            if(this.$store.state.merchantCode !== ''){
+              let params = {
+                "merchantCode":this.$store.state.merchantCode
+              }
+              this.$axios.post(this.$api.post_payList,params).then(res=>{
+                if(res && res.data){
+                  this.logoDta = res.data
+                  clearInterval(n)
+                }
+              })
             }
-          })
-         },500)
+          },500)
+        }else{
+          let params = {
+                "merchantCode":this.$store.state.merchantCode
+              }
+              this.$axios.post(this.$api.post_payList,params).then(res=>{
+                if(res && res.data){
+                  this.logoDta = res.data
+                }
+              })
+        }
        }
   },
 }

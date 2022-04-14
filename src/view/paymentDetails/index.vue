@@ -1,5 +1,5 @@
 <template>
-  <div id="paymentDetails">
+  <div id="paymentDetails" v-if="payment_isShow">
     <div class="countDown">
       <el-progress type="circle" :width="130" :stroke-width=10 :percentage="timeValue" :color="colors"></el-progress>
       <div class="seeDetails" @click="details_state = true">
@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="isShow" v-show="networt_isShow">
-          <div v-for="(item,index) in networkList" :key="item.id" @click="choiseNetwork(item,index)">
+          <div v-for="(item,index) in networkList" :key="item.id" @click="choiseNetwork(item,index)" :style="{borderTop:networkList.length>1&&index/2!==0?'1px solid #E6E6E7FF':'none'}">
             <p>{{item.currencyFullName}} </p>
             <img v-if="item.state" src="@/assets/checkIcon.png" alt="">
           </div>
@@ -78,6 +78,7 @@
 
     <springFrame class="springFrameView" v-show="springFrame_state" :timeNum="timeText"/>
   </div>
+  <div v-else id="paymentDetails"></div>
 </template>
 
 <script>
@@ -116,19 +117,20 @@ export default {
       infoObject: {},
       oldPayAddress: '',
       payMethodLogoState: false,
+      payment_isShow:false
     }
   },
   mounted() {
-    document.getElementsByClassName('el-progress__text')[0].innerText = '00:00';
+    // document.getElementsByClassName('el-progress__text')[0].innerText = '00:00';
     if(this.$store.state.paymentType && this.$store.state.paymentType.currencyCode === "USDT"){
       this.networkView = true;
       this.queryNetwork();
     }else {
       this.networkView = false;
-      this.networkName = this.$store.state.paymentType.chainName;
+      this.networkName = this.$store.state.paymentType.chainName
       this.refreshPayState();
     }
-    if(this.$store.state.paymentType && (this.$store.state.paymentType.currencyCode === 'ETH' || this.$store.state.paymentType.currencyCode === 'BTC' || this.$store.state.paymentType.currencyCode === 'TRX')){
+     if(this.$store.state.paymentType ){
       this.showAmountState = true;
     }
   },
@@ -177,26 +179,38 @@ export default {
       this.$axios.post(this.$api.post_qrPay, params).then(res => {
         if(res && res.data){
           this.infoObject = res.data;
+          this.$store.state.binanData = res.data
+          this.payment_isShow = true
           this.$store.state.payentAmite = this.infoObject.coin
           res.data.chainName !== null && res.data.chainName !== '' ? this.networkName = res.data.chainName : '';
           //QR code processing
           if(this.oldPayAddress !== this.infoObject.qrAddress){
-            this.handleQrAddress = res.data.qrAddress;
-            this.displayAddress = res.data.qrAddress.slice(res.data.qrAddress.indexOf(":")+1,res.data.qrAddress.indexOf("?"))
-            this.$refs.qrCodeUrl.innerHTML = "";
-            this.payMethodLogoState = true;
-            this.generateQRcode();
+             this.handleQrAddress = res.data.qrAddress;
+              this.displayAddress = res.data.qrAddress.slice(res.data.qrAddress.indexOf(":")+1,res.data.qrAddress.indexOf("?"))
+              this.payMethodLogoState = true;
+                //innnerHTML error  
+               let id = setInterval(()=>{
+                 let qrCodeUrl = this.$refs.qrCodeUrl
+                 if(qrCodeUrl===undefined){
+                   qrCodeUrl = this.$refs.qrCodeUrl
+                 }else{
+                   clearInterval(id)
+                   this.$refs.qrCodeUrl.innerHTML = ""
+                  this.generateQRcode()
+                 }
+               },100)
           }
           this.oldPayAddress = res.data.qrAddress;
 
           this.infoObject.remainingPaymentTime -= 1;
           this.turnMinute(this.infoObject.remainingPaymentTime)
-          document.getElementsByClassName('el-progress__text')[0] ?
+              document.getElementsByClassName('el-progress__text')[0] ?
               document.getElementsByClassName('el-progress__text')[0].innerText = this.timeText : '';
           //When the remaining time of the order is less than 10min, the time timer on the page changes to red
-          if(this.infoObject.remainingPaymentTime <= 600){
-            this.colors = [{color: '#FF0000'}];
-            document.getElementsByClassName('el-progress__text')[0].style.color = '#FF0000';
+          if(this.infoObject.remainingPaymentTime <= 600 && res.data){
+        
+              this.colors = [{color: '#FF0000'}];
+             document.getElementsByClassName('el-progress__text')[0]?document.getElementsByClassName('el-progress__text')[0].style.color = '#FF0000':''
           }
           this.infoObject.remainingPaymentTime === 600 ? this.springFrame_state = true : '';
           //to result
@@ -308,6 +322,7 @@ export default {
         box.style = 'overflow-y:scroll'
       }
     },
+    //overflow:hidden no body
     springFrame_state:{
       immediate:true,
       handler(newVal){
@@ -324,6 +339,7 @@ export default {
         
       }
     },
+    //onreze
     network_state(newVal){
       let _width = document.documentElement.clientWidth || document.body.clientWidth
       let box =  document.querySelector('#paymentDetails')
@@ -341,7 +357,24 @@ export default {
         document.body.style = 'overflow-y:scroll !important'
       }
     },
-  }
+    //isShow payment
+    payment_isShow:{
+      immediate:true,
+      handler(newVal){
+          this.pay()
+        if(newVal && this.$store.state.resultData.payStatus!==0){
+          
+          return false
+        }else{
+            this.$nextTick(()=>{
+            newVal && this.$store.state.resultData.payStatus===0?document.getElementsByClassName('el-progress__text')[0].innerText = '00:00'&&this.pay():''
+
+         })
+        }
+      }
+    }
+  },
+  
 }
 </script>
 
@@ -432,7 +465,7 @@ export default {
     color: #666666;
     text-align: center;
     padding: 10px 40px;
-    word-break: break-all;
+    word-wrap:break-word;
   }
   .payForm{
     padding: 0 20px;
@@ -449,7 +482,6 @@ export default {
         height: 44px;
         display: flex;
         justify-content: space-between;
-        border-bottom: 1px solid #E6E6E7FF;
         align-items: center;
         padding: 10px 10px 0;
         box-sizing: border-box;

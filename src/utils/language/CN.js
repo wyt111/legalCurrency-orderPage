@@ -35,6 +35,7 @@ module.exports = {
         overpayment_fapiao:'订单超时',
         overpayment_chao:'订单只有60分钟有效时间，若想重新支付请返回商户。',
         overpayment_chao1:'如果您在发票过期后付款，退款请求将自动发送到您的电子邮件。',
+        overpayment_return:'返回商户',
         //paymentSelect
         selectPayment:'收款钱包',
         selectPayment_wall:'链上币种',
@@ -44,12 +45,15 @@ module.exports = {
         paymentemail_addr:'请提供您的收款邮箱通知',
         paymentemail_Email:'邮箱地址',
         paymentemail_consent:'通过提供我的电子邮件地址，我同意炼金术师支付使用它支付相关的问题.',
+        paymentemail_submit:'提交',
+        
         //paymentPrompt
         paymentPrompt_tips:'付款提示',
         paymentPrompt_succe:'请输入准确的金额，以支付加密货币 确保成功付款.',
         paymentPrompt_high:'选择您钱包上的',
         paymentPrompt_High:'“高”或“最快”',
         paymentPrompt_High1:'网络费用，以确保及时确认.',
+        paymentemail_Confirm:'确认',
         //Warning
         Warning_payment:'完整的付款:',
         Warning_Awaiting:'等待付款',
