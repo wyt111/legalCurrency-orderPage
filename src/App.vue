@@ -56,11 +56,10 @@ export default {
               this.$router.replace('/paymentSelect')
               return
             }
-           this.$router.go(-1);
+           this.$router.go(-3);
           return;
       }
       if((this.$route.path==='/paymentEmail'&&this.$store.state.paymentEmail==='')){
-           console.log(this.$route.path === '/paymentDetails');
            this.$router.replace('/paymentSelect')
             return
           }
@@ -96,10 +95,37 @@ export default {
           this.isShow2 = true
         }
       }
+    },
+    //Listen for route changes plus ID
+    '$route':{
+      immediate:true,
+      deep:true,
+      handler(to,from){
+        from
+        this.$router.push({
+          path:to.path,
+          query:{
+            id:(to.path==='/'||to.path==='/loadingStatus'||to.path==='overPaymentEmail'||to.path==='/refundLoading'||to.path==='/overpayment')&&to.query.id?to.query.id:localStorage.getItem('sysOrderNum'),
+            locale:(to.path==='overPaymentEmail'||to.path==='/refundLoading')&&this.$store.state.languageValue===to.query.locale?to.query.locale:this.$store.state.languageValue
+          }
+        })
+      }
+    },
+    '$store.state.languageValue':{
+      immediate:true,
+      handler(newVal,oldVal){
+        if(newVal !== oldVal){
+          let query = this.$router.history.current.query
+          let path = this.$router.history.current.path
+           let newQuery = JSON.parse(JSON.stringify(query));
+           newQuery.locale = newVal
+          this.$router.push({ path, query: newQuery });
+        }
+      }
     }
   },
   mounted(){
-    
+
     //Vuex store data
     if (sessionStorage.getItem("store")) {
       this.$store.replaceState(Object.assign({},this.$store.state,JSON.parse(sessionStorage.getItem("store"))))

@@ -28,12 +28,26 @@ router.beforeEach((to,from,next)=>{
       window.location.href = n
       to.query.id ? localStorage.setItem("sysOrderNum",to.query.id) : '';
       to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' ? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
+    }else if(to.path !== '/' && to.path !== '/loadingStatus' && !localStorage.getItem("sysOrderNum")){
+      //Enter from any page
+        to.query.id? localStorage.setItem("sysOrderNum",to.query.id): '';
+        to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' ? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
+        next({
+          path:'/loadingStatus'
+        })
     }
   }else{
     if(to.path === '/loadingStatus'){
-      to.query.id = 'API151442779570137088'
+      to.query.id = 'API151480352121461555'
       to.query.id ? localStorage.setItem("sysOrderNum",to.query.id) : '';
       to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' ? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
+  }else if(to.path !== '/' && to.path !== '/loadingStatus' && !localStorage.getItem("sysOrderNum")&&!to.query.locale){
+    //Enter from any page
+      to.query.id? localStorage.setItem("sysOrderNum",to.query.id): '';
+      to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' ? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
+      next({
+        path:'/loadingStatus'
+      })
   }
 }
   next();

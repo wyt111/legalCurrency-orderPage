@@ -56,9 +56,17 @@ export default {
     goBack(){
       if(this.$parent.languageView === false && (this.$route.path === '/paymentDetails' && this.$store.state.binancePayment === 'payList')||
           (this.$route.path === '/binancePayment' && this.$store.state.binancePayment === 'payList')){
-        this.$router.go(-1);
-        return;
+            if(this.$route.path === '/paymentDetails'&&this.$store.state.paymentEmail!==''){
+              this.$router.replace('/paymentSelect')
+              return
+            }
+           this.$router.go(-3);
+          return;
       }
+      if((this.$route.path==='/paymentEmail'&&this.$store.state.paymentEmail==='')){
+           this.$router.replace('/paymentSelect')
+            return
+          }
       if(this.$parent.languageView === true){
         this.$parent.languageView = false;
         return;
