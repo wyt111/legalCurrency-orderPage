@@ -105,7 +105,7 @@ export default {
         this.$router.push({
           path:to.path,
           query:{
-            id:(to.path==='/'||to.path==='/loadingStatus'||to.path==='overPaymentEmail'||to.path==='/refundLoading')&&to.query.id?to.query.id:localStorage.getItem('sysOrderNum'),
+            id:(to.path==='/'||to.path==='/loadingStatus'||to.path==='overPaymentEmail'||to.path==='/refundLoading')&&to.query.id !== localStorage.getItem('sysOrderNum')?to.query.id:localStorage.getItem('sysOrderNum'),
             locale:(to.path==='overPaymentEmail'||to.path==='/refundLoading')&&this.$store.state.languageValue===to.query.locale?to.query.locale:this.$store.state.languageValue
           }
         })
@@ -117,9 +117,12 @@ export default {
       handler(newVal,oldVal){
         let query = this.$router.history.current.query
           let path = this.$router.history.current.path
+          let newQuery = JSON.parse(JSON.stringify(query));
         if((newVal !== oldVal) && path!=='/overPaymentEmail' || path!== '/refundLoading'){
-           let newQuery = JSON.parse(JSON.stringify(query));
            newQuery.locale = newVal
+          this.$router.push({ path, query: newQuery });
+        }else{
+          newQuery.locale = ''
           this.$router.push({ path, query: newQuery });
         }
       }

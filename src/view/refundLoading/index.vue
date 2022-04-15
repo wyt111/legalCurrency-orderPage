@@ -69,7 +69,7 @@
       },
       mounted(){
         let params = {
-        "sysOrderNum":this.$route.query.Id
+        "sysOrderNum":sessionStorage.getItem('emailId')
       }
         this.Id = setInterval(()=>{
           this.$axios.post(this.$api.post_Addrss,params).then(res=>{

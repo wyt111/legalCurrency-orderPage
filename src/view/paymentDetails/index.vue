@@ -203,7 +203,7 @@ export default {
               //     this.generateQRcode()
           }
           this.oldPayAddress = res.data.qrAddress;
-
+          
           this.infoObject.remainingPaymentTime -= 1;
           this.turnMinute(this.infoObject.remainingPaymentTime)
               document.getElementsByClassName('el-progress__text')[0] ?
@@ -214,6 +214,7 @@ export default {
               this.colors = [{color: '#FF0000'}];
              document.getElementsByClassName('el-progress__text')[0]?document.getElementsByClassName('el-progress__text')[0].style.color = '#FF0000':''
           }
+          
           this.infoObject.remainingPaymentTime === 600 ? this.springFrame_state = true : '';
           //to result
           if(this.infoObject.remainingPaymentTime<=0){
@@ -225,11 +226,12 @@ export default {
             }
             this.$router.push('/overpayment')
             clearInterval(this.countDown)
-          }else if(this.infoObject.remainingPaymentTime>0 && this.$store.state.resultData.payStatus!==0){
+          }else if(this.infoObject.remainingPaymentTime>0 && this.infoObject.payStatus!==0){
             this.$store.state.resultData = res.data
             this.$router.push('/overpayment')
             return false
           }
+          
         }
       })
     },
@@ -364,15 +366,12 @@ export default {
       immediate:true,
       handler(newVal){
           this.pay()
-        if(newVal && this.$store.state.resultData.payStatus!==0){
-          
-          return false
-        }else{
+
             this.$nextTick(()=>{
             newVal && this.$store.state.resultData.payStatus===0?document.getElementsByClassName('el-progress__text')[0].innerText = '00:00'&&this.pay():''
 
          })
-        }
+        
       }
     }
   },

@@ -62,34 +62,35 @@ export default{
       }
     },
     //next
-    refundFn(){
-      this.AddrssIs()
-      if(this.AddrssIs()){
-        let Id = this.$route.query.id
-        let params = {
-          "sysOrderNum":Id,
-          "refundAddress":this.Input
-        }
-        this.$axios.post(this.$api.post_AddrssSuccs,params).then(res=>{
-          if(res && res.data){
-            if(res.msg === '成功'){
-            this.$toast('succss')
+    refundFn(){ 
+       sessionStorage.setItem('isLoginEmail','false')
             this.$router.push({
               path:'/refundLoading',
-              query:{
-                id:Id
-              }
             })
-          }else{
-             this.$toast('Incorrect address')
-          }
-          }else{
-            this.$toast('Network error')
-          }
-        })
-      }else{
-        this.$toast('The address cannot be empty')
-      }
+      // if(this.AddrssIs()){
+      //   let Id = sessionStorage.getItem('emailId')
+      //   let params = {
+      //     "sysOrderNum":Id,
+      //     "refundAddress":this.Input
+      //   }
+      //   this.$axios.post(this.$api.post_AddrssSuccs,params).then(res=>{
+      //     if(res && res.data){
+      //       if(res.msg === '成功'){
+      //       this.$toast('succss')
+      //       sessionStorage.setItem('isLoginEmail','false')
+      //       this.$router.push({
+      //         path:'/refundLoading',
+      //       })
+      //     }else{
+      //        this.$toast('Incorrect address')
+      //     }
+      //     }else{
+      //       this.$toast('Network error')
+      //     }
+      //   })
+      // }else{
+      //   this.$toast('The address cannot be empty')
+      // }
     },
     _axiosData(){
        let params = {
