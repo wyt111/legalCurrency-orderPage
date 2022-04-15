@@ -96,7 +96,7 @@ export default {
         }
       }
     },
-    //Listen for route changes plus ID
+    //Listen for route changes plus ID and push Locale
     '$route':{
       immediate:true,
       deep:true,
@@ -105,18 +105,19 @@ export default {
         this.$router.push({
           path:to.path,
           query:{
-            id:(to.path==='/'||to.path==='/loadingStatus'||to.path==='overPaymentEmail'||to.path==='/refundLoading'||to.path==='/overpayment')&&to.query.id?to.query.id:localStorage.getItem('sysOrderNum'),
+            id:(to.path==='/'||to.path==='/loadingStatus'||to.path==='overPaymentEmail'||to.path==='/refundLoading')&&to.query.id?to.query.id:localStorage.getItem('sysOrderNum'),
             locale:(to.path==='overPaymentEmail'||to.path==='/refundLoading')&&this.$store.state.languageValue===to.query.locale?to.query.locale:this.$store.state.languageValue
           }
         })
       }
     },
+    // Address bar parameters
     '$store.state.languageValue':{
       immediate:true,
       handler(newVal,oldVal){
-        if(newVal !== oldVal){
-          let query = this.$router.history.current.query
+        let query = this.$router.history.current.query
           let path = this.$router.history.current.path
+        if((newVal !== oldVal) && path!=='/overPaymentEmail' || path!== '/refundLoading'){
            let newQuery = JSON.parse(JSON.stringify(query));
            newQuery.locale = newVal
           this.$router.push({ path, query: newQuery });

@@ -199,6 +199,8 @@ export default {
                   this.generateQRcode()
                  }
                },100)
+              //  this.$refs.qrCodeUrl.innerHTML = ""
+              //     this.generateQRcode()
           }
           this.oldPayAddress = res.data.qrAddress;
 

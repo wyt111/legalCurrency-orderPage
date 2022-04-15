@@ -8,7 +8,6 @@
 export default {
   name: "loadingStatus",
   mounted(){
-  
     let params = {
       "sysOrderNum": localStorage.getItem("sysOrderNum") //API148660202748314009 API149637939023643033
     }

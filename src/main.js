@@ -17,6 +17,9 @@ import "./utils/uiClassLibrary";
 
 //id - Order ID   locale - The language can be set on the currency security payment page of the order with payment method
 router.beforeEach((to,from,next)=>{
+  //Check whether the refund page is displayed
+  to.path==='/overPaymentEmail'?sessionStorage.setItem('isLoginEmail','true'):''
+  var isLoginEmail = sessionStorage.getItem('isLoginEmail')
   //is ios and is android
   var u = navigator.userAgent;
   // var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
@@ -28,29 +31,21 @@ router.beforeEach((to,from,next)=>{
       window.location.href = n
       to.query.id ? localStorage.setItem("sysOrderNum",to.query.id) : '';
       to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' ? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
-    }else if(to.path !== '/' && to.path !== '/loadingStatus' && !localStorage.getItem("sysOrderNum")){
-      //Enter from any page
-        to.query.id? localStorage.setItem("sysOrderNum",to.query.id): '';
-        to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' ? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
-        next({
-          path:'/loadingStatus'
-        })
     }
+    next()
   }else{
     if(to.path === '/loadingStatus'){
-      to.query.id = 'API151480352121461555'
+      to.query.id = 'API151484911443994624'
       to.query.id ? localStorage.setItem("sysOrderNum",to.query.id) : '';
-      to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' ? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
-  }else if(to.path !== '/' && to.path !== '/loadingStatus' && !localStorage.getItem("sysOrderNum")&&!to.query.locale){
-    //Enter from any page
-      to.query.id? localStorage.setItem("sysOrderNum",to.query.id): '';
-      to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' ? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
-      next({
-        path:'/loadingStatus'
-      })
-  }
+      to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' && store.state.binancePayment_locale!==to.query.locale? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
+    }else if(to.path !== '/overPaymentEmail' && isLoginEmail==='true'){
+      next('/overPaymentEmail')
+      return
+    }
+    next()
+    
 }
-  next();
+
 })
 
 
