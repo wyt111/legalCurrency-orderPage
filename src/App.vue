@@ -97,36 +97,36 @@ export default {
       }
     },
     //Listen for route changes plus ID and push Locale
-    '$route':{
-      immediate:true,
-      deep:true,
-      handler(to,from){
-        from
-        this.$router.push({
-          path:to.path,
-          query:{
-            id:(to.path==='/'||to.path==='/loadingStatus'||to.path==='overPaymentEmail'||to.path==='/refundLoading')&&to.query.id !== localStorage.getItem('sysOrderNum')?to.query.id:localStorage.getItem('sysOrderNum'),
-            locale:(to.path==='overPaymentEmail'||to.path==='/refundLoading')&&this.$store.state.languageValue===to.query.locale?to.query.locale:this.$store.state.languageValue
-          }
-        })
-      }
-    },
+    // '$route':{
+    //   immediate:true,
+    //   deep:true,
+    //   handler(to,from){
+    //     from
+    //     this.$router.push({
+    //       path:to.path,
+    //       query:{
+    //         id:(to.path==='/'||to.path==='/loadingStatus'||to.path==='overPaymentEmail'||to.path==='/refundLoading')&&to.query.id !== localStorage.getItem('sysOrderNum')?to.query.id:localStorage.getItem('sysOrderNum'),
+    //         locale:(to.path==='overPaymentEmail'||to.path==='/refundLoading')&&this.$store.state.languageValue===to.query.locale?to.query.locale:this.$store.state.languageValue
+    //       }
+    //     })
+    //   }
+    // },
     // Address bar parameters
-    '$store.state.languageValue':{
-      immediate:true,
-      handler(newVal,oldVal){
-        let query = this.$router.history.current.query
-          let path = this.$router.history.current.path
-          let newQuery = JSON.parse(JSON.stringify(query));
-        if((newVal !== oldVal) && path!=='/overPaymentEmail' || path!== '/refundLoading'){
-           newQuery.locale = newVal
-          this.$router.push({ path, query: newQuery });
-        }else{
-          newQuery.locale = ''
-          this.$router.push({ path, query: newQuery });
-        }
-      }
-    }
+    // '$store.state.languageValue':{
+    //   immediate:true,
+    //   handler(newVal,oldVal){
+    //     let query = this.$router.history.current.query
+    //       let path = this.$router.history.current.path
+    //       let newQuery = JSON.parse(JSON.stringify(query));
+    //     if((newVal !== oldVal) && path!=='/overPaymentEmail' || path!== '/refundLoading'){
+    //        newQuery.locale = newVal
+    //       this.$router.push({ path, query: newQuery });
+    //     }else{
+    //       newQuery.locale = ''
+    //       this.$router.push({ path, query: newQuery });
+    //     }
+    //   }
+    // }
   },
   mounted(){
 
