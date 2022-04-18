@@ -18,7 +18,7 @@ export default {
         this.$store.state.cancelTo = res.data.cancelTo;
         this.$store.state.returnTo = res.data.returnTo;
         //binance
-        if(res.data.payMent === "w1"){
+        if(res.data.payMent === "w1" && res.data.payStatus === 0){
           this.$router.replace("/binancePayment");
           this.$store.state.binancePayment = 'initialPag';
           this.$store.state.paymentType.chainName = '';
@@ -40,15 +40,16 @@ export default {
               if(res && res.data){
                   if(res.data.isEmail===1){
                     this.$store.state.isTips = res.data
-                    this.$router.replace("/paymentEmail");
+                    this.$router.push("/paymentEmail");
                   }else{
-                    this.$router.replace("/paymentDetails");
+                    this.$router.push("/paymentDetails");
                   }
               }
             })
         }
         if(res.data.payStatus!==0){
-           this.$router.replace("/overPayment");
+          this.$store.state.resultData = res.data
+           this.$router.replace("/overpayment");
         }
         this.$store.state.binancePayment = 'initialPag';
           this.$store.state.paymentType.payType = res.data.payMent;

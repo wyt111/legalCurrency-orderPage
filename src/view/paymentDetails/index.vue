@@ -172,7 +172,7 @@ export default {
     //Payment status interface
     pay(){
       let params = {
-        sysOrderNum: localStorage.getItem("sysOrderNum"),
+        sysOrderNum: this.$route.query.id,
         payMent: this.$store.state.paymentType.payType,
         email: this.$store.state.paymentEmail,
       }

@@ -48,7 +48,8 @@ export default{
       isAddrss:'',
       Input:'',
       isOver:2,
-      overPaymentData:''
+      overPaymentData:'',
+      overMsg:''
     }
   },
   methods:{
@@ -65,7 +66,7 @@ export default{
     refundFn(){ 
       
       if(this.AddrssIs()){
-        let Id = sessionStorage.getItem('emailId')
+        let Id = this.$route.query.id
         let params = {
           "sysOrderNum":Id,
           "refundAddress":this.Input
@@ -78,11 +79,11 @@ export default{
             this.$router.push({
               path:'/refundLoading',
             })
-          }else{
-             this.$toast('Incorrect address')
+          }else if(res.code === '33333'){
+             this.$toast('address error')
           }
           }else{
-            this.$toast('Network error')
+            this.$toast('network error')
           }
         })
       }else{

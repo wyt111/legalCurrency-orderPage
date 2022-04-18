@@ -85,6 +85,7 @@ export default {
     if(this.$route.path === '/binancePayment'){
       this.$store.state.binancePayment_locale === ''? this.$store.state.binancePayment_locale = 'en' : '';
       //Case insensitive recognition string
+      this.$route.query.locale !==this.$store.state.binancePayment_locale?this.$store.state.binancePayment_locale = this.$route.query.locale:'en'
       this.recognitionLanguage(this.$store.state.binancePayment_locale);
     }
     this.queryInfo();
@@ -182,7 +183,9 @@ export default {
             this.$store.state.resultData = res.data;
             this.$store.state.resultData.payStatus = 4;
             this.$router.push("/overpayment");
-          }else if(this.infoObject.remainingPaymentTime > 0 && this.$store.state.resultData.payStatus != 0){
+            
+          }else if(this.infoObject.remainingPaymentTime > 0 && res.data.payStatus !== 0){
+            // clearInterval(this.countDown);
             this.$store.state.resultData = res.data;
             this.$router.push("/overpayment");
           }
@@ -237,7 +240,8 @@ export default {
           newVal?document.getElementsByClassName('el-progress__text')[0].innerText = '00:00'&&this.addrImg():''
        })
       }
-    }
+    },
+
   }
 };
 </script>

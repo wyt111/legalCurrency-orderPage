@@ -12,7 +12,7 @@
         <img src="./assets/goBack.png" alt="" class="goBack" @click="goBack" v-show="['binancePayment','paymentDetails','paymentEmail','paymentPrompt'].includes(this.$route.name)">
     </div>
     <div class="title2" v-else >
-      <img src="./assets/logoEmail.png"  alt="" v-show="this.$route.name==='loadingStatus'?false:true">
+      <img src="./assets/logoEmail.png"  alt="" v-show="this.$route.path==='/loadingStatus'?false:true">
     </div>
     
     <language v-show="languageView"/>
@@ -63,6 +63,10 @@ export default {
            this.$router.replace('/paymentSelect')
             return
           }
+    if((this.$route.path==='/paymentDetails'&&this.$store.state.paymentEmail==='')){
+      this.$router.replace('/paymentSelect')
+      return
+    }
       
       if(this.languageView === true){
         this.languageView = false;
@@ -98,22 +102,26 @@ export default {
     },
     //Listen for route changes plus ID and push Locale
     '$route':{
-      immediate:true,
+      // immediate:true,
       deep:true,
       handler(to,from){
         from
+        let queryString = window.location.href
+        let params  = new URLSearchParams(queryString)
+        let result = params.get('locale') // 123
+        // console.log(result);
         this.$router.push({
           path:to.path,
           query:{
-            id:(to.path==='/'||to.path==='/loadingStatus'||to.path==='overPaymentEmail'||to.path==='/refundLoading')&&to.query.id !== localStorage.getItem('sysOrderNum')?to.query.id:localStorage.getItem('sysOrderNum'),
-            locale:(to.path==='overPaymentEmail'||to.path==='/refundLoading')&&this.$store.state.languageValue===to.query.locale?to.query.locale:this.$store.state.languageValue
+            id:(to.path==='/loadingStatus'||to.path==='/overPaymentEmail'||to.path==='/refundLoading')&&to.query.id?to.query.id:localStorage.getItem('sysOrderNum'),
+            locale:to.query.locale!=='' && result?to.query.locale = result:this.$store.state.languageValue
           }
         })
       }
     },
     // Address bar parameters
     '$store.state.languageValue':{
-      immediate:true,
+      // immediate:true,
       handler(newVal,oldVal){
         let query = this.$router.history.current.query
           let path = this.$router.history.current.path
@@ -150,30 +158,14 @@ export default {
     })
    //Merchants logo
        if(this.$route.path!=='/loadingStatus'){
-        if(this.$store.state.merchantCode===''){
-          let n = setInterval(()=>{
-            if(this.$store.state.merchantCode !== ''){
-              let params = {
-                "merchantCode":this.$store.state.merchantCode
-              }
-              this.$axios.post(this.$api.post_payList,params).then(res=>{
-                if(res && res.data){
-                  this.logoDta = res.data
-                  clearInterval(n)
-                }
-              })
-            }
-          },500)
-        }else{
-          let params = {
-                "merchantCode":this.$store.state.merchantCode
+        let params = {
+                "merchantCode":this.$route.query.id
               }
               this.$axios.post(this.$api.post_payList,params).then(res=>{
                 if(res && res.data){
                   this.logoDta = res.data
                 }
               })
-        }
        }
   },
 }
