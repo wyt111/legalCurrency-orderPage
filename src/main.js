@@ -1,3 +1,4 @@
+
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -32,15 +33,17 @@ router.beforeEach((to,from,next)=>{
       let _href = window.location.href
       let newHref = _href.slice(0,_href.indexOf('?'))+_href.slice(_href.indexOf('#'),_href.length) + _href.slice(_href.indexOf('?'),_href.indexOf('#'))
       window.location.href = newHref
+
       to.query.id ? localStorage.setItem("sysOrderNum",to.query.id) : '';
       to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' ? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
-    }else if(to.path !== '/overPaymentEmail' && isLoginEmail==='true'){
-      next('/overPaymentEmail')
-      return
-    }else if(to.path === '/loadingStatus' || to.path !== '/refundLoading' || to.path !== '/overPaymentEmail'){
-      to.query.id ? localStorage.setItem("sysOrderNum",to.query.id) : sessionStorage.getItem('emailId');
-      to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' && store.state.binancePayment_locale!==to.query.locale? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
     }
+    // else if(to.path !== '/overPaymentEmail' && isLoginEmail==='true'){
+    //   next('/overPaymentEmail')
+    //   return
+    // }else if(to.path === '/loadingStatus' || to.path !== '/refundLoading' || to.path !== '/overPaymentEmail'){
+    //   to.query.id ? localStorage.setItem("sysOrderNum",to.query.id) : sessionStorage.getItem('emailId');
+    //   to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' && store.state.binancePayment_locale!==to.query.locale? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
+    // }
     next()
   }else{
     
@@ -48,6 +51,7 @@ router.beforeEach((to,from,next)=>{
       // to.query.id = 'API151599329246511513'
       to.query.id ? localStorage.setItem("sysOrderNum",to.query.id) : '';
       to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' && store.state.binancePayment_locale!==to.query.locale? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
+
       
     }else if(to.path !== '/overPaymentEmail' && isLoginEmail==='true'){
         router.push('/overPaymentEmail')
@@ -56,11 +60,9 @@ router.beforeEach((to,from,next)=>{
       to.query.id ? localStorage.setItem("sysOrderNum",to.query.id) : sessionStorage.getItem('emailId');
       to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' && store.state.binancePayment_locale!==to.query.locale? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
     }
-
-    next()
-    
-}
-
+  
+  next()
+  }
 })
 
 

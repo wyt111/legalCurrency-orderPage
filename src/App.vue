@@ -101,6 +101,7 @@ export default {
       }
     },
     //Listen for route changes plus ID and push Locale
+
     '$route':{
       // immediate:true,
       deep:true,
@@ -135,6 +136,7 @@ export default {
         }
       }
     }
+
   },
   mounted(){
 
