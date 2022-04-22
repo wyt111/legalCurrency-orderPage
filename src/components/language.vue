@@ -38,6 +38,7 @@ export default {
       })
       this.languageList[index].state = true;
       this.$store.state.languageValue = item.value;
+      this.$store.state.binancePayment_locale = item.value;
       this.$store.state.languageName = item.name;
       i18n.locale = item.value;
       this.$parent.$refs.headerRef.openLanguage();

@@ -9,7 +9,8 @@ export default {
   name: "loadingStatus",
   mounted(){
     let params = {
-      "sysOrderNum": localStorage.getItem("sysOrderNum") //API148660202748314009 API149637939023643033
+      // "sysOrderNum": this.$Base64.decode(localStorage.getItem("sysOrderNum")) //API148660202748314009 API149637939023643033
+      "sysOrderNum": localStorage.getItem("sysOrderNum")
     }
     this.$axios.post(this.$api.post_info, params).then(res=>{
       if(res && res.data){

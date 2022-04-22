@@ -62,7 +62,7 @@ export default{
         return false
       }
     },
-    //next
+    //next  verify
     refundFn(){ 
       
       if(this.AddrssIs()){
@@ -78,18 +78,21 @@ export default{
             sessionStorage.setItem('isLoginEmail','false')
             this.$router.push({
               path:'/refundLoading',
+              query:{
+                id:this.$route.query.id
+              }
             })
-          }else if(res.code === '33333'){
-             this.$toast('address error')
+            return
           }
           }else{
-            this.$toast('network error')
+            this.$toast('address error')
           }
         })
       }else{
         this.$toast('The address cannot be empty')
       }
     },
+    //axios  
     _axiosData(){
        let params = {
         "sysOrderNum":this.$route.query.id

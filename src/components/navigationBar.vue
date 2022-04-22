@@ -67,6 +67,10 @@ export default {
            this.$router.replace('/paymentSelect')
             return
           }
+          if((this.$route.path==='/paymentDetails'&&this.$store.state.paymentEmail==='')){
+            this.$router.replace('/paymentSelect')
+            return
+          }
       if(this.$parent.languageView === true){
         this.$parent.languageView = false;
         return;

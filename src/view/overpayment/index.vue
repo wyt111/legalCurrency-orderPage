@@ -72,10 +72,14 @@
       }
     },
     methods:{
+      //click returnTo
       _returnCan(){
-        window.open(this.$store.state.returnTo);
+          if(this.overData.payStatus===4){
+            window.open(this.overData.cancelTo)
+          }else{
+            window.open(this.overData.returnTo)
+          }
       },
-     
     },
     mounted(){
       this.overData = this.$store.state.resultData

@@ -1,5 +1,5 @@
 <template>
-  <div id="App" v-title data-title="Alchemy Pay">
+  <div id="App" v-title data-title="Alchemy Pay" style=" background: url('@/assets/background.png') no-repeat;background-size: 100% 700px;">
     <Header class="none" ref="headerRef" v-if="navigationBarState"/>
     <div class="title1" v-if="this.$route.meta.isTitle">
         <div v-show="logoDta.logo">
@@ -52,21 +52,23 @@ export default {
     goBack(){
       if(this.languageView === false && (this.$route.path === '/paymentDetails' && this.$store.state.binancePayment === 'payList')||
           (this.$route.path === '/binancePayment' && this.$store.state.binancePayment === 'payList')){
-            if(this.$route.path === '/paymentDetails'&&this.$store.state.paymentEmail!==''){
+            if(this.$route.path === '/paymentDetails'&&this.$store.state.paymentEmail!=='' && this.$store.state.isTips.isEmail!==1){
+              
               this.$router.replace('/paymentSelect')
               return
             }
-           this.$router.go(-3);
+            this.$router.go(-3)
           return;
       }
       if((this.$route.path==='/paymentEmail'&&this.$store.state.paymentEmail==='')){
            this.$router.replace('/paymentSelect')
             return
           }
-    if((this.$route.path==='/paymentDetails'&&this.$store.state.paymentEmail==='')){
-      this.$router.replace('/paymentSelect')
-      return
-    }
+    // if((this.$route.path==='/paymentDetails'&&this.$store.state.paymentEmail==='')){
+    //   console.log(this.$store.state.isTips.isEmail);
+    //   this.$router.replace('/paymentSelect')
+    //   return
+    // }
       
       if(this.languageView === true){
         this.languageView = false;
@@ -101,21 +103,18 @@ export default {
       }
     },
     //Listen for route changes plus ID and push Locale
-
     '$route':{
       // immediate:true,
       deep:true,
       handler(to,from){
         from
-        let queryString = window.location.href
-        let params  = new URLSearchParams(queryString)
-        let result = params.get('locale') // 123
-        // console.log(result);
+        console.log();
+        let result = this.$store.state.binancePayment_locale
         this.$router.push({
           path:to.path,
           query:{
             id:(to.path==='/loadingStatus'||to.path==='/overPaymentEmail'||to.path==='/refundLoading')&&to.query.id?to.query.id:localStorage.getItem('sysOrderNum'),
-            locale:to.query.locale!=='' && result?to.query.locale = result:this.$store.state.languageValue
+            locale:to.query.locale?to.query.locale:result
           }
         })
       }
@@ -127,7 +126,7 @@ export default {
         let query = this.$router.history.current.query
           let path = this.$router.history.current.path
           let newQuery = JSON.parse(JSON.stringify(query));
-        if((newVal !== oldVal) && path!=='/overPaymentEmail' || path!== '/refundLoading'){
+        if((newVal !== oldVal) && (path!=='/overPaymentEmail' || path!== '/refundLoading')){
            newQuery.locale = newVal
           this.$router.push({ path, query: newQuery });
         }else{
@@ -139,7 +138,7 @@ export default {
 
   },
   mounted(){
-
+    // console.log(this.$store.state.);
     //Vuex store data
     if (sessionStorage.getItem("store")) {
       this.$store.replaceState(Object.assign({},this.$store.state,JSON.parse(sessionStorage.getItem("store"))))
@@ -159,15 +158,30 @@ export default {
       }
     })
    //Merchants logo
-       if(this.$route.path!=='/loadingStatus'){
-        let params = {
-                "merchantCode":this.$route.query.id
+
+       if((this.$route.path!=='/loadingStatus'|| this.$route.path!=='/overPaymentEmail'|| this.$route.path!=='/refundLoading' )&& !this.logoDta ){
+            let id  = setInterval(()=>{
+              let _width1 = document.body.clientWidth || document.documentElement.clientWidth
+              if(_width1 > 769){
+                 let params = {
+                "merchantCode":this.$store.state.merchantCode
               }
               this.$axios.post(this.$api.post_payList,params).then(res=>{
                 if(res && res.data){
                   this.logoDta = res.data
+                  if(this.logoDta || this.$store.state.merchantCode){
+                    clearInterval(id)
+                  }
+                }else if(this.$route.path==='/overPaymentEmail'|| this.$route.path==='/refundLoading'){
+                  clearInterval(id)
                 }
               })
+              }else{
+                clearInterval(id)
+              }
+            
+           },1000)
+        
        }
   },
 }
@@ -203,7 +217,7 @@ export default {
   .title1{
     width: 400px;
     text-align: center;
-    margin: 0 auto;
+    margin: 20px auto 0;
     position: relative;
     font-family: Jost-Regular, Jost;
     div{
@@ -240,6 +254,7 @@ export default {
     }
   }
   .content{
+    background: #fff;
     flex: 1;
     overflow: auto;
   }
@@ -259,7 +274,7 @@ export default {
     width: 400px;
     // margin:30px auto 0;
     padding: 0 30px 0 40px;
-    margin: 40px auto;
+    margin: 10px auto;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
@@ -309,6 +324,8 @@ export default {
 }
 @media screen and (max-width:1280px) {
   #App{
+    // background: url('https://b.zol-img.com.cn/desk/bizhi/image/10/960x600/1598319721647.jpg') no-repeat;
+    // background-size: 100%;
   // padding-top: 100px;
   padding-bottom: 10px;
   font-size: 16px;
@@ -448,6 +465,7 @@ export default {
   flex-direction: column;
   font-size: 0.14rem;
   padding: 0 0 .1rem 0;
+  // background: url('https://b.zol-img.com.cn/desk/bizhi/image/10/960x600/1598319721647.jpg') no-repeat;
   .title1{
     display: none;
   }
@@ -458,6 +476,7 @@ export default {
     display: flex;
   }
   .content{
+    background: #fff;
     flex: 1;
     overflow-y: none;
 

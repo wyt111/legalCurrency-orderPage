@@ -172,6 +172,8 @@ export default {
     //Payment status interface
     pay(){
       let params = {
+        //Decrypts the parameters and requests the data
+        // sysOrderNum: this.$Base64.decode(this.$route.query.id),
         sysOrderNum: this.$route.query.id,
         payMent: this.$store.state.paymentType.payType,
         email: this.$store.state.paymentEmail,
@@ -285,6 +287,7 @@ export default {
         this.timeValue > 100 ? this.timeValue = 100 : '';
       }
     },
+    //Whether the popup box comes out from above or below
     bottom_top(){
       let _width = document.documentElement.clientWidth || document.body.clientWidth
       return _width>768?'top':'bottom'
@@ -343,7 +346,7 @@ export default {
         
       }
     },
-    //onreze
+    //onreze Resolves the pop-up display page scroll effect
     network_state(newVal){
       let _width = document.documentElement.clientWidth || document.body.clientWidth
       let box =  document.querySelector('#paymentDetails')
@@ -366,7 +369,6 @@ export default {
       immediate:true,
       handler(newVal){
           this.pay()
-
             this.$nextTick(()=>{
             newVal && this.$store.state.resultData.payStatus===0?document.getElementsByClassName('el-progress__text')[0].innerText = '00:00'&&this.pay():''
 

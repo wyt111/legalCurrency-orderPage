@@ -78,7 +78,8 @@ export default {
       AddrImg:'',
       isShow:'',
       binanData:false,
-      isShow1:false
+      isShow1:false,
+      infoArrdess:''
     };
   },
   mounted() { 
@@ -147,11 +148,13 @@ export default {
     },
     queryInfo(){
       let params1 = {
-        "sysOrderNum": localStorage.getItem("sysOrderNum"), //API148660202748314009 API149637939023643033
+        // "sysOrderNum": this.$Base64.decode(localStorage.getItem("sysOrderNum")), //API148660202748314009 API149637939023643033
+        "sysOrderNum": localStorage.getItem("sysOrderNum"),
         "payMent": this.$store.state.paymentType.payType,
         "email": this.$store.state.paymentEmail,
       }
       let params2 = {
+        // "sysOrderNum": this.$Base64.decode(localStorage.getItem("sysOrderNum")),
         "sysOrderNum": localStorage.getItem("sysOrderNum"),
       }
       let methodsName = this.$store.state.binancePayment === 'payList' ? this.$api.post_qrPay : this.$api.post_info;
@@ -160,6 +163,7 @@ export default {
         if(res.data){
           this.infoObject = res.data
           this.$store.state.binanData = res.data
+          this.$store.state.merchantCode = res.data.merchantCode
           this.binanData = true
           //Hide the title bar when there are payment results - this.$parent.navigationBarState
           if(this.infoObject.payStatus === 0){
@@ -219,14 +223,24 @@ export default {
     },
     //addrss
     addrImg(){
-      new QRCode(this.$refs.qrCodeUrl, {
-        text: this.$store.state.binanData.qrAddress,
+      let n = this.$store.state.binanData.qrAddress
+      let id = null
+      if(n!==''){
+        clearInterval(id)
+         new QRCode(this.$refs.qrCodeUrl, {
+        text: n,
         width: 140,
         height: 140,
         colorDark: '#000000',
         colorLight: '#ffffff',
         correctLevel: QRCode.CorrectLevel.H
       })
+      }else{
+        id = setInterval(()=>{
+          n = this.$store.state.binanData.qrAddress
+        },1000)
+      }
+     
       
     }
   },

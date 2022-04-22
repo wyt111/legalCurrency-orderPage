@@ -8,5 +8,6 @@ module.exports = {
         binancePayment_orderTimeout: '注文がタイムアウトした場合は、支払いを再開できます',
         binancePayment_orderTimeoutText: '注文がタイムアウトしました',
         binancePayment_returnTo: '戻る',
+        binancePayment_App:'QR コードをスキャンするには、コイン アン APP を使用します'
     }
 }

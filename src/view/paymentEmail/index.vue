@@ -25,6 +25,7 @@ export default{
     }
   },
   methods:{
+    //email  verify
     changeFn(){
       let emailHint = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
       let hint = document.querySelector('#hint')
@@ -40,6 +41,7 @@ export default{
       this.hint = ''
       return true
     },
+    //click  go
     submitSend(){
       if(this.checked && this.changeFn()){
         this.$store.state.paymentEmail = this.email
