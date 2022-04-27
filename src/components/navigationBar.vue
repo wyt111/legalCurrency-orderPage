@@ -60,7 +60,7 @@ export default {
               this.$router.replace('/paymentSelect')
               return
             }
-           this.$router.go(-3);
+           this.$router.go(-1);
           return;
       }
       if((this.$route.path==='/paymentEmail'&&this.$store.state.paymentEmail==='')){
