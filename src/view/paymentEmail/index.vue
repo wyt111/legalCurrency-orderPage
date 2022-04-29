@@ -3,14 +3,16 @@
       <img class="logo" src="@/assets/email.png" alt="">
       <h2>{{ $t('nav.payment_email') }}</h2>
       <p>{{ $t('nav.paymentemail_addr') }}</p>
-        <input class="email" type="text" v-model="email" :placeholder="$t('nav.paymentemail_Email')" @blur="changeFn">
+        <input class="email" type="text" v-model="email" :placeholder="$t('nav.paymentemail_Email')" @input="changeFn">
         <div id="hint" style="margin-top:10px">{{hint}}</div>
         <div class="centent">
           <input type="checkbox" v-model="checked">
           <p>{{$t('nav.paymentemail_consent')}}</p>
         </div>
-        <img class="submit" src="@/assets/subActive.png" @click="submitSend" alt="" v-if="isShow">
-        <img class="submit" src="@/assets/submit.png" @click="submitSend" alt="" v-else>
+        <div class="submit" @click="submitSend" :style="{opacity:isShow?'1':'.5'}">
+            <p>{{ $t('nav.paymentemail_submit') }}</p>
+            <img src="@/assets/rightIcon.png" alt="">
+        </div>
   </div>
 </template>
 <script>
@@ -23,6 +25,7 @@ export default{
     }
   },
   methods:{
+    //email  verify
     changeFn(){
       let emailHint = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
       let hint = document.querySelector('#hint')
@@ -38,6 +41,7 @@ export default{
       this.hint = ''
       return true
     },
+    //click  go
     submitSend(){
       if(this.checked && this.changeFn()){
         this.$store.state.paymentEmail = this.email
@@ -137,12 +141,29 @@ export default{
   .submit{
     width: 360px;
     height:44px;
-    // margin-top: 150px;
+    background: #4479D9FF;
+    border-radius: 4px;
     cursor: pointer;
     position: absolute;
     left: 50%;
     bottom: 7%;
     transform: translate(-50%,7%);
+    opacity: .6;
+    p{
+      font-size: 16px;
+      color: #fff;
+      font-weight: 600;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+    }
+    img{
+      width: 26px;
+      height: 16px;
+      float: right;
+      margin: 14px 20px 0 0;
+    }
   }
 }
 @media screen and (max-width:768px) {
@@ -200,10 +221,18 @@ export default{
     }
   }
   .submit{
-    width: 100%;
+    width: 90%;
     height: .44rem;
-    margin-top: .2rem;
     cursor: pointer;
+    position: absolute;
+    p{
+      font-size: .16rem;
+    }
+    img{
+      width: .26rem;
+      height: .16rem;
+      margin: .14rem .2rem 0 0;
+    }
   }
 }
 }

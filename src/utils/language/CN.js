@@ -22,9 +22,10 @@ module.exports = {
         paymentDetails_transactionAmount: '订单金额',
         paymentDetails_exchangeRate: '汇率',
         //overpayment
-        overpayment_succeed:'您的付款数量小于应付数量，订单未支付成功。您可以联系xxx发起退款',
+        overpayment_succeed1:'你的付款金额小于到期金额，付款失败。由于您的付款金额小于1USDT，系统不会给您退款。',
+        overpayment_succeed:'你的付款金额小于到期金额，付款失败。系统会给您发邮件进行收集，请您注意查看退款信息。',
         overpayment_part1:'您的付款金额大于到期金额，付款成功。由于您的多付金额小于1USDT，系统将不会给您退款。',
-        overpayment_part:'您的付款数量大于应付数量，订单已支付成功。您可以联系xxx对多付部分发起退款',
+        overpayment_part:'您的付款金额大于到期金额，付款成功。系统会给你发邮件收取多付的部分，请注意查收退款信息。',
         overpayment_unpaid:'未付款（少付）',
         overpayment_Stitle:'付款成功',
         overpayment_over:'付款成功（多付）',
@@ -34,6 +35,7 @@ module.exports = {
         overpayment_fapiao:'订单超时',
         overpayment_chao:'订单只有60分钟有效时间，若想重新支付请返回商户。',
         overpayment_chao1:'如果您在发票过期后付款，退款请求将自动发送到您的电子邮件。',
+        overpayment_return:'返回商户',
         //paymentSelect
         selectPayment:'收款钱包',
         selectPayment_wall:'链上币种',
@@ -43,12 +45,15 @@ module.exports = {
         paymentemail_addr:'请提供您的收款邮箱通知',
         paymentemail_Email:'邮箱地址',
         paymentemail_consent:'通过提供我的电子邮件地址，我同意炼金术师支付使用它支付相关的问题.',
+        paymentemail_submit:'提交',
+        
         //paymentPrompt
         paymentPrompt_tips:'付款提示',
         paymentPrompt_succe:'请输入准确的金额，以支付加密货币 确保成功付款.',
         paymentPrompt_high:'选择您钱包上的',
         paymentPrompt_High:'“高”或“最快”',
         paymentPrompt_High1:'网络费用，以确保及时确认.',
+        paymentemail_Confirm:'确认',
         //Warning
         Warning_payment:'完整的付款:',
         Warning_Awaiting:'等待付款',

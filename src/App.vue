@@ -1,8 +1,8 @@
 <template>
-  <div id="App" v-title data-title="Alchemy Pay">
+  <div id="App" v-title data-title="Alchemy Pay" style=" background: url('@/assets/background.png') no-repeat;background-size: 100% 700px;">
     <Header class="none" ref="headerRef" v-if="navigationBarState"/>
     <div class="title1" v-if="this.$route.meta.isTitle">
-        <div>
+        <div v-show="logoDta.logo">
           <img :src="logoDta.logo" alt=""/>
           <p>{{ logoDta.merchantName }}</p>
         </div>
@@ -12,14 +12,15 @@
         <img src="./assets/goBack.png" alt="" class="goBack" @click="goBack" v-show="['binancePayment','paymentDetails','paymentEmail','paymentPrompt'].includes(this.$route.name)">
     </div>
     <div class="title2" v-else >
-      <img src="./assets/logoEmail.png" alt="" v-show="this.$route.name==='loadingStatus'?false:true">
+      <img src="./assets/logoEmail.png"  alt="" v-show="this.$route.path==='/loadingStatus'?false:true">
     </div>
     
     <language v-show="languageView"/>
     <router-view class="content"  ref="routerRef" v-show="isShow2"/>
+   
     
     <div class="comeFrom" v-if="this.$route.meta.isShow">
-      <div class="comeFrom_text">Powered By</div>
+      <div class="comeFrom_text">Powered by</div>
       <div class="comeFrom_logo"><img src="@/assets/achLogo.png" /></div>
       <div class="searchLanguage1" @click="languageView=!languageView" v-show="this.$route.meta.isShow">
         <p :class="languageView?'text active1':'text'">{{ this.$store.state.languageName.toUpperCase() }}</p>
@@ -51,19 +52,23 @@ export default {
     goBack(){
       if(this.languageView === false && (this.$route.path === '/paymentDetails' && this.$store.state.binancePayment === 'payList')||
           (this.$route.path === '/binancePayment' && this.$store.state.binancePayment === 'payList')){
-            console.log(this.$route.path === '/paymentDetails');
-            if(this.$route.path === '/paymentDetails'&&this.$store.state.paymentEmail!==''){
+            if(this.$route.path === '/paymentDetails'&&this.$store.state.paymentEmail!=='' && this.$store.state.isTips.isEmail!==1){
+              
               this.$router.replace('/paymentSelect')
               return
             }
-           this.$router.go(-1);
+            this.$router.go(-1)
           return;
       }
       if((this.$route.path==='/paymentEmail'&&this.$store.state.paymentEmail==='')){
-           console.log(this.$route.path === '/paymentDetails');
            this.$router.replace('/paymentSelect')
             return
           }
+    // if((this.$route.path==='/paymentDetails'&&this.$store.state.paymentEmail==='')){
+    //   console.log(this.$store.state.isTips.isEmail);
+    //   this.$router.replace('/paymentSelect')
+    //   return
+    // }
       
       if(this.languageView === true){
         this.languageView = false;
@@ -96,10 +101,43 @@ export default {
           this.isShow2 = true
         }
       }
+    },
+    //Listen for route changes plus ID and push Locale
+    '$route':{
+      // immediate:true,
+      deep:true,
+      handler(to,from){
+        from
+        let result = this.$store.state.binancePayment_locale
+        this.$router.push({
+          path:to.path,
+          query:{
+            id:(to.path==='/loadingStatus'||to.path==='/overPaymentEmail'||to.path==='/refundLoading')&&to.query.id?to.query.id:localStorage.getItem('sysOrderNum'),
+            locale:to.query.locale?to.query.locale:result
+          }
+        })
+      }
+    },
+    // Address bar parameters
+    '$store.state.languageValue':{
+      // immediate:true,
+      handler(newVal,oldVal){
+        let query = this.$router.history.current.query
+          let path = this.$router.history.current.path
+          let newQuery = JSON.parse(JSON.stringify(query));
+        if((newVal !== oldVal) && (path!=='/overPaymentEmail' || path!== '/refundLoading')){
+           newQuery.locale = newVal
+          this.$router.push({ path, query: newQuery });
+        }else{
+          newQuery.locale = ''
+          this.$router.push({ path, query: newQuery });
+        }
+      }
     }
+
   },
   mounted(){
-    
+    // console.log(this.$store.state.);
     //Vuex store data
     if (sessionStorage.getItem("store")) {
       this.$store.replaceState(Object.assign({},this.$store.state,JSON.parse(sessionStorage.getItem("store"))))
@@ -118,16 +156,32 @@ export default {
         this.languageView = false
       }
     })
-    setTimeout(()=>{
-       let params = {
-        "merchantCode":this.$store.state.merchantCode
-      }
-      this.$axios.post(this.$api.post_payList,params).then(res=>{
-        if(res && res.data){
-          this.logoDta = res.data
-        }
-      })
-    },300)
+   //Merchants logo
+
+       if((this.$route.path!=='/loadingStatus'|| this.$route.path!=='/overPaymentEmail'|| this.$route.path!=='/refundLoading' )&& !this.logoDta ){
+            let id  = setInterval(()=>{
+              let _width1 = document.body.clientWidth || document.documentElement.clientWidth
+              if(_width1 > 769){
+                 let params = {
+                "merchantCode":this.$store.state.merchantCode
+              }
+              this.$axios.post(this.$api.post_payList,params).then(res=>{
+                if(res && res.data){
+                  this.logoDta = res.data
+                  if(this.logoDta || this.$store.state.merchantCode){
+                    clearInterval(id)
+                  }
+                }else if(this.$route.path==='/overPaymentEmail'|| this.$route.path==='/refundLoading'){
+                  clearInterval(id)
+                }
+              })
+              }else{
+                clearInterval(id)
+              }
+            
+           },1000)
+        
+       }
   },
 }
 </script>
@@ -149,6 +203,7 @@ export default {
   position: relative;
   .none{
     display: none;
+    
   }
   .title2{
     width: 100%;
@@ -161,7 +216,7 @@ export default {
   .title1{
     width: 400px;
     text-align: center;
-    margin: 0 auto;
+    margin: 20px auto 0;
     position: relative;
     font-family: Jost-Regular, Jost;
     div{
@@ -198,6 +253,7 @@ export default {
     }
   }
   .content{
+    background: #fff;
     flex: 1;
     overflow: auto;
   }
@@ -217,7 +273,7 @@ export default {
     width: 400px;
     // margin:30px auto 0;
     padding: 0 30px 0 40px;
-    margin: 40px auto;
+    margin: 10px auto;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
@@ -267,6 +323,8 @@ export default {
 }
 @media screen and (max-width:1280px) {
   #App{
+    // background: url('https://b.zol-img.com.cn/desk/bizhi/image/10/960x600/1598319721647.jpg') no-repeat;
+    // background-size: 100%;
   // padding-top: 100px;
   padding-bottom: 10px;
   font-size: 16px;
@@ -405,7 +463,8 @@ export default {
   display: flex;
   flex-direction: column;
   font-size: 0.14rem;
-  padding: 0;
+  padding: 0 0 .1rem 0;
+  // background: url('https://b.zol-img.com.cn/desk/bizhi/image/10/960x600/1598319721647.jpg') no-repeat;
   .title1{
     display: none;
   }
@@ -416,6 +475,7 @@ export default {
     display: flex;
   }
   .content{
+    background: #fff;
     flex: 1;
     overflow-y: none;
 
@@ -441,6 +501,7 @@ export default {
     background: #fff ;
     margin: 0 auto;
     .none2{
+      width: 0;
       display: none;
     }
     .comeFrom_text {

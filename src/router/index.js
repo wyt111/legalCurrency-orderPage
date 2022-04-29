@@ -17,6 +17,7 @@ export const constantRoutes = [
   {
     path: '/',
     redirect: '/loadingStatus',
+    
   },
   {
     path: '/loadingStatus',

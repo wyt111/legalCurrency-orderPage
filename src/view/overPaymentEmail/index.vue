@@ -48,7 +48,8 @@ export default{
       isAddrss:'',
       Input:'',
       isOver:2,
-      overPaymentData:''
+      overPaymentData:'',
+      overMsg:''
     }
   },
   methods:{
@@ -61,9 +62,9 @@ export default{
         return false
       }
     },
-    //next
-    refundFn(){
-      this.AddrssIs()
+    //next  verify
+    refundFn(){ 
+      
       if(this.AddrssIs()){
         let Id = this.$route.query.id
         let params = {
@@ -74,23 +75,24 @@ export default{
           if(res && res.data){
             if(res.msg === '成功'){
             this.$toast('succss')
+            sessionStorage.setItem('isLoginEmail','false')
             this.$router.push({
               path:'/refundLoading',
               query:{
-                id:Id
+                id:this.$route.query.id
               }
             })
-          }else{
-             this.$toast('Incorrect address')
+            return
           }
           }else{
-            this.$toast('Network error')
+            this.$toast('address error')
           }
         })
       }else{
         this.$toast('The address cannot be empty')
       }
     },
+    //axios  
     _axiosData(){
        let params = {
         "sysOrderNum":this.$route.query.id

@@ -8,7 +8,7 @@
     </div>
   </div>
   <div class="logo" v-else>
-        <img src="../assets/logo_top.png" alt="">
+        <img class="title" src="../assets/logo_top.png" alt="">
     </div>
     
 </template>
@@ -56,9 +56,21 @@ export default {
     goBack(){
       if(this.$parent.languageView === false && (this.$route.path === '/paymentDetails' && this.$store.state.binancePayment === 'payList')||
           (this.$route.path === '/binancePayment' && this.$store.state.binancePayment === 'payList')){
-        this.$router.go(-1);
-        return;
+            if(this.$route.path === '/paymentDetails'&&this.$store.state.paymentEmail!==''){
+              this.$router.replace('/paymentSelect')
+              return
+            }
+           this.$router.go(-1);
+          return;
       }
+      if((this.$route.path==='/paymentEmail'&&this.$store.state.paymentEmail==='')){
+           this.$router.replace('/paymentSelect')
+            return
+          }
+          if((this.$route.path==='/paymentDetails'&&this.$store.state.paymentEmail==='')){
+            this.$router.replace('/paymentSelect')
+            return
+          }
       if(this.$parent.languageView === true){
         this.$parent.languageView = false;
         return;
@@ -77,8 +89,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  img{
-    width: 110px;
+  .title{
+    // width: 250px;
     height: 23px;
   }
 }

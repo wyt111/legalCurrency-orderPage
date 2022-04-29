@@ -1,5 +1,5 @@
 <template>
-  <div id="paymentDetails">
+  <div id="paymentDetails" v-if="payment_isShow">
     <div class="countDown">
       <el-progress type="circle" :width="130" :stroke-width=10 :percentage="timeValue" :color="colors"></el-progress>
       <div class="seeDetails" @click="details_state = true">
@@ -24,6 +24,12 @@
           <div class="text">{{ networkName }}</div>
           <div class="icon"><img src="@/assets/rightIcon2.png"></div>
         </div>
+      </div>
+      <div class="isShow" v-show="networt_isShow">
+          <div v-for="(item,index) in networkList" :key="item.id" @click="choiseNetwork(item,index)" :style="{borderTop:networkList.length>1&&index/2!==0?'1px solid #E6E6E7FF':'none'}">
+            <p>{{item.currencyFullName}} </p>
+            <img v-if="item.state" src="@/assets/checkIcon.png" alt="">
+          </div>
       </div>
       <div class="payFormLine" @click="copy" :data-clipboard-text="infoObject.coinCount">
         <div class="title">{{ $t('nav.paymentDetails_amountDue') }}</div>
@@ -60,10 +66,7 @@
         <div class="value">{{ infoObject.coinCount }} {{ infoObject.coin }}</div>
       </div>
     </van-popup>
-    <!-- select nextwork -->
-      <div class="nextwork-select">
-
-      </div>
+    
     <!-- select nextwork -->
     <van-popup v-model="network_state" round position="bottom" :style="{ height: '25%' }">
       <div class="network-title">{{ $t('nav.paymentDetails_network') }}</div>
@@ -75,6 +78,7 @@
 
     <springFrame class="springFrameView" v-show="springFrame_state" :timeNum="timeText"/>
   </div>
+  <div v-else id="paymentDetails"></div>
 </template>
 
 <script>
@@ -108,23 +112,25 @@ export default {
       networkView: false,
       network:false,
       springFrame_state: false,
+      networt_isShow:false,
 
       infoObject: {},
       oldPayAddress: '',
       payMethodLogoState: false,
+      payment_isShow:false
     }
   },
   mounted() {
-    document.getElementsByClassName('el-progress__text')[0].innerText = '00:00';
+    // document.getElementsByClassName('el-progress__text')[0].innerText = '00:00';
     if(this.$store.state.paymentType && this.$store.state.paymentType.currencyCode === "USDT"){
       this.networkView = true;
       this.queryNetwork();
     }else {
       this.networkView = false;
-      this.networkName = this.$store.state.paymentType.chainName;
+      this.networkName = this.$store.state.paymentType.chainName
       this.refreshPayState();
     }
-    if(this.$store.state.paymentType && (this.$store.state.paymentType.currencyCode === 'ETH' || this.$store.state.paymentType.currencyCode === 'BTC' || this.$store.state.paymentType.currencyCode === 'TRX')){
+     if(this.$store.state.paymentType ){
       this.showAmountState = true;
     }
   },
@@ -166,43 +172,65 @@ export default {
     //Payment status interface
     pay(){
       let params = {
-        sysOrderNum: localStorage.getItem("sysOrderNum"),
+        //Decrypts the parameters and requests the data
+        // sysOrderNum: this.$Base64.decode(this.$route.query.id),
+        sysOrderNum: this.$route.query.id,
         payMent: this.$store.state.paymentType.payType,
         email: this.$store.state.paymentEmail,
       }
       this.$axios.post(this.$api.post_qrPay, params).then(res => {
         if(res && res.data){
           this.infoObject = res.data;
+          this.$store.state.binanData = res.data
+          this.payment_isShow = true
           this.$store.state.payentAmite = this.infoObject.coin
           res.data.chainName !== null && res.data.chainName !== '' ? this.networkName = res.data.chainName : '';
           //QR code processing
           if(this.oldPayAddress !== this.infoObject.qrAddress){
-            this.handleQrAddress = res.data.qrAddress;
-            this.displayAddress = res.data.qrAddress.slice(res.data.qrAddress.indexOf(":")+1,res.data.qrAddress.indexOf("?"))
-            this.$refs.qrCodeUrl.innerHTML = "";
-            this.payMethodLogoState = true;
-            this.generateQRcode();
+             this.handleQrAddress = res.data.qrAddress;
+              this.displayAddress = res.data.qrAddress.slice(res.data.qrAddress.indexOf(":")+1,res.data.qrAddress.indexOf("?"))
+              this.payMethodLogoState = true;
+                //innnerHTML error  
+               let id = setInterval(()=>{
+                 let qrCodeUrl = this.$refs.qrCodeUrl
+                 if(qrCodeUrl===undefined){
+                   qrCodeUrl = this.$refs.qrCodeUrl
+                 }else{
+                   clearInterval(id)
+                   this.$refs.qrCodeUrl.innerHTML = ""
+                  this.generateQRcode()
+                 }
+               },100)
+              //  this.$refs.qrCodeUrl.innerHTML = ""
+              //     this.generateQRcode()
           }
           this.oldPayAddress = res.data.qrAddress;
-
+          
           this.infoObject.remainingPaymentTime -= 1;
           this.turnMinute(this.infoObject.remainingPaymentTime)
-          document.getElementsByClassName('el-progress__text')[0] ?
+              document.getElementsByClassName('el-progress__text')[0] ?
               document.getElementsByClassName('el-progress__text')[0].innerText = this.timeText : '';
           //When the remaining time of the order is less than 10min, the time timer on the page changes to red
-          if(this.infoObject.remainingPaymentTime <= 600){
-            this.colors = [{color: '#FF0000'}];
-            document.getElementsByClassName('el-progress__text')[0].style.color = '#FF0000';
+          if(this.infoObject.remainingPaymentTime <= 600 && res.data){
+        
+              this.colors = [{color: '#FF0000'}];
+             document.getElementsByClassName('el-progress__text')[0]?document.getElementsByClassName('el-progress__text')[0].style.color = '#FF0000':''
           }
+          
           this.infoObject.remainingPaymentTime === 600 ? this.springFrame_state = true : '';
           //to result
           if(this.infoObject.remainingPaymentTime<=0){
             clearInterval(this.countDown)
             this.$store.state.resultData = res.data
-            this.$store.state.resultData.payStatus = 4;
+            if(this.$store.state.resultData.payStatus===0){
+              this.$store.state.resultData.payStatus = 4;
+              this.$router.push('/overpayment')
+            }
             this.$router.push('/overpayment')
             clearInterval(this.countDown)
-          }else{
+          }else if(this.infoObject.remainingPaymentTime>0 && this.infoObject.payStatus!==0){
+            this.$store.state.resultData = res.data
+            this.$router.push('/overpayment')
             return false
           }
           
@@ -223,6 +251,7 @@ export default {
       this.networkList.map(item => {
         return item.state = false;
       })
+      this.networt_isShow = false
       this.networkList[index].state = true;
       this.network_state = false;
       this.networkCode = item.currencyCode;
@@ -258,6 +287,7 @@ export default {
         this.timeValue > 100 ? this.timeValue = 100 : '';
       }
     },
+    //Whether the popup box comes out from above or below
     bottom_top(){
       let _width = document.documentElement.clientWidth || document.body.clientWidth
       return _width>768?'top':'bottom'
@@ -265,17 +295,21 @@ export default {
     //network hide show
     networkShow(){
       let _width = document.documentElement.clientWidth || document.body.clientWidth
-      // let box = document.querySelector('#paymentDetails')
-      if(_width<768){
+      let icon = document.querySelector('.formItem .icon img')
+      if(_width<769){
          this.networkView === true ? this.network_state = true : this.network_state = false
+         icon.src =require('@/assets/rightIcon2.png')
+         this.networt_isShow = false
          return 
       }else{
-        this.networkView === true ? this.network_state = true : this.network_state = false
+        this.networkView === true ? this.networt_isShow = ! this.networt_isShow: this.networt_isShow = false
+        this.networt_isShow?icon.src = require('@/assets/iconRight.png'):icon.src =require('@/assets/rightIcon2.png')
       }
      
     }
   },
   watch:{
+    // Scroll to compatible 
     details_state(newVal){
       let box = document.querySelector('#paymentDetails')
       let _width = document.documentElement.clientWidth || document.body.clientWidth
@@ -283,10 +317,10 @@ export default {
         box.scrollTop = 0
         box.style = 'overflow-y:hidden'
         return 
-      }else if(_width<768 && newVal===false){
+      }else if(_width<769 && newVal===false){
         box.style = 'overflow-y:scroll'
         return 
-      }else if(_width>768 && newVal){
+      }else if(_width>769 && newVal){
         box.scrollTop = 0
         document.body.style = 'overflow-y:scroll !important'
         box.style = 'overflow-y:hidden'
@@ -295,6 +329,7 @@ export default {
         box.style = 'overflow-y:scroll'
       }
     },
+    //overflow:hidden no body
     springFrame_state:{
       immediate:true,
       handler(newVal){
@@ -311,15 +346,16 @@ export default {
         
       }
     },
+    //onreze Resolves the pop-up display page scroll effect
     network_state(newVal){
       let _width = document.documentElement.clientWidth || document.body.clientWidth
       let box =  document.querySelector('#paymentDetails')
-      if(newVal&&_width<768){
+      if(newVal&&_width<769){
         box.scrollTop = 0
         box.style.overflow = 'hidden'
-      }else if(!newVal&&_width<768){
+      }else if(!newVal&&_width<769){
         box.style = 'overflow-y:scroll'
-      }else if(newVal&&_width>768){
+      }else if(newVal&&_width>769){
         box.scrollTop = 0
         box.style.overflow = 'hidden'
         document.body.style = 'overflow-y:scroll !important'
@@ -327,8 +363,21 @@ export default {
         box.style.overflow = 'scroll'
         document.body.style = 'overflow-y:scroll !important'
       }
+    },
+    //isShow payment
+    payment_isShow:{
+      immediate:true,
+      handler(newVal){
+          this.pay()
+            this.$nextTick(()=>{
+            newVal && this.$store.state.resultData.payStatus===0?document.getElementsByClassName('el-progress__text')[0].innerText = '00:00'&&this.pay():''
+
+         })
+        
+      }
     }
-  }
+  },
+  
 }
 </script>
 
@@ -339,6 +388,7 @@ export default {
   border-radius: 15px;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12);
   margin: 0 auto;
+
   padding-bottom: 50px;
   position: relative;
   .countDown {
@@ -418,10 +468,37 @@ export default {
     color: #666666;
     text-align: center;
     padding: 10px 40px;
-    word-break: break-all;
+    word-wrap:break-word;
   }
   .payForm{
     padding: 0 20px;
+    .isShow{
+      width: 100%;
+      background: #F3F4F5FF;
+      border-radius: 4px;
+      padding: 0px 0 10px 0;
+      transition: 1s;
+      position: relative;
+      left: 0;
+      top: 0;
+      div{
+        height: 44px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 10px 0;
+        box-sizing: border-box;
+        cursor: pointer;
+        p{
+          font-size: 14px;
+          font-family: Jost-Regular, Jost;
+        }
+        img{
+          width: 15px;
+          height: 18px;
+        }
+      }
+    }
     .payFormLine{
       margin-top: 20px;
       cursor: pointer;
@@ -430,6 +507,9 @@ export default {
         font-family: Jost-Regular, Jost;
         font-weight: 500;
         color: #000000;
+      }
+      .formItem{
+        margin-bottom: 20px;
       }
       .formItem{
         height: 44px;
@@ -657,6 +737,9 @@ export default {
   }
   .payForm{
     padding: 0 0.2rem;
+    .isShow{
+      display: none;
+    }
     .payFormLine{
       margin-top: 0.2rem;
       cursor: pointer;

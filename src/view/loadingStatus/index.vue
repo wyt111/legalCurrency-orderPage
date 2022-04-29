@@ -8,9 +8,9 @@
 export default {
   name: "loadingStatus",
   mounted(){
-  
     let params = {
-      "sysOrderNum": localStorage.getItem("sysOrderNum") //API148660202748314009 API149637939023643033
+      // "sysOrderNum": this.$Base64.decode(localStorage.getItem("sysOrderNum")) //API148660202748314009 API149637939023643033
+      "sysOrderNum": localStorage.getItem("sysOrderNum")
     }
     this.$axios.post(this.$api.post_info, params).then(res=>{
       if(res && res.data){
@@ -18,34 +18,40 @@ export default {
         this.$store.state.merchantCode = res.data.merchantCode;
         this.$store.state.cancelTo = res.data.cancelTo;
         this.$store.state.returnTo = res.data.returnTo;
-        if(res.data.payMent === "w1"){
+        //binance
+        if(res.data.payMent === "w1" && res.data.payStatus === 0){
           this.$router.replace("/binancePayment");
           this.$store.state.binancePayment = 'initialPag';
           this.$store.state.paymentType.chainName = '';
           return;
         }
+        //select to 
         if(res.data.payMent === "" || res.data.payMent === null){
           this.$router.replace("/paymentSelect");
           this.$store.state.binancePayment = '';
           this.$store.state.paymentType.chainName = '';
           return;
         }
-        if(this.$store.state.resultData.payStatus!==0){
-          this.$router.replace("/paymentDetails");
-        }else{
-              let params = {
+        
+        if(res.data.payMent !== "w1" &&  res.data.payMent!=='' && res.data.payStatus===0){
+          let params = {
                 "merchantCode":res.data.merchantCode
               }
             this.$axios.post(this.$api.post_payList,params).then(res=>{
               if(res && res.data){
                   if(res.data.isEmail===1){
                     this.$store.state.isTips = res.data
-                    this.$router.replace("/paymentEmail");
+                    this.$router.push("/paymentEmail");
+                  }else{
+                    this.$router.push("/paymentDetails");
                   }
               }
             })
-          }
-        
+        }
+        if(res.data.payStatus!==0){
+          this.$store.state.resultData = res.data
+           this.$router.replace("/overpayment");
+        }
         this.$store.state.binancePayment = 'initialPag';
           this.$store.state.paymentType.payType = res.data.payMent;
           this.$store.state.paymentType.currencyCode = res.data.coin;

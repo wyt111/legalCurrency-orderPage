@@ -8,5 +8,6 @@ module.exports = {
         binancePayment_orderTimeout: 'Fatura sadece 60 dakika için geçerlidir. Bir ödemeyi yeniden göndermek istiyorsanız satıcıya dönün.',
         binancePayment_orderTimeoutText: 'Fatura Süresi Doldu',
         binancePayment_returnTo: 'Geri vermek',
+        
     }
 }
