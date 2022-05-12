@@ -42,7 +42,7 @@
         <p>{{ $t('nav.overpayment_chao') }}</p>
           <p>{{$t('nav.overpayment_chao1')}}</p>
       </div>
-      <div class="content" v-show="[1,2,3].includes(overData.payStatus)">
+      <div class="content1" v-show="[1,2,3].includes(overData.payStatus)">
           <div v-if="overData.payStatus!==1">
             <p>{{ $t('nav.overpayment_mount') }}</p>
             <p>{{ overData.orderAmount }}&nbsp;{{ overData.coin }}</p>
@@ -72,7 +72,7 @@
       }
     },
     methods:{
-      //click returnTo
+      //click returnTo || camcelTo
       _returnCan(){
           if(this.overData.payStatus===4){
             window.open(this.overData.cancelTo)
@@ -183,10 +183,10 @@
        margin-top: 10px;
      }
   }
-  .content{
+  .content1{
        width: 100%;
       //  height: 135px;
-       padding: 20px 20px 0px 20px;
+       padding: 20px 20px 1px 20px;
 
        background: #F3F4F5;
        border-radius: 4px;
@@ -326,10 +326,10 @@
        margin-top: .1rem;
      }
   }
-  .content{
+  .content1{
        width: 100%;
       //  height: 1.35rem;
-       padding: .2rem .2rem 0 .2rem;
+       padding: .2rem .2rem .01rem .2rem;
 
        background: #F3F4F5;
        border-radius: .04rem;

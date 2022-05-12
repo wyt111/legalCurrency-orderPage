@@ -103,21 +103,23 @@ export default {
       }
     },
     //Listen for route changes plus ID and push Locale
-    '$route':{
-      // immediate:true,
-      deep:true,
-      handler(to,from){
-        from
-        let result = this.$store.state.binancePayment_locale
-        this.$router.push({
-          path:to.path,
-          query:{
-            id:(to.path==='/loadingStatus'||to.path==='/overPaymentEmail'||to.path==='/refundLoading')&&to.query.id?to.query.id:localStorage.getItem('sysOrderNum'),
-            locale:to.query.locale?to.query.locale:result
-          }
-        })
-      }
-    },
+
+    // '$route':{
+    //   // immediate:true,
+    //   deep:true,
+    //   handler(to,from){
+    //     from
+    //     console.log();
+    //     let result = this.$store.state.binancePayment_locale
+    //     this.$router.push({
+    //       path:to.path,
+    //       query:{
+    //         id:(to.path==='/loadingStatus'||to.path==='/overPaymentEmail'||to.path==='/refundLoading')&&to.query.id?to.query.id:localStorage.getItem('sysOrderNum'),
+    //         locale:to.query.locale?to.query.locale:result
+    //       }
+    //     })
+    //   }
+    // },
     // Address bar parameters
     '$store.state.languageValue':{
       // immediate:true,

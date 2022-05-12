@@ -54,8 +54,17 @@ router.beforeEach((to,from,next)=>{
       })
         return
     }
-    
-    next()
+    if (Object.keys(to.query).length) {
+      next();
+      return;
+  }
+    // 对URL路径参数进行处理
+    if (Object.keys(from.query).length) {
+        let toQuery = JSON.parse(JSON.stringify(from.query));
+        next({ path: to.path, query: toQuery });
+    } else {
+        next();
+    }
   }else{
     // debugger
     if(to.path === '/loadingStatus'){
@@ -66,6 +75,7 @@ router.beforeEach((to,from,next)=>{
       to.query.id ? localStorage.setItem("sysOrderNum", to.query.id) : '';
       // to.query.id ? localStorage.setItem("sysOrderNum", Base64.encode(to.query.id)) : '';
       to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' && store.state.binancePayment_locale!==to.query.locale? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
+      
     }else if(to.path !== '/overPaymentEmail' && isLoginEmail==='true'){
         router.push('/overPaymentEmail')
       return
@@ -82,7 +92,17 @@ router.beforeEach((to,from,next)=>{
         return
     }
   
-  next()
+    if (Object.keys(to.query).length) {
+      next();
+      return;
+  }
+    // 对URL路径参数进行处理
+    if (Object.keys(from.query).length) {
+        let toQuery = JSON.parse(JSON.stringify(from.query));
+        next({ path: to.path, query: toQuery });
+    } else {
+        next();
+    }
   }
 })
 
