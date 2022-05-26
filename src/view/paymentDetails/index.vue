@@ -179,6 +179,7 @@ export default {
         email: this.$store.state.paymentEmail,
       }
       this.$axios.post(this.$api.post_qrPay, params).then(res => {
+        // console.log(res.data);
         if(res && res.data){
           this.infoObject = res.data;
           this.$store.state.binanData = res.data
@@ -277,14 +278,13 @@ export default {
         var minute=0;
         minute = parseInt(second/60);
         second%=60;
-        if(minute>60) {
-          minute%=60;
-        }
         second = second>9?second:"0"+second;
         minute = minute>9?minute:"0"+minute;
         this.timeText = minute+":"+second;
         this.timeValue = (value / 900) * 100;
+        // console.log(this.timeText);
         this.timeValue > 100 ? this.timeValue = 100 : '';
+        
       }
     },
     //Whether the popup box comes out from above or below

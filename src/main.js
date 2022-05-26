@@ -36,7 +36,7 @@ router.beforeEach((to,from,next)=>{
       sessionStorage.setItem('isLogin','true')
       let newHref = _href.slice(0,_href.indexOf('?'))+_href.slice(_href.indexOf('#'),_href.length) + _href.slice(_href.indexOf('?'),_href.indexOf('#'))
       window.location.href = newHref
-      // to.query.id = 'API151660638413167411'
+      // to.query.id = 'API152967784979825049'
       to.query.id ? localStorage.setItem("sysOrderNum", to.query.id) : '';
       // to.query.id ? localStorage.setItem("sysOrderNum", Base64.encode(to.query.id)) : '';
       to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' ? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
@@ -67,6 +67,7 @@ router.beforeEach((to,from,next)=>{
     }
   }else{
     // debugger
+    // to.query.id = 'API152967784979825049'
     if(to.path === '/loadingStatus'){
       // to.query.id = Base64.encode(to.query.id)
        
