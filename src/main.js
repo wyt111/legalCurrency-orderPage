@@ -61,9 +61,10 @@ router.beforeEach((to,from,next)=>{
     // to.query.id = ''
     
     let _href = window.location.href
-    if( _href.indexOf('?') <_href.indexOf('#'));{
+    if( _href.indexOf('?') <_href.indexOf('#')){
       window.location.href =  _href.slice(0,_href.indexOf('?')) +  _href.slice(_href.indexOf('#'),_href.length) + _href.slice(_href.indexOf('?'),_href.indexOf('#'))
     }
+    console.log(_href);
     if(to.path === '/loadingStatus'){
       //Encryption parameters storage local
       to.query.id ? localStorage.setItem("sysOrderNum", to.query.id) : '';

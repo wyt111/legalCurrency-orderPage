@@ -4,7 +4,9 @@ function resolve(dir) {
 }
 
 module.exports = {
+  
     publicPath: './',
+    // host: '0.0.0.0',
     lintOnSave: false,
     assetsDir: 'static',
     productionSourceMap: false,
