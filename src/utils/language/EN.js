@@ -18,7 +18,7 @@ module.exports = {
         paymentDetails_network: 'Network',
         paymentDetails_amountDue: 'Amount Due',
         paymentDetails_address: 'Address',
-        paymentDetails_detailsTitle: 'Please complete binancePayment within',
+        paymentDetails_detailsTitle: 'Please complete the payment within ',
         paymentDetails_transactionAmount: 'Transaction Amount',
         paymentDetails_exchangeRate: 'Exchange Rate',
         //overpayment

@@ -174,7 +174,7 @@ export default {
       let params = {
         //Decrypts the parameters and requests the data
         // sysOrderNum: this.$Base64.decode(this.$route.query.id),
-        sysOrderNum: this.$route.query.id,
+        sysOrderNum: localStorage.getItem("sysOrderNum"),
         payMent: this.$store.state.paymentType.payType,
         email: this.$store.state.paymentEmail,
       }
@@ -409,7 +409,7 @@ export default {
       display: block;
       text-align: center;
       font-size:14px;
-      font-family: Jost-Medium, Jost;
+      font-family: Jost-Regular, Jost;
       font-weight: 500;
       color: #4479D9;
       cursor: pointer;
@@ -417,7 +417,7 @@ export default {
   }
   .payAmount{
     font-size: 18px;
-    font-family: Jost-SemiBold, Jost;
+    font-family: Jost-Regular, Jost;
     font-weight: 600;
     color: #000000;
     text-align: center;
@@ -674,7 +674,7 @@ export default {
       display: block;
       text-align: center;
       font-size: 0.14rem;
-      font-family: Jost-Medium, Jost;
+      font-family: Jost-Regular, Jost;
       font-weight: 500;
       color: #4479D9;
       cursor: pointer;

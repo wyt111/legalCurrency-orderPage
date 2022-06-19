@@ -25,53 +25,46 @@ router.beforeEach((to,from,next)=>{
     sessionStorage.setItem('isLogin','true')
   }
   var isLoginEmail = sessionStorage.getItem('isLoginEmail')
-  //is ios and is android
-  var u = navigator.userAgent;
-  // var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-  var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-  if(isiOS){
+  // //is ios and is android
+  // var u = navigator.userAgent;
+
+  // // var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+  // var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+  // if(isiOS){
+  //   // debugger
+  //   let _href = window.location.href
+  //   if(to.path === '/loadingStatus'){
+  //     sessionStorage.setItem('isLogin','true')
+  //     let newHref = _href.slice(0,_href.indexOf('?'))+_href.slice(_href.indexOf('#'),_href.length) + _href.slice(_href.indexOf('?'),_href.indexOf('#'))
+  //     window.location.href = newHref
+  //     // to.query.id = 'API152967784979825049'
+  //     to.query.id ? localStorage.setItem("sysOrderNum", to.query.id) : '';
+  //     to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' ? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
+  //   }else if(to.path !== '/overPaymentEmail' && isLoginEmail==='true'){
+  //     next('/overPaymentEmail')
+  //     return
+  //   }
+  //   next()
+  //   if (Object.keys(to.query).length) {
+  //     next();
+  //     return;
+  // }
+  //   // 对URL路径参数进行处理
+  //   if (Object.keys(from.query).length) {
+  //       let toQuery = JSON.parse(JSON.stringify(from.query));
+  //       next({ path: to.path, query: toQuery });
+  //   } else {
+  //       next();
+  //   }
+  // }else{
     // debugger
+    // to.query.id = ''
+    
     let _href = window.location.href
-    if(to.path === '/loadingStatus'){
-      sessionStorage.setItem('isLogin','true')
-      let newHref = _href.slice(0,_href.indexOf('?'))+_href.slice(_href.indexOf('#'),_href.length) + _href.slice(_href.indexOf('?'),_href.indexOf('#'))
-      window.location.href = newHref
-      // to.query.id = 'API152967784979825049'
-      to.query.id ? localStorage.setItem("sysOrderNum", to.query.id) : '';
-      // to.query.id ? localStorage.setItem("sysOrderNum", Base64.encode(to.query.id)) : '';
-      to.query.locale && to.query.locale !== '' && to.query.locale !== 'undefined' ? store.state.binancePayment_locale = to.query.locale : store.state.binancePayment_locale = 'en';
-    }else if(to.path !== '/overPaymentEmail' && isLoginEmail==='true'){
-      next('/overPaymentEmail')
-      return
-    }else if((to.path !== '/loadingStatus' || to.path !== '/refundLoading' || to.path !== '/overPaymentEmail') && !sessionStorage.getItem('isLogin')){ 
-      // let Id = Base64.decode(to.query.id)
-      next({
-        path:'/loadingStatus',
-        query:{
-          id:to.query.id,
-          locale:to.query.locale
-        }
-      })
-        return
+    if( _href.indexOf('?') <_href.indexOf('#'));{
+      window.location.href =  _href.slice(0,_href.indexOf('?')) +  _href.slice(_href.indexOf('#'),_href.length) + _href.slice(_href.indexOf('?'),_href.indexOf('#'))
     }
-    if (Object.keys(to.query).length) {
-      next();
-      return;
-  }
-    // 对URL路径参数进行处理
-    if (Object.keys(from.query).length) {
-        let toQuery = JSON.parse(JSON.stringify(from.query));
-        next({ path: to.path, query: toQuery });
-    } else {
-        next();
-    }
-  }else{
-    // debugger
-    // to.query.id = 'API152967784979825049'
     if(to.path === '/loadingStatus'){
-      // to.query.id = Base64.encode(to.query.id)
-       
-      sessionStorage.setItem('isLogin','true')
       //Encryption parameters storage local
       to.query.id ? localStorage.setItem("sysOrderNum", to.query.id) : '';
       // to.query.id ? localStorage.setItem("sysOrderNum", Base64.encode(to.query.id)) : '';
@@ -80,19 +73,8 @@ router.beforeEach((to,from,next)=>{
     }else if(to.path !== '/overPaymentEmail' && isLoginEmail==='true'){
         router.push('/overPaymentEmail')
       return
-    }else if((to.path !== '/loadingStatus' || to.path !== '/refundLoading' || to.path !== '/overPaymentEmail') && !sessionStorage.getItem('isLogin')){ 
-      //If the page is opened for the first time and the page is not loaded, the parameters will automatically resolve jump to the load page
-      // let Id = Base64.decode(to.query.id)
-      next({
-        path:'/loadingStatus',
-        query:{
-          id:to.query.id,
-          locale:to.query.locale
-        }
-      })
-        return
     }
-  
+    // next();
     if (Object.keys(to.query).length) {
       next();
       return;
@@ -104,7 +86,6 @@ router.beforeEach((to,from,next)=>{
     } else {
         next();
     }
-  }
 })
 
 
